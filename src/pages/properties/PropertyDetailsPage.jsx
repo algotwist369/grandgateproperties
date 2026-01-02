@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import PropertieHeader from '../../components/properties/PropertieHeader'
-import { getPropertyBySlug, propertyDirectory } from '../../data/dubai_Properties'
+import { propertyDirectory, getPropertyBySlug } from '../../data/dubai_Properties'
 
 const PropertyDetailsPage = () => {
     const { slug } = useParams()
@@ -43,9 +44,13 @@ const PropertyDetailsPage = () => {
     }
 
     return (
-        <div>
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8 }}
+        >
             <PropertieHeader property={property} />
-        </div>
+        </motion.div>
     )
 }
 

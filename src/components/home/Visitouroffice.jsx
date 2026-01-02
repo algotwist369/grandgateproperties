@@ -1,267 +1,124 @@
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 import { homeSectionsData } from '../../data/homeSections'
+import { motion, AnimatePresence } from 'framer-motion'
 
 const Visitouroffice = ({ selectedCountry }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [currentX, setCurrentX] = useState(0);
-  const sliderRef = useRef(null);
-
   const officeImages = homeSectionsData[selectedCountry]?.offices || homeSectionsData['Dubai'].offices;
 
-  // Get visible images (current, previous, next)
-  const getVisibleImages = () => {
-    const prevIndex = (currentIndex - 1 + officeImages.length) % officeImages.length;
-    const nextIndex = (currentIndex + 1) % officeImages.length;
-    return [
-      officeImages[prevIndex],
-      officeImages[currentIndex],
-      officeImages[nextIndex]
-    ];
-  };
-
-  const visibleImages = getVisibleImages();
-
-  // Mouse drag handlers
-  const handleMouseDown = (e) => {
-    setIsDragging(true);
-    setStartX(e.clientX);
-    setCurrentX(e.clientX);
-  };
-
-  const handleMouseMove = (e) => {
-    if (!isDragging) return;
-    setCurrentX(e.clientX);
-  };
-
-  const handleMouseUp = () => {
-    if (!isDragging) return;
-    const diff = startX - currentX;
-    const threshold = 50;
-
-    if (Math.abs(diff) > threshold) {
-      if (diff > 0) {
-        // Swiped left - go to next
-        setCurrentIndex((prev) => (prev + 1) % officeImages.length);
-      } else {
-        // Swiped right - go to previous
-        setCurrentIndex((prev) => (prev - 1 + officeImages.length) % officeImages.length);
-      }
-    }
-
-    setIsDragging(false);
-    setStartX(0);
-    setCurrentX(0);
-  };
-
-  // Touch handlers
-  const handleTouchStart = (e) => {
-    setIsDragging(true);
-    setStartX(e.touches[0].clientX);
-    setCurrentX(e.touches[0].clientX);
-  };
-
-  const handleTouchMove = (e) => {
-    if (!isDragging) return;
-    setCurrentX(e.touches[0].clientX);
-  };
-
-  const handleTouchEnd = () => {
-    if (!isDragging) return;
-    const diff = startX - currentX;
-    const threshold = 50;
-
-    if (Math.abs(diff) > threshold) {
-      if (diff > 0) {
-        // Swiped left - go to next
-        setCurrentIndex((prev) => (prev + 1) % officeImages.length);
-      } else {
-        // Swiped right - go to previous
-        setCurrentIndex((prev) => (prev - 1 + officeImages.length) % officeImages.length);
-      }
-    }
-
-    setIsDragging(false);
-    setStartX(0);
-    setCurrentX(0);
-  };
-
-  // Click handlers for side images
-  const handleImageClick = (index, e) => {
-    if (isDragging) {
-      e.preventDefault();
-      return;
-    }
-    if (index === 0) {
-      // Clicked left image - go to previous
-      setCurrentIndex((prev) => (prev - 1 + officeImages.length) % officeImages.length);
-    } else if (index === 2) {
-      // Clicked right image - go to next
-      setCurrentIndex((prev) => (prev + 1) % officeImages.length);
-    }
-  };
+  const nextSlide = () => setCurrentIndex((prev) => (prev + 1) % officeImages.length);
+  const prevSlide = () => setCurrentIndex((prev) => (prev - 1 + officeImages.length) % officeImages.length);
 
   return (
-    <div className='relative py-12 sm:py-16 md:py-24 lg:py-32 overflow-hidden'>
-      <div className='container mx-auto px-4 sm:px-6 md:px-6 relative z-20'>
+    <section className='relative py-24 lg:py-40 bg-black overflow-hidden'>
+      <div className='max-w-[1400px] mx-auto px-6 relative z-20'>
         {/* Header Section */}
-        <div className='text-center mb-12 sm:mb-16 lg:mb-20'>
-          <h1 className='text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-gray-400 leading-tight sm:leading-[40px] lg:leading-[50px] mb-3 sm:mb-4'>
-            Visit Our{' '}
-            <span className='relative inline-block'>
-              <span className='relative z-10 text-[#D3A188]'>Office</span>
-            </span>
-          </h1>
+        <motion.div
+          className='text-center mb-16 lg:mb-24'
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          <h2 className='text-3xl lg:text-6xl font-light tracking-tight text-white mb-6 uppercase'>
+            Visit Our <span className='text-[#D3A188] font-medium'>Office</span>
+          </h2>
 
-          <div className='flex items-center justify-center gap-2 sm:gap-3 lg:gap-4 mb-6 sm:mb-8'>
-            <div className='w-8 sm:w-12 lg:w-16 h-px bg-gradient-to-r from-transparent to-[#D3A188]'></div>
-            <div className='w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#D3A188]'></div>
-            <div className='w-8 sm:w-12 lg:w-16 h-px bg-gradient-to-l from-transparent to-[#D3A188]'></div>
+          <div className='flex items-center justify-center gap-4 mb-8'>
+            <div className='w-20 h-px bg-gradient-to-r from-transparent to-[#D3A188]/50'></div>
+            <div className='w-2 h-2 rounded-full border border-[#D3A188]'></div>
+            <div className='w-20 h-px bg-gradient-to-l from-transparent to-[#D3A188]/50'></div>
           </div>
 
-          <p className='text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed font-light px-4'>
-            Explore our premium offices across <span className='text-[#D3A188] font-medium'>Dubai</span>, <span className='text-[#D3A188] font-medium'>UAE</span> and <span className='text-[#D3A188] font-medium'>India</span>. Experience luxury real estate services in world-class facilities designed for excellence.
+          <p className='text-lg lg:text-xl text-gray-400 font-light max-w-3xl mx-auto leading-relaxed'>
+            Experience luxury real estate services in world-class facilities designed for excellence across <span className='text-white font-medium'>Dubai</span> and <span className='text-white font-medium'>India</span>.
           </p>
-        </div>
+        </motion.div>
 
         {/* Slider Container */}
-        <div className='relative py-6 sm:py-8 lg:py-12'>
-          {/* Decorative Side Elements */}
-          <div className='absolute left-0 top-1/2 -translate-y-1/2 hidden lg:block'>
-            <div className='w-px h-32 bg-gradient-to-b from-transparent via-[#D3A188]/30 to-transparent'></div>
-          </div>
-          <div className='absolute right-0 top-1/2 -translate-y-1/2 hidden lg:block'>
-            <div className='w-px h-32 bg-gradient-to-b from-transparent via-[#D3A188]/30 to-transparent'></div>
-          </div>
-
-          <div
-            ref={sliderRef}
-            className='flex items-center justify-center gap-3 sm:gap-4 md:gap-6 lg:gap-10 xl:gap-16 select-none min-h-[400px] sm:min-h-[500px] md:min-h-[600px] lg:min-h-[750px]'
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseUp}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-            style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
-          >
-            {visibleImages.map((office, index) => {
-              const isMiddle = index === 1;
+        <div className='relative flex items-center justify-center min-h-[500px] lg:min-h-[700px]'>
+          <AnimatePresence initial={false} mode='popLayout'>
+            {[-1, 0, 1].map((offset) => {
+              const index = (currentIndex + offset + officeImages.length) % officeImages.length;
+              const office = officeImages[index];
+              const isMiddle = offset === 0;
 
               return (
-                <div
-                  key={`${office.id}-${index}`}
-                  onClick={(e) => handleImageClick(index, e)}
-                  className={`relative ${isMiddle
-                    ? 'w-[280px] h-[350px] sm:w-[380px] sm:h-[450px] md:w-[480px] md:h-[580px] lg:w-[580px] lg:h-[680px] scale-100 z-10 cursor-default'
-                    : 'hidden sm:block w-[200px] h-[280px] sm:w-[240px] sm:h-[320px] md:w-[340px] md:h-[450px] scale-80 opacity-50 z-0 cursor-pointer'
-                    }`}
+                <motion.div
+                  key={office.id}
+                  initial={{ opacity: 0, scale: 0.8, x: offset * 300 }}
+                  animate={{
+                    opacity: isMiddle ? 1 : 0.4,
+                    scale: isMiddle ? 1 : 0.8,
+                    x: offset * (window.innerWidth < 1024 ? 200 : 400),
+                    zIndex: isMiddle ? 10 : 0
+                  }}
+                  exit={{ opacity: 0, scale: 0.5 }}
+                  transition={{ duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
+                  className='absolute w-[300px] h-[450px] sm:w-[400px] sm:h-[550px] lg:w-[600px] lg:h-[750px]'
                 >
-                  {/* Outer Glow Ring */}
-                  {isMiddle && (
-                    <div className='absolute -inset-4 rounded-3xl bg-gradient-to-r from-[#D3A188]/30 via-[#D3A188]/10 to-[#D3A188]/30 blur-2xl'></div>
-                  )}
+                  <div className={`relative w-full h-full rounded-[2rem] overflow-hidden group ${isMiddle ? 'cursor-default ring-1 ring-white/20' : 'cursor-pointer'}`}
+                    onClick={() => !isMiddle && (offset < 0 ? prevSlide() : nextSlide())}>
 
-                  {/* Card with enhanced styling */}
-                  <div className={`relative w-full h-full rounded-3xl overflow-hidden ${isMiddle
-                    ? 'shadow-[0_0_60px_rgba(211,161,136,0.4),0_30px_80px_rgba(0,0,0,0.5)] ring-[3px] ring-[#D3A188]/60'
-                    : 'shadow-[0_20px_60px_rgba(0,0,0,0.4)]'
-                    }`}>
-                    {/* Image Container */}
-                    <div className='relative w-full h-full'>
-                      <img
-                        src={office.image}
-                        alt={office.title}
-                        className={`w-full h-full object-cover pointer-events-none ${isMiddle ? 'scale-100' : 'scale-110'
-                          }`}
-                        draggable={false}
-                      />
+                    {/* Image */}
+                    <img
+                      src={office.image}
+                      alt={office.title}
+                      className='w-full h-full object-cover'
+                    />
 
-                      {/* Multi-layer Gradient Overlay */}
-                      <div className='absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent'></div>
-                      <div className='absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80'></div>
+                    {/* Overlay */}
+                    <div className={`absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent transition-opacity duration-500 ${isMiddle ? 'opacity-90' : 'opacity-60'}`}></div>
 
-                      {/* Decorative Corner Elements */}
-                      {isMiddle && (
-                        <>
-                          <div className='absolute top-3 left-3 sm:top-4 sm:left-4 lg:top-6 lg:left-6 w-8 h-8 sm:w-12 sm:h-12 lg:w-16 lg:h-16'>
-                            <div className='absolute top-0 left-0 w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8 border-t-2 border-l-2 border-[#D3A188] opacity-80'></div>
-                            <div className='absolute top-0 left-0 w-2 h-2 sm:w-3 sm:h-3 lg:w-4 lg:h-4 border-t border-l border-[#D3A188] opacity-60'></div>
-                          </div>
-                          <div className='absolute top-3 right-3 sm:top-4 sm:right-4 lg:top-6 lg:right-6 w-8 h-8 sm:w-12 sm:h-12 lg:w-16 lg:h-16'>
-                            <div className='absolute top-0 right-0 w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8 border-t-2 border-r-2 border-[#D3A188] opacity-80'></div>
-                            <div className='absolute top-0 right-0 w-2 h-2 sm:w-3 sm:h-3 lg:w-4 lg:h-4 border-t border-r border-[#D3A188] opacity-60'></div>
-                          </div>
-                          <div className='absolute bottom-3 left-3 sm:bottom-4 sm:left-4 lg:bottom-6 lg:left-6 w-8 h-8 sm:w-12 sm:h-12 lg:w-16 lg:h-16'>
-                            <div className='absolute bottom-0 left-0 w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8 border-b-2 border-l-2 border-[#D3A188] opacity-80'></div>
-                            <div className='absolute bottom-0 left-0 w-2 h-2 sm:w-3 sm:h-3 lg:w-4 lg:h-4 border-b border-l border-[#D3A188] opacity-60'></div>
-                          </div>
-                          <div className='absolute bottom-3 right-3 sm:bottom-4 sm:right-4 lg:bottom-6 lg:right-6 w-8 h-8 sm:w-12 sm:h-12 lg:w-16 lg:h-16'>
-                            <div className='absolute bottom-0 right-0 w-4 h-4 sm:w-6 sm:h-6 lg:w-8 lg:h-8 border-b-2 border-r-2 border-[#D3A188] opacity-80'></div>
-                            <div className='absolute bottom-0 right-0 w-2 h-2 sm:w-3 sm:h-3 lg:w-4 lg:h-4 border-b border-r border-[#D3A188] opacity-60'></div>
-                          </div>
-                        </>
-                      )}
-                    </div>
-
-                    {/* Enhanced Title Overlay */}
-                    <div className={`absolute bottom-0 left-0 right-0 ${isMiddle ? 'p-4 sm:p-5 md:p-6 lg:p-8' : 'p-4 sm:p-5 md:p-6'
-                      } bg-gradient-to-t from-black via-black/95 to-black/80 backdrop-blur-sm`}>
-                      <div className='flex items-end justify-between gap-2 sm:gap-3 lg:gap-4'>
-                        <div className='flex-1'>
-                          <div className='flex items-center gap-1.5 sm:gap-2 mb-1 sm:mb-2'>
-                            <div className='w-0.5 sm:w-1 h-4 sm:h-5 lg:h-6 bg-[#D3A188]'></div>
-                            <h3 className={`font-bold text-white ${isMiddle ? 'text-lg sm:text-xl md:text-2xl lg:text-3xl' : 'text-base sm:text-lg md:text-xl'
-                              }`}>
-                              {office.title}
-                            </h3>
-                          </div>
-                          <p className={`text-gray-300 ml-2 sm:ml-3 ${isMiddle ? 'text-xs sm:text-sm md:text-base' : 'text-xs sm:text-sm'
-                            }`}>
-                            Premium Real Estate Services
-                          </p>
-                          {isMiddle && (
-                            <div className='mt-2 sm:mt-3 lg:mt-4 flex items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-400'>
-                              <div className='flex items-center gap-1.5 sm:gap-2'>
-                                <svg className='w-3 h-3 sm:w-4 sm:h-4 text-[#D3A188]' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-                                  <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' />
-                                </svg>
-                                <span>Mon - Sat: 9AM - 6PM</span>
-                              </div>
+                    {/* Content */}
+                    {isMiddle && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className='absolute bottom-0 left-0 right-0 p-10 sm:p-12'
+                      >
+                        <div className="flex items-end justify-between">
+                          <div className="space-y-4">
+                            <div className="flex items-center gap-3">
+                              <div className="w-1 h-8 bg-[#D3A188]"></div>
+                              <h3 className='text-2xl sm:text-4xl font-light text-white tracking-wider uppercase'>
+                                {office.title}
+                              </h3>
                             </div>
-                          )}
+                            <p className='text-gray-400 text-sm sm:text-base tracking-widest uppercase font-light'>
+                              Exclusive Global Headquarters
+                            </p>
+                          </div>
+
+                          <div className='w-16 h-16 rounded-full border border-white/20 flex items-center justify-center hover:bg-[#D3A188] hover:border-[#D3A188] transition-all duration-300 group'>
+                            <svg className='w-6 h-6 text-white group-hover:scale-110 transition-transform' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                              <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={1.5} d='M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z' />
+                              <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={1.5} d='M15 11a3 3 0 11-6 0 3 3 0 016 0z' />
+                            </svg>
+                          </div>
                         </div>
-                        {isMiddle && (
-                          <div className='flex-shrink-0'>
-                            <div className='w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-full bg-gradient-to-br from-[#D3A188] to-[#b8876a] flex items-center justify-center shadow-lg shadow-[#D3A188]/30'>
-                              <svg className='w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 text-white' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-                                <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z' />
-                                <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M15 11a3 3 0 11-6 0 3 3 0 016 0z' />
-                              </svg>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </div>
+                      </motion.div>
+                    )}
                   </div>
-
-                  {/* Additional Glow Layers for Middle Card */}
-                  {isMiddle && (
-                    <>
-                      <div className='absolute inset-0 rounded-3xl bg-gradient-to-r from-[#D3A188]/15 via-transparent to-[#D3A188]/15 blur-2xl -z-10'></div>
-                      <div className='absolute -inset-2 rounded-3xl bg-gradient-to-br from-[#D3A188]/10 to-transparent blur-xl -z-20'></div>
-                    </>
-                  )}
-                </div>
+                </motion.div>
               );
             })}
-          </div>
+          </AnimatePresence>
+        </div>
+
+        {/* Navigation - Minimal Dots */}
+        <div className='flex justify-center gap-3 mt-12'>
+          {officeImages.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentIndex(idx)}
+              className={`h-1.5 transition-all duration-500 rounded-full ${idx === currentIndex ? 'w-12 bg-[#D3A188]' : 'w-4 bg-white/10'}`}
+            />
+          ))}
         </div>
       </div>
-    </div>
+    </section>
   )
 }
 
-export default Visitouroffice
+export default Visitouroffice;

@@ -1,9 +1,10 @@
 import React, { useEffect, useMemo, useState, useCallback } from 'react'
-import { FaWhatsapp, FaPhone, FaMobile, FaGlobe, FaBuilding, FaMapMarkerAlt, FaCheckCircle, FaCommentDots } from 'react-icons/fa'
+import { motion, AnimatePresence } from 'framer-motion'
+import { FaWhatsapp, FaPhone, FaMobile, FaGlobe, FaCheckCircle, FaCommentDots } from 'react-icons/fa'
 import { MdCall } from 'react-icons/md'
 import { MdOutlineMarkEmailRead, MdOutlineFacebook } from 'react-icons/md'
 import { FaLinkedin } from 'react-icons/fa6'
-import Heding from '../common/Heading'
+import Heading from '../common/Heading'
 import { FaBed, FaBath, FaRulerCombined, FaHome, FaInstagram } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
 
@@ -30,8 +31,6 @@ const sanitizeDigits = (value = '') => value.replace(/[^+\d]/g, '')
 const PropertieHeader = ({ property }) => {
     const [currentImageIdx, setCurrentImageIdx] = useState(0)
     const [isZoomed, setIsZoomed] = useState(false)
-    const [touchStart, setTouchStart] = useState(null)
-    const [touchEnd, setTouchEnd] = useState(null)
     const resolvedProperty = property ?? null
 
     useEffect(() => {
@@ -51,16 +50,22 @@ const PropertieHeader = ({ property }) => {
     }, [isZoomed])
 
     const gallery = useMemo(() => {
-        if (Array.isArray(resolvedProperty?.gallery)) return resolvedProperty.gallery
-        if (Array.isArray(resolvedProperty?.image)) return resolvedProperty.image
-        return []
+        let items = []
+        if (Array.isArray(resolvedProperty?.gallery)) items = [...resolvedProperty.gallery]
+        else if (Array.isArray(resolvedProperty?.image)) items = [...resolvedProperty.image]
+        else if (typeof resolvedProperty?.image === 'string') items = [resolvedProperty.image]
+
+        if (resolvedProperty?.heroImage && !items.includes(resolvedProperty.heroImage)) {
+            items.unshift(resolvedProperty.heroImage)
+        }
+        return items
     }, [resolvedProperty])
 
     const breadcrumbs = useMemo(() => {
         if (resolvedProperty?.breadcrumbs?.length) return resolvedProperty.breadcrumbs
         const crumbs = [
-            { label: 'Home', path: '/' },
-            { label: resolvedProperty?.propertyType ? `${resolvedProperty.propertyType}s` : 'Properties', path: '/properties' },
+            { label: 'Home', path: '/en/' },
+            { label: resolvedProperty?.propertyType ? `${resolvedProperty.propertyType}s` : 'Properties', path: '/en/properties' },
         ]
         if (resolvedProperty?.community) crumbs.push({ label: resolvedProperty.community, path: '#' })
         if (resolvedProperty?.title) crumbs.push({ label: resolvedProperty.title, path: '#' })
@@ -173,38 +178,39 @@ const PropertieHeader = ({ property }) => {
         }
     }
 
+    const [direction, setDirection] = useState(0)
+
     const handlePrevImage = useCallback(() => {
+        setDirection(-1)
         setCurrentImageIdx((prev) => (prev === 0 ? gallery.length - 1 : prev - 1))
     }, [gallery.length])
 
     const handleNextImage = useCallback(() => {
+        setDirection(1)
         setCurrentImageIdx((prev) => (prev === gallery.length - 1 ? 0 : prev + 1))
     }, [gallery.length])
 
-    // Touch handlers for swipe
-    const handleTouchStart = useCallback((e) => {
-        setTouchEnd(null)
-        setTouchStart(e.targetTouches[0].clientX)
-    }, [])
+    const slideVariants = {
+        enter: (direction) => ({
+            x: direction > 0 ? 1000 : -1000,
+            opacity: 0
+        }),
+        center: {
+            zIndex: 1,
+            x: 0,
+            opacity: 1
+        },
+        exit: (direction) => ({
+            zIndex: 0,
+            x: direction < 0 ? 1000 : -1000,
+            opacity: 0
+        })
+    }
 
-    const handleTouchMove = useCallback((e) => {
-        setTouchEnd(e.targetTouches[0].clientX)
-    }, [])
-
-    const handleTouchEnd = useCallback(() => {
-        if (!touchStart || !touchEnd) return
-
-        const distance = touchStart - touchEnd
-        const isLeftSwipe = distance > 50
-        const isRightSwipe = distance < -50
-
-        if (isLeftSwipe) {
-            handleNextImage()
-        }
-        if (isRightSwipe) {
-            handlePrevImage()
-        }
-    }, [touchStart, touchEnd, handleNextImage, handlePrevImage])
+    const swipeConfidenceThreshold = 10000;
+    const swipePower = (offset, velocity) => {
+        return Math.abs(offset) * velocity;
+    };
 
     if (!resolvedProperty) {
         return (
@@ -243,7 +249,7 @@ const PropertieHeader = ({ property }) => {
     const navigate = useNavigate()
 
     return (
-        <div className="min-h-screen bg-[#111010]">
+        <div className="min-h-screen bg-[#111010] pb-24 lg:pb-0">
             <div className="py-4 text-xs sm:text-sm">
                 <div className="max-w-[99rem] mx-auto px-4 sm:px-6">
                     {breadcrumbs.map((crumb, idx) => (
@@ -262,22 +268,51 @@ const PropertieHeader = ({ property }) => {
 
             <div className="max-w-[99rem] mx-auto px-4 sm:px-6 py-6 sm:py-12">
                 <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_380px] gap-6 lg:gap-8">
-                    <div className="w-full">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                        className="w-full"
+                    >
                         <div className="mb-6 flex flex-col lg:flex-row gap-4">
                             <div
                                 className="relative w-full h-64 sm:h-80 lg:h-[28rem] bg-gray-900 overflow-hidden group rounded-lg cursor-zoom-in"
                                 onClick={() => gallery.length && setIsZoomed(true)}
                             >
-                                {gallery.length ? (
-                                    <img
-                                        src={gallery[currentImageIdx]}
-                                        alt={`${resolvedProperty.title} - Image ${currentImageIdx + 1}`}
-                                        className="w-full h-full object-cover"
-                                        loading="lazy"
-                                    />
-                                ) : (
-                                    <div className="w-full h-full flex items-center justify-center text-gray-500">Images unavailable</div>
-                                )}
+                                <AnimatePresence initial={false} custom={direction} mode='popLayout'>
+                                    {gallery.length ? (
+                                        <motion.img
+                                            key={currentImageIdx}
+                                            src={gallery[currentImageIdx]}
+                                            custom={direction}
+                                            variants={slideVariants}
+                                            initial="enter"
+                                            animate="center"
+                                            exit="exit"
+                                            transition={{
+                                                x: { type: "spring", stiffness: 300, damping: 30 },
+                                                opacity: { duration: 0.2 }
+                                            }}
+                                            drag="x"
+                                            dragConstraints={{ left: 0, right: 0 }}
+                                            dragElastic={1}
+                                            onDragEnd={(e, { offset, velocity }) => {
+                                                const swipe = swipePower(offset.x, velocity.x);
+
+                                                if (swipe < -swipeConfidenceThreshold) {
+                                                    handleNextImage();
+                                                } else if (swipe > swipeConfidenceThreshold) {
+                                                    handlePrevImage();
+                                                }
+                                            }}
+                                            alt={`${resolvedProperty.title} - Image ${currentImageIdx + 1}`}
+                                            className="w-full h-full object-cover absolute inset-0 cursor-grab active:cursor-grabbing"
+                                            loading="eager"
+                                        />
+                                    ) : (
+                                        <div className="w-full h-full flex items-center justify-center text-gray-500">Images unavailable</div>
+                                    )}
+                                </AnimatePresence>
 
                                 {gallery.length > 1 && (
                                     <>
@@ -338,7 +373,7 @@ const PropertieHeader = ({ property }) => {
 
                         <h1 className="text-xl sm:text-2xl lg:text-[30px] text-white mb-4 sm:mb-8 leading-tight">{resolvedProperty.title}</h1>
                         <p className="text-gray-400 text-base sm:text-lg lg:text-xl pb-6">{resolvedProperty.description}</p>
-                    </div>
+                    </motion.div>
 
                     <aside className="w-full lg:sticky lg:top-20 self-start flex flex-col gap-8">
                         <div className="p-6 border border-gray-700 text-gray-400 rounded-lg bg-[#0f0f0f]">
@@ -469,52 +504,53 @@ const PropertieHeader = ({ property }) => {
                 </div>
 
                 <div className="grid grid-cols-1 gap-6 sm:gap-8 w-full lg:max-w-[70%]">
-                    <div className="w-full">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                        className="w-full"
+                    >
                         <div className="border border-[#d3a1888c] p-4 sm:p-6 mb-6 sm:mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-2 sm:gap-4">
                             <p className="text-[#cea591] text-2xl sm:text-3xl">{priceLabel}</p>
                             {pricePerSqftLabel && <p className="text-gray-400 text-base sm:text-lg">{pricePerSqftLabel}</p>}
                         </div>
 
-                        <div className="border-t border-b border-gray-600 py-4 sm:py-6">
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+                        <div className="border-t border-b border-gray-800 py-6 sm:py-8 my-8">
+                            <div className="grid grid-cols-2 lg:grid-cols-4 gap-y-8 gap-x-4">
                                 {bedrooms && (
-                                    <div className="text-center">
-                                        <div className="flex items-center justify-center gap-1 sm:gap-2">
-                                            <span className="text-[#D3A188] text-lg sm:text-xl lg:text-2xl">
-                                                <FaBed aria-hidden />
-                                            </span>
-                                            <p className="text-[#D3A188] text-lg sm:text-xl lg:text-2xl">{bedrooms}</p>
+                                    <div className="flex flex-col items-center justify-center text-center px-2">
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <FaBed className="text-[#D3A188] text-xl sm:text-2xl" />
+                                            <span className="text-white text-lg sm:text-xl font-medium">{bedrooms}</span>
                                         </div>
+                                        <p className="text-gray-500 text-xs sm:text-sm uppercase tracking-wider">Bedrooms</p>
                                     </div>
                                 )}
                                 {bathrooms && (
-                                    <div className="text-center">
-                                        <div className="flex items-center justify-center gap-1 sm:gap-2">
-                                            <span className="text-[#D3A188] text-lg sm:text-xl lg:text-2xl">
-                                                <FaBath aria-hidden />
-                                            </span>
-                                            <p className="text-[#D3A188] text-lg sm:text-xl lg:text-2xl">{bathrooms}</p>
+                                    <div className="flex flex-col items-center justify-center text-center px-2">
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <FaBath className="text-[#D3A188] text-xl sm:text-2xl" />
+                                            <span className="text-white text-lg sm:text-xl font-medium">{bathrooms}</span>
                                         </div>
+                                        <p className="text-gray-500 text-xs sm:text-sm uppercase tracking-wider">Bathrooms</p>
                                     </div>
                                 )}
                                 {sqftLabel && (
-                                    <div className="text-center">
-                                        <div className="flex items-center justify-center gap-1 sm:gap-2">
-                                            <span className="text-[#D3A188] text-lg sm:text-xl lg:text-2xl">
-                                                <FaRulerCombined aria-hidden />
-                                            </span>
-                                            <p className="text-[#D3A188] text-lg sm:text-xl lg:text-2xl">{sqftLabel}</p>
+                                    <div className="flex flex-col items-center justify-center text-center px-2">
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <FaRulerCombined className="text-[#D3A188] text-xl sm:text-2xl" />
+                                            <span className="text-white text-lg sm:text-xl font-medium">{sqftLabel}</span>
                                         </div>
+                                        <p className="text-gray-500 text-xs sm:text-sm uppercase tracking-wider">Total Area</p>
                                     </div>
                                 )}
                                 {propertyType && (
-                                    <div className="text-center">
-                                        <div className="flex items-center justify-center gap-1 sm:gap-2">
-                                            <span className="text-[#D3A188] text-lg sm:text-xl lg:text-2xl">
-                                                <FaHome aria-hidden />
-                                            </span>
-                                            <p className="text-[#D3A188] text-lg sm:text-xl lg:text-2xl">{propertyType}</p>
+                                    <div className="flex flex-col items-center justify-center text-center px-2">
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <FaHome className="text-[#D3A188] text-xl sm:text-2xl" />
+                                            <span className="text-white text-lg sm:text-xl font-medium truncate max-w-[120px] sm:max-w-none" title={propertyType}>{propertyType}</span>
                                         </div>
+                                        <p className="text-gray-500 text-xs sm:text-sm uppercase tracking-wider">Property Type</p>
                                     </div>
                                 )}
                             </div>
@@ -528,7 +564,7 @@ const PropertieHeader = ({ property }) => {
 
                         {amenities.length > 0 && (
                             <div className="py-6 mt-6">
-                                <Heding as="h3" size="h3" color="white">Features & Amenities</Heding>
+                                <Heading as="h3" size="h3" color="white">Features & Amenities</Heading>
                                 <div className="overflow-x-auto mt-4 border border-gray-700">
                                     <table className="min-w-full text-sm text-left text-gray-300">
                                         <tbody>
@@ -568,7 +604,7 @@ const PropertieHeader = ({ property }) => {
 
                         {listingDetails.length > 0 && (
                             <div className="py-6 mt-6">
-                                <Heding as="h3" size="h3" color="white">Listing Details</Heding>
+                                <Heading as="h3" size="h3" color="white">Listing Details</Heading>
                                 <div className="border border-gray-600 p-4 grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 text-gray-300 text-sm">
                                     {listingDetails.map((detail) => (
                                         <div key={detail.label}>
@@ -597,7 +633,7 @@ const PropertieHeader = ({ property }) => {
                         </div>
                         {schoolsNearby.length > 0 && (
                             <div className="py-6 rounded-lg mt-6">
-                                <Heding as="h3" size="h3" color="white">Schools Nearby</Heding>
+                                <Heading as="h3" size="h3" color="white">Schools Nearby</Heading>
                                 <ul className="border border-gray-600 p-4 mt-4 space-y-2 text-gray-300">
                                     {schoolsNearby.map((school, idx) => (
                                         <li key={`${school}-${idx}`}>{school}</li>
@@ -609,7 +645,7 @@ const PropertieHeader = ({ property }) => {
                         {/* Buildings Section */}
                         {resolvedProperty?.buildings?.length > 0 && (
                             <div className="py-6 mt-6">
-                                <Heding as="h3" size="h3" color="white">Building Details</Heding>
+                                <Heading as="h3" size="h3" color="white">Building Details</Heading>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
                                     {resolvedProperty.buildings.map((building, idx) => (
                                         <div key={`building-${idx}`} className="border border-gray-700 rounded-lg p-4 bg-[#0f0f0f]">
@@ -630,7 +666,7 @@ const PropertieHeader = ({ property }) => {
                         {/* Commercial Units Section */}
                         {resolvedProperty?.commercialUnits?.length > 0 && (
                             <div className="py-6 mt-6">
-                                <Heding as="h3" size="h3" color="white">Commercial Spaces</Heding>
+                                <Heading as="h3" size="h3" color="white">Commercial Spaces</Heading>
                                 <div className="overflow-x-auto mt-4 border border-gray-700 rounded-lg">
                                     <table className="min-w-full text-sm text-left text-gray-300">
                                         <thead className="bg-[#1a1a1a] text-[#D3A188]">
@@ -669,7 +705,7 @@ const PropertieHeader = ({ property }) => {
                         {/* Nearby Landmarks Section */}
                         {resolvedProperty?.nearbyLandmarks?.length > 0 && (
                             <div className="py-6 mt-6">
-                                <Heding as="h3" size="h3" color="white">Nearby Landmarks</Heding>
+                                <Heading as="h3" size="h3" color="white">Nearby Landmarks</Heading>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-4">
                                     {resolvedProperty.nearbyLandmarks.map((landmark, idx) => (
                                         <div key={`landmark-${idx}`} className="flex items-center justify-between border border-gray-700 rounded-lg p-3 bg-[#0f0f0f]">
@@ -684,7 +720,7 @@ const PropertieHeader = ({ property }) => {
                         {/* Investment Highlights Section */}
                         {resolvedProperty?.investmentHighlights?.length > 0 && (
                             <div className="py-6 mt-6">
-                                <Heding as="h3" size="h3" color="white">Investment Highlights</Heding>
+                                <Heading as="h3" size="h3" color="white">Investment Highlights</Heading>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
                                     {resolvedProperty.investmentHighlights.map((highlight, idx) => (
                                         <div key={`highlight-${idx}`} className="flex items-start gap-3 border border-gray-700 rounded-lg p-4 bg-[#0f0f0f]">
@@ -696,11 +732,45 @@ const PropertieHeader = ({ property }) => {
                             </div>
                         )}
 
-                        {/* Available Units Section (New) */}
+                        {/* Available Units Section (Responsive) */}
                         {resolvedProperty?.units?.length > 0 && (
                             <div className="py-6 mt-6">
-                                <Heding as="h3" size="h3" color="white">Available Configurations</Heding>
-                                <div className="overflow-x-auto mt-4 border border-gray-700 rounded-lg">
+                                <Heading as="h3" size="h3" color="white">Available Configurations</Heading>
+
+                                {/* Mobile View: Cards */}
+                                <div className="md:hidden mt-4 space-y-4">
+                                    {resolvedProperty.units.map((unit, idx) => (
+                                        <div key={`unit-card-${idx}`} className="border border-gray-700 rounded-lg p-4 bg-[#0f0f0f]">
+                                            <div className="flex justify-between items-start mb-2 gap-2">
+                                                <h4 className="font-semibold text-white text-base">{unit.title}</h4>
+                                                <span className="font-bold text-[#D3A188] text-sm whitespace-nowrap">
+                                                    {formatCurrency(unit.price, resolvedProperty.currency)}
+                                                </span>
+                                            </div>
+
+                                            <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-400 mb-3">
+                                                {unit.bedrooms && (
+                                                    <span className="flex items-center gap-1"><FaBed /> {unit.bedrooms} Bed</span>
+                                                )}
+                                                {unit.bathrooms && (
+                                                    <span className="flex items-center gap-1"><FaBath /> {unit.bathrooms} Bath</span>
+                                                )}
+                                                {(unit.sqft || unit.sqftRange) && (
+                                                    <span className="flex items-center gap-1"><FaRulerCombined /> {unit.sqft?.toLocaleString() ?? unit.sqftRange} sq.ft</span>
+                                                )}
+                                            </div>
+
+                                            {unit.description && (
+                                                <p className="text-sm text-gray-500 border-t border-gray-700 pt-3 mt-1 leading-relaxed">
+                                                    {unit.description}
+                                                </p>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* Desktop View: Table */}
+                                <div className="hidden md:block overflow-x-auto mt-4 border border-gray-700 rounded-lg">
                                     <table className="min-w-full text-sm text-left text-gray-300">
                                         <thead className="bg-[#1a1a1a] text-[#D3A188]">
                                             <tr>
@@ -738,7 +808,7 @@ const PropertieHeader = ({ property }) => {
                         {/* Unit Types Section */}
                         {resolvedProperty?.unitTypes?.length > 0 && (
                             <div className="py-6 mt-6">
-                                <Heding as="h3" size="h3" color="white">Unit Types & Investment Returns</Heding>
+                                <Heading as="h3" size="h3" color="white">Unit Types & Investment Returns</Heading>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
                                     {resolvedProperty.unitTypes.map((unit, idx) => (
                                         <div key={`unit-type-${idx}`} className="border border-gray-700 rounded-lg p-4 bg-[#0f0f0f]">
@@ -766,7 +836,7 @@ const PropertieHeader = ({ property }) => {
                         {/* Rental Projections Section */}
                         {resolvedProperty?.rentalProjections && (
                             <div className="py-6 mt-6">
-                                <Heding as="h3" size="h3" color="white">Rental Income Projections</Heding>
+                                <Heading as="h3" size="h3" color="white">Rental Income Projections</Heading>
 
                                 {/* Annual Growth & Season Info */}
                                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4">
@@ -843,7 +913,7 @@ const PropertieHeader = ({ property }) => {
                         {/* Developer Info Section */}
                         {resolvedProperty?.developer && typeof resolvedProperty.developer === 'object' && (
                             <div className="py-6 mt-6">
-                                <Heding as="h3" size="h3" color="white">Developer Information</Heding>
+                                <Heading as="h3" size="h3" color="white">Developer Information</Heading>
                                 <div className="border border-gray-700 rounded-lg p-6 bg-[#0f0f0f] mt-4">
                                     <h4 className="text-[#D3A188] text-xl font-semibold mb-4">{resolvedProperty.developer.name}</h4>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
@@ -901,7 +971,7 @@ const PropertieHeader = ({ property }) => {
                         {/* Contact Info Section */}
                         {resolvedProperty?.contactInfo && (
                             <div className="py-6 mt-6">
-                                <Heding as="h3" size="h3" color="white">Contact Information</Heding>
+                                <Heading as="h3" size="h3" color="white">Contact Information</Heading>
                                 <div className="border border-gray-700 rounded-lg p-6 bg-[#0f0f0f] mt-4">
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                                         {resolvedProperty.contactInfo.phone && (
@@ -938,7 +1008,7 @@ const PropertieHeader = ({ property }) => {
                                 </div>
                             </div>
                         )}
-                    </div>
+                    </motion.div>
                 </div>
             </div>
 
@@ -977,14 +1047,54 @@ const PropertieHeader = ({ property }) => {
                 </div>
             </div>
 
+            {/* Mobile Fixed Bottom Actions */}
+            <motion.div
+                initial={{ y: 100 }}
+                animate={{ y: 0 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+                className="fixed bottom-0 left-0 right-0 bg-[#111010] border-t border-gray-800 p-3 lg:hidden z-40 flex items-center justify-between gap-3 px-4 pb-safe"
+            >
+                <a
+                    href={whatsappHref || '#'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg font-medium transition ${whatsappHref
+                        ? 'bg-[#D3A188]/10 border border-[#D3A188] text-[#D3A188] hover:bg-[#D3A188]/20'
+                        : 'bg-gray-800 text-gray-500 cursor-not-allowed'
+                        }`}
+                >
+                    <FaWhatsapp className="text-xl" />
+                    <span>WhatsApp</span>
+                </a>
+
+                <a
+                    href={agent?.phone ? `sms:${sanitizeDigits(agent.phone)}?body=${encodedMessage}` : '#'}
+                    className={`flex items-center justify-center justify-self-center p-3 rounded-lg transition aspect-square ${agent?.phone
+                        ? 'bg-[#D3A188]/20 text-[#D3A188] border border-[#D3A188]/50'
+                        : 'bg-gray-800 text-gray-500 border border-gray-700 cursor-not-allowed'
+                        }`}
+                    title="SMS"
+                >
+                    <FaCommentDots className="text-xl" />
+                </a>
+
+                <a
+                    href={callHref || '#'}
+                    className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg font-medium transition ${callHref
+                        ? 'bg-[#D3A188] text-white hover:bg-[#c49278]'
+                        : 'bg-gray-800 text-gray-500 cursor-not-allowed'
+                        }`}
+                >
+                    <MdCall className="text-xl" />
+                    <span>Call Now</span>
+                </a>
+            </motion.div>
+
             {/* Image Zoom Modal */}
             {isZoomed && gallery.length > 0 && (
                 <div
-                    className="fixed inset-0 z-[9999] bg-black/95 flex items-center justify-center"
+                    className="fixed inset-0 z-[9999] bg-black/95 flex items-center justify-center touch-none"
                     onClick={() => setIsZoomed(false)}
-                    onTouchStart={handleTouchStart}
-                    onTouchMove={handleTouchMove}
-                    onTouchEnd={handleTouchEnd}
                 >
                     {/* Close Button */}
                     <button
@@ -1001,14 +1111,38 @@ const PropertieHeader = ({ property }) => {
                     </div>
 
                     {/* Main Image */}
-                    <div className="relative w-full h-full flex items-center justify-center px-4 sm:px-16">
-                        <img
-                            src={gallery[currentImageIdx]}
-                            alt={`${resolvedProperty.title} - Image ${currentImageIdx + 1}`}
-                            loading="eager"
-                            className="max-w-full max-h-full object-contain"
-                            onClick={(e) => e.stopPropagation()}
-                        />
+                    <div className="relative w-full h-full flex items-center justify-center px-4 sm:px-16 overflow-hidden">
+                        <AnimatePresence initial={false} custom={direction} mode='popLayout'>
+                            <motion.img
+                                key={currentImageIdx}
+                                src={gallery[currentImageIdx]}
+                                custom={direction}
+                                variants={slideVariants}
+                                initial="enter"
+                                animate="center"
+                                exit="exit"
+                                transition={{
+                                    x: { type: "spring", stiffness: 300, damping: 30 },
+                                    opacity: { duration: 0.2 }
+                                }}
+                                drag="x"
+                                dragConstraints={{ left: 0, right: 0 }}
+                                dragElastic={1}
+                                onDragEnd={(e, { offset, velocity }) => {
+                                    const swipe = swipePower(offset.x, velocity.x);
+
+                                    if (swipe < -swipeConfidenceThreshold) {
+                                        handleNextImage();
+                                    } else if (swipe > swipeConfidenceThreshold) {
+                                        handlePrevImage();
+                                    }
+                                }}
+                                alt={`${resolvedProperty.title} - Image ${currentImageIdx + 1}`}
+                                loading="eager"
+                                className="max-w-full max-h-full object-contain absolute cursor-grab active:cursor-grabbing"
+                                onClick={(e) => e.stopPropagation()}
+                            />
+                        </AnimatePresence>
 
                         {/* Navigation Arrows */}
                         {gallery.length > 1 && (

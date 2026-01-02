@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Button from './Button';
+import { motion, AnimatePresence } from "framer-motion";
 import InquiryModal from './InquiryModal';
 import { FaLocationArrow } from "react-icons/fa6";
 
@@ -77,89 +77,116 @@ const PropertyCard = memo(({ property, onModalChange }) => {
         setImageLoaded(true);
     }, []);
 
+    const cardVariants = {
+        hidden: { opacity: 0, y: 30 },
+        show: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+    };
+
     return (
-        <>
-            <div className="rounded-sm overflow-hidden bg-[#0F3E5E]/30 border border-white/10
-                hover:border-[#D3A188]/40 transition-all duration-300 shadow-lg hover:shadow-xl">
+        <motion.div
+            variants={cardVariants}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            whileHover={{ y: -12 }}
+            className="group relative bg-[#0F3E5E]/10 rounded-2xl overflow-hidden border border-white/10 hover:border-[#D3A188]/40 transition-all duration-500 hover:shadow-2xl hover:shadow-[#D3A188]/10"
+        >
+            {/* Image Section */}
+            <div
+                className="relative h-64 sm:h-72 overflow-hidden cursor-pointer"
+                onClick={handleViewDetails}
+            >
+                <AnimatePresence mode="wait">
+                    {!imageLoaded ? (
+                        <motion.div
+                            key="shimmer"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="absolute inset-0 bg-white/5 animate-pulse"
+                        />
+                    ) : null}
+                </AnimatePresence>
 
-                {/* Image */}
-                <div
-                    className="relative h-[220px] md:h-[280px] lg:h-[320px] cursor-pointer"
-                    onClick={handleViewDetails}
-                >
-                    {!imageLoaded && (
-                        <div className="absolute inset-0 bg-slate-800 animate-pulse" />
-                    )}
+                <motion.img
+                    src={property?.image}
+                    alt={property?.title}
+                    onLoad={handleImageLoad}
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                    className={`w-full h-full object-cover transition-all duration-1000 ${imageLoaded ? 'opacity-100 grayscale-[0.3] group-hover:grayscale-0' : 'opacity-0'}`}
+                />
 
-                    <img
-                        src={property?.image}
-                        alt={property?.title || 'Luxury Property'}
-                        loading="lazy"
-                        decoding="async"
-                        onLoad={handleImageLoad}
-                        className={`w-full h-full object-cover transition-opacity duration-300
-                            ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
-                    />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
 
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-
-                    {/* Type */}
-                    <span className="absolute top-3 left-3 bg-[#D3A188] text-[#114566]
-                        px-3 py-1 rounded-full text-xs font-semibold">
-                        {property?.propertyTypes?.join(', ') || property?.type}
-                    </span>
-
-                    {/* Featured */}
-                    {property?.featured && (
-                        <span className="absolute top-3 right-3 bg-black/60 backdrop-blur
-                            text-[#D3A188] border border-[#D3A188]/40
-                            px-3 py-1 rounded-full text-xs font-semibold">
-                            Featured
+                {/* Badges */}
+                <div className="absolute top-6 left-6 flex flex-wrap gap-2">
+                    <div className="bg-[#D3A188] px-4 py-1.5 rounded-2xl">
+                        <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-black">
+                            {property?.propertyTypes?.join(', ') || property?.type}
                         </span>
-                    )}
+                    </div>
                 </div>
+            </div>
 
-                {/* Content */}
-                <div className="p-4 lg:p-5">
+            {/* Content Section */}
+            <div className="p-8">
+                <div className="space-y-4">
                     <h3
                         onClick={handleViewDetails}
-                        className="text-lg lg:text-xl font-semibold text-white
-                        cursor-pointer hover:text-[#D3A188] transition-colors line-clamp-1"
+                        className="text-2xl font-light text-white uppercase tracking-tight cursor-pointer hover:text-[#D3A188] transition-colors line-clamp-1"
                     >
                         {property?.title}
                     </h3>
 
-                    <p className="text-[#D3A188] text-sm flex items-center gap-1 mt-1">
-                        <FaLocationArrow /> {property?.location}
-                    </p>
-
-                    {/* Specs */}
-                    <div className="flex gap-4 text-sm text-gray-300 mt-3 border-b border-white/10 pb-3">
-                        {bedsLabel && <span>{bedsLabel} Beds</span>}
-                        {bathsLabel && <span>{bathsLabel} Baths</span>}
-                        {areaLabel && <span>{areaLabel}</span>}
+                    <div className="flex items-center gap-2 text-[#D3A188]/80">
+                        <FaLocationArrow size={12} />
+                        <span className="text-[10px] uppercase tracking-[0.2em] font-medium">{property?.location}</span>
                     </div>
 
-                    {/* Price */}
-                    <div className="mt-4 text-2xl font-bold text-[#D3A188]">
-                        {priceLabel}
+                    {/* Specifications */}
+                    <div className="flex items-center gap-6 pt-4 border-t border-white/10">
+                        {bedsLabel && (
+                            <div className="flex flex-col gap-1">
+                                <span className="text-[10px] uppercase tracking-[0.1em] text-gray-500">Beds</span>
+                                <span className="text-sm text-white font-light">{bedsLabel}</span>
+                            </div>
+                        )}
+                        {bathsLabel && (
+                            <div className="flex flex-col gap-1">
+                                <span className="text-[10px] uppercase tracking-[0.1em] text-gray-500">Baths</span>
+                                <span className="text-sm text-white font-light">{bathsLabel}</span>
+                            </div>
+                        )}
+                        {areaLabel && (
+                            <div className="flex flex-col gap-1">
+                                <span className="text-[10px] uppercase tracking-[0.1em] text-gray-500">Area</span>
+                                <span className="text-sm text-white font-light">{areaLabel}</span>
+                            </div>
+                        )}
                     </div>
 
-                    {/* Actions */}
-                    <div className="flex gap-3 mt-4">
-                        <Button
-                            text="View Details"
-                            variant="secondary"
-                            className="flex-1 text-sm"
+                    {/* Pricing and Actions */}
+                    <div className="pt-6 flex items-center justify-between">
+                        <div className="flex flex-col">
+                            <span className="text-[10px] uppercase tracking-[0.2em] text-[#D3A188] font-bold">Investment</span>
+                            <span className="text-2xl font-light text-white">{priceLabel}</span>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4 pt-6">
+                        <button
                             onClick={handleViewDetails}
-                        />
-                        <Button
-                            text="Inquiry Now"
-                            className="flex-1 text-sm font-bold"
-                            primaryBg="bg-[#D3A188]"
-                            primaryText="text-black"
+                            className="py-4 border border-white/10 hover:border-[#D3A188]/30 text-[10px] uppercase tracking-[0.2em] font-bold text-white rounded-2xl transition-all hover:bg-white/5"
+                        >
+                            Details
+                        </button>
+                        <button
                             onClick={() => setIsModalOpen(true)}
-                        />
+                            className="py-4 bg-white text-black hover:bg-[#D3A188] hover:text-white text-[10px] uppercase tracking-[0.2em] font-bold rounded-2xl transition-all shadow-xl hover:shadow-[#D3A188]/20"
+                        >
+                            Inquire
+                        </button>
                     </div>
                 </div>
             </div>
@@ -169,7 +196,7 @@ const PropertyCard = memo(({ property, onModalChange }) => {
                 onClose={() => setIsModalOpen(false)}
                 property={property}
             />
-        </>
+        </motion.div>
     );
 }, (prev, next) =>
     prev.property?.id === next.property?.id &&
@@ -177,4 +204,5 @@ const PropertyCard = memo(({ property, onModalChange }) => {
 );
 
 PropertyCard.displayName = 'PropertyCard';
+
 export default PropertyCard;

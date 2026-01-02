@@ -1,14 +1,39 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { FaAward, FaShieldAlt, FaHandshake, FaChartLine, FaGlobe, FaUsers } from 'react-icons/fa'
-import { homeSectionsData } from '../../data/homeSections'
-import { useNavigate } from 'react-router-dom'
+import React, { useState, useEffect, useRef } from 'react';
+import { FaAward, FaShieldAlt, FaHandshake, FaChartLine, FaGlobe, FaUsers } from 'react-icons/fa';
+import { motion, useInView, useSpring, useTransform } from "framer-motion";
+import { homeSectionsData } from '../../data/homeSections';
+import { useNavigate } from 'react-router-dom';
+
+const Counter = ({ value, suffix }) => {
+    const ref = useRef(null);
+    const inView = useInView(ref, { once: true });
+
+    const spring = useSpring(0, {
+        stiffness: 100,
+        damping: 30,
+        restDelta: 0.001
+    });
+
+    const displayValue = useTransform(spring, (current) =>
+        Math.floor(current).toLocaleString()
+    );
+
+    useEffect(() => {
+        if (inView) {
+            spring.set(value);
+        }
+    }, [inView, value, spring]);
+
+    return (
+        <span ref={ref}>
+            <motion.span>{displayValue}</motion.span>
+            {suffix}
+        </span>
+    );
+};
 
 const WhyChooseUs = ({ selectedCountry }) => {
     const navigate = useNavigate();
-    const [isVisible, setIsVisible] = useState(false)
-    const [counters, setCounters] = useState([0, 0, 0, 0])
-    const statsRef = useRef(null)
-
     const statsData = homeSectionsData[selectedCountry]?.whyChooseUs || homeSectionsData['Dubai'].whyChooseUs;
 
     const stats = [
@@ -44,73 +69,7 @@ const WhyChooseUs = ({ selectedCountry }) => {
             label: statsData[3].label,
             description: statsData[3].description
         }
-    ]
-
-    // Intersection Observer to detect when section is visible
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting && !isVisible) {
-                        setIsVisible(true)
-                    }
-                })
-            },
-            { threshold: 0.3 }
-        )
-
-        if (statsRef.current) {
-            observer.observe(statsRef.current)
-        }
-
-        return () => {
-            if (statsRef.current) {
-                observer.unobserve(statsRef.current)
-            }
-        }
-    }, [isVisible])
-
-    // Counter animation
-    useEffect(() => {
-        if (!isVisible) return
-
-        const duration = 2000 // 2 seconds
-        const steps = 60
-        const stepDuration = duration / steps
-        const intervals = []
-
-        stats.forEach((stat, index) => {
-            const targetValue = stat.targetValue
-            let currentStep = 0
-
-            const interval = setInterval(() => {
-                currentStep++
-                const progress = Math.min(currentStep / steps, 1)
-                const currentValue = Math.floor(targetValue * progress)
-
-                setCounters((prev) => {
-                    const newCounters = [...prev]
-                    newCounters[index] = currentValue
-                    return newCounters
-                })
-
-                if (currentStep >= steps) {
-                    clearInterval(interval)
-                    setCounters((prev) => {
-                        const newCounters = [...prev]
-                        newCounters[index] = targetValue
-                        return newCounters
-                    })
-                }
-            }, stepDuration)
-
-            intervals.push(interval)
-        })
-
-        return () => {
-            intervals.forEach(interval => clearInterval(interval))
-        }
-    }, [isVisible])
+    ];
 
     const features = [
         {
@@ -143,110 +102,153 @@ const WhyChooseUs = ({ selectedCountry }) => {
             title: "24/7 Support",
             description: "Round-the-clock assistance for all your real estate needs and inquiries."
         }
-    ]
+    ];
+
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        show: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1
+            }
+        }
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, y: 20 },
+        show: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+    };
 
     return (
-        <div className='relative py-12 sm:py-16 lg:py-20 overflow-hidden'>
+        <div className="relative py-24 sm:py-32 overflow-hidden bg-black">
+            {/* Background Decorative Element */}
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#D3A188]/5 blur-[120px] rounded-full translate-x-1/2 -translate-y-1/2"></div>
 
-
-
-
-            <div className='container mx-auto px-4 sm:px-6 md:px-6 relative z-20'>
+            <div className="container mx-auto px-6 lg:px-8 relative z-20">
                 {/* Header Section */}
-                <div className='text-center mb-10 sm:mb-12 lg:mb-16 pt-4 sm:pt-6 lg:pt-8'>
-
-                    <h1 className='text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-gray-400 mb-4 sm:mb-5 lg:mb-6 leading-tight'>
-                        Your Trusted <span className='text-[#D3A188]'>Real Estate</span> Partner
-                    </h1>
-
-                    <div className='flex items-center justify-center gap-2 sm:gap-3 lg:gap-4 mb-6 sm:mb-7 lg:mb-8'>
-                        <div className='w-8 sm:w-12 lg:w-16 h-px bg-gradient-to-r from-transparent to-[#D3A188]'></div>
-                        <div className='w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#D3A188]'></div>
-                        <div className='w-8 sm:w-12 lg:w-16 h-px bg-gradient-to-l from-transparent to-[#D3A188]'></div>
+                <motion.div
+                    className="text-center mb-24"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8 }}
+                >
+                    <div className="flex items-center justify-center gap-4 mb-6">
+                        <div className="w-12 h-px bg-[#D3A188]"></div>
+                        <span className="text-xs uppercase tracking-[0.5em] text-[#D3A188] font-medium">Proven Excellence</span>
+                        <div className="w-12 h-px bg-[#D3A188]"></div>
                     </div>
 
-                    <p className='text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed font-light px-4'>
-                        Experience excellence in real estate with our proven track record, transparent processes, and commitment to your success.
+                    <h1 className="text-5xl md:text-7xl font-light text-white uppercase tracking-tighter mb-8 leading-none">
+                        Your Trusted <br />
+                        <span className="text-[#D3A188] font-medium italic">Strategic Partner</span>
+                    </h1>
+
+                    <p className="text-gray-400 max-w-2xl mx-auto text-lg font-light leading-relaxed">
+                        Experience precision in real estate with our elite track record, radical transparency, and unwavering commitment to your investment success.
                     </p>
-                </div>
+                </motion.div>
 
                 {/* Statistics Section */}
-                <div ref={statsRef} className='grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 mb-12 sm:mb-16 lg:mb-20'>
-                    {stats.map((stat, index) => {
-                        const displayValue = counters[index].toLocaleString()
-                        return (
-                            <div
-                                key={index}
-                                className='backdrop-blur-sm rounded-xl lg:rounded-2xl p-4 sm:p-5 lg:p-6 border border-[#D3A188]/20 text-center hover:border-[#D3A188]/40 transition-all duration-300'
-                            >
-                                <div className='flex justify-center mb-2 sm:mb-3 lg:mb-4 text-[#D3A188]'>
-                                    <div className='w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8'>
-                                        {stat.icon}
-                                    </div>
-                                </div>
-                                <div className='text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-gray-400 mb-1 sm:mb-2 font-bold'>
-                                    {displayValue}{stat.suffix}
-                                </div>
-                                <div className='text-sm sm:text-base lg:text-lg text-gray-400 mb-0.5 sm:mb-1'>
-                                    {stat.label}
-                                </div>
-                                <div className='text-xs sm:text-sm text-gray-400'>
-                                    {stat.description}
-                                </div>
+                <motion.div
+                    className="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-32"
+                    variants={containerVariants}
+                    initial="hidden"
+                    whileInView="show"
+                    viewport={{ once: true }}
+                >
+                    {stats.map((stat, index) => (
+                        <motion.div
+                            key={index}
+                            variants={itemVariants}
+                            className="relative group p-10 rounded-[2.5rem] border border-white/10 bg-white/5 hover:border-[#D3A188]/30 transition-all duration-500 text-center"
+                        >
+                            <div className="flex justify-center mb-6 text-[#D3A188] opacity-50 group-hover:opacity-100 transition-opacity">
+                                {stat.icon}
                             </div>
-                        )
-                    })}
-                </div>
+                            <div className="text-4xl sm:text-5xl font-light text-white mb-2 tracking-tighter">
+                                <Counter value={stat.targetValue} suffix={stat.suffix} />
+                            </div>
+                            <div className="text-[10px] uppercase tracking-[0.3em] text-[#D3A188] mb-1 font-medium">
+                                {stat.label}
+                            </div>
+                            <div className="text-xs text-gray-500 uppercase tracking-widest">
+                                {stat.description}
+                            </div>
+                        </motion.div>
+                    ))}
+                </motion.div>
 
                 {/* Features Grid */}
-                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6'>
+                <motion.div
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                    variants={containerVariants}
+                    initial="hidden"
+                    whileInView="show"
+                    viewport={{ once: true }}
+                >
                     {features.map((feature, index) => (
-                        <div
+                        <motion.div
                             key={index}
-                            className='group backdrop-blur-sm rounded-xl p-4 sm:p-5 lg:p-6 border border-[#D3A188]/20 hover:border-[#D3A188]/40 hover:shadow-lg hover:shadow-[#D3A188]/10 transition-all duration-300'
+                            variants={itemVariants}
+                            className="group p-8 rounded-[2rem] border border-white/10 bg-white/5 hover:bg-white/10 hover:border-[#D3A188]/20 transition-all duration-500"
                         >
-                            <div className='flex items-start gap-3 sm:gap-4'>
-                                <div className='flex-shrink-0 w-10 h-10 sm:w-11 sm:h-11 lg:w-12 lg:h-12 bg-[#D3A188]/20 rounded-lg flex items-center justify-center text-[#D3A188] group-hover:bg-[#D3A188]/30 transition-colors'>
-                                    <div className='w-5 h-5 sm:w-6 sm:h-6'>
-                                        {feature.icon}
-                                    </div>
+                            <div className="flex items-start gap-6">
+                                <div className="w-12 h-12 rounded-2xl bg-[#D3A188]/10 flex items-center justify-center text-[#D3A188] group-hover:bg-[#D3A188] group-hover:text-black transition-all duration-500 shrink-0">
+                                    {feature.icon}
                                 </div>
-                                <div className='flex-1'>
-                                    <h3 className='text-base sm:text-lg lg:text-xl text-gray-400 mb-1.5 sm:mb-2'>
+                                <div className="space-y-3">
+                                    <h3 className="text-xl font-light text-white uppercase tracking-widest">
                                         {feature.title}
                                     </h3>
-                                    <p className='text-sm sm:text-base text-gray-300 leading-relaxed'>
+                                    <p className="text-sm text-gray-400 font-light leading-relaxed">
                                         {feature.description}
                                     </p>
                                 </div>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
-                </div>
+                </motion.div>
 
-                {/* Bottom CTA Section */}
-                <div className='mt-12 sm:mt-16 lg:mt-20 text-center'>
-                    <div className='inline-block backdrop-blur-sm rounded-xl lg:rounded-2xl p-6 sm:p-7 lg:p-8 border border-[#D3A188]/30 max-w-3xl mx-4'>
-                        <h2 className='text-xl sm:text-2xl md:text-3xl lg:text-4xl text-gray-400 mb-3 sm:mb-4'>
-                            Ready to Find Your Dream Property?
-                        </h2>
-                        <p className='text-sm sm:text-base lg:text-lg text-gray-300 mb-4 sm:mb-5 lg:mb-6'>
-                            Let our experts guide you through your real estate journey with personalized service and unmatched expertise.
-                        </p>
-                        <div className='flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-4'>
-                            <button onClick={() => navigate('/properties')} className='px-6 sm:px-8 py-2.5 sm:py-3 bg-[#D3A188] text-black font-semibold rounded-lg hover:bg-[#D3A188]/80 transition-colors text-sm sm:text-base'>
-                                Explore Properties
-                            </button>
-                            <button onClick={() => navigate('/contact')} className='px-6 sm:px-8 py-2.5 sm:py-3 bg-transparent border-2 border-[#D3A188] text-[#D3A188] font-semibold rounded-lg hover:bg-[#D3A188]/10 transition-colors text-sm sm:text-base'>
-                                Contact Us
-                            </button>
+                {/* Bottom CTA */}
+                <motion.div
+                    className="mt-32 text-center"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8 }}
+                >
+                    <div className="relative inline-block group px-12 py-16 sm:px-20 sm:py-24 rounded-[3rem] overflow-hidden">
+                        <div className="absolute inset-0 bg-white/5 backdrop-blur-3xl border border-white/10"></div>
+                        <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-transparent via-[#D3A188] to-transparent opacity-50"></div>
+
+                        <div className="relative z-10 max-w-2xl">
+                            <h2 className="text-3xl sm:text-5xl font-light text-white uppercase tracking-tighter mb-8">
+                                Ready to find your <span className="text-[#D3A188] italic font-medium">Dream Property?</span>
+                            </h2>
+                            <p className="text-gray-400 text-lg font-light mb-12">
+                                Let our bespoke advisors curate the perfect portfolio for your lifestyle and legacy.
+                            </p>
+                            <div className="flex flex-col sm:flex-row justify-center gap-4">
+                                <button
+                                    onClick={() => navigate('/en/properties')}
+                                    className="px-10 py-5 bg-white text-black text-xs uppercase tracking-[0.3em] font-bold rounded-2xl hover:bg-[#D3A188] hover:text-white transition-all shadow-xl shadow-black/20"
+                                >
+                                    Explore Portfolio
+                                </button>
+                                <button
+                                    onClick={() => navigate('/en/contact')}
+                                    className="px-10 py-5 bg-transparent border border-white/20 text-white text-xs uppercase tracking-[0.3em] font-bold rounded-2xl hover:bg-white/5 transition-all"
+                                >
+                                    Contact Advisory
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </motion.div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default WhyChooseUs
-
+export default WhyChooseUs;

@@ -87,266 +87,209 @@ const agentDirectory = [
     },
 ];
 
+import { motion, AnimatePresence } from "framer-motion";
+
 const AgentDetailsPage = () => {
+    const { id } = useParams();
     const navigate = useNavigate();
-    const { state } = useLocation();
-    const params = useParams();
-    const routeAgentId = params.id || params.agentId || "";
+    const location = useLocation();
 
     const agent = useMemo(() => {
-        const stateAgent = state?.agent;
-        const lookupId = stateAgent?.id || routeAgentId;
-        const matchedAgent = lookupId
-            ? agentDirectory.find((item) => item.id === lookupId)
-            : undefined;
+        return agentDirectory.find((a) => a.id === id) || agentDirectory[0];
+    }, [id]);
 
-        if (stateAgent && matchedAgent) {
-            return { ...matchedAgent, ...stateAgent };
+    const specialties = agent?.specialties || [];
+    const languages = agent?.languages ? agent.languages.split(", ") : [];
+
+    const contactButtons = [
+        { label: "Call", Icon: FaPhone, action: () => (window.location.href = `tel:+971508888123`) },
+        { label: "WhatsApp", Icon: FaWhatsapp, action: () => window.open(`https://wa.me/971508888123`, "_blank") },
+        { label: "Email", Icon: FaEnvelope, action: () => (window.location.href = `mailto:agent@grandgate.ae`) },
+    ];
+
+    const directAccessCards = [
+        {
+            label: "Direct line",
+            value: "+971 50 888 8123",
+            description: "24/7 Priority Support",
+            href: "tel:+971508888123",
+        },
+        {
+            label: "WhatsApp",
+            value: "Secure Chat",
+            description: "Encrypted Communication",
+            href: "https://wa.me/971508888123",
+            target: "_blank",
+        },
+    ];
+
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        show: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1
+            }
         }
+    };
 
-        if (stateAgent) {
-            return stateAgent;
-        }
-
-        if (matchedAgent) {
-            return matchedAgent;
-        }
-
-        return agentDirectory[0];
-    }, [routeAgentId, state?.agent]);
-
-    const languages = useMemo(() => {
-        if (!agent?.languages) return [];
-        return agent.languages.split(",").map((lang) => lang.trim());
-    }, [agent]);
-
-    const communities = useMemo(() => {
-        if (!agent?.communities) return [];
-        return agent.communities.split(",").map((area) => area.trim());
-    }, [agent]);
-
-    const specialties = agent?.specialties ?? [];
-    const achievements = agent?.achievements ?? [];
-
-    const contactEmail = agent?.email ?? "advisory@axestate.com";
-    const directLine = agent?.phone ?? "+971 4 555 0123";
-    const conciergeLine = agent?.concierge ?? "+971 50 777 4411";
-    const officeHours = agent?.hours ?? "Sunday – Friday · 09:00 – 20:00 GST";
-    const officeAddress =
-        agent?.office ??
-        "14th Floor, Westburry Office, Business Bay, Dubai, UAE";
-
-    const sanitizeDigits = (value) => value.replace(/[^+\d]/g, "");
-    const telHref = `tel:${sanitizeDigits(directLine)}`;
-    const conciergeHref = `https://wa.me/${sanitizeDigits(conciergeLine)}`;
-    const emailHref = `mailto:${contactEmail}`;
-    const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-        officeAddress
-    )}`;
-
-    const handleCall = useCallback(() => {
-        window.location.href = telHref;
-    }, [telHref]);
-
-    const handleWhatsApp = useCallback(() => {
-        window.open(conciergeHref, "_blank", "noopener,noreferrer");
-    }, [conciergeHref]);
-
-    const handleEmail = useCallback(() => {
-        window.location.href = emailHref;
-    }, [emailHref]);
-
-    const contactButtons = useMemo(
-        () => [
-            {
-                label: "Call",
-                Icon: FaPhone,
-                action: handleCall,
-                variant: "secondary",
-                primaryBg: "bg-[#996515]",
-                primaryText: "text-white",
-                className:
-                    "flex items-center justify-center gap-3 uppercase tracking-[0.3em] font-medium",
-            },
-            {
-                label: "WhatsApp",
-                Icon: FaWhatsapp,
-                action: handleWhatsApp,
-                variant: "primary",
-                primaryBg: "bg-[#996515]",
-                primaryText: "text-white",
-                className:
-                    "flex items-center justify-center gap-3 uppercase tracking-[0.3em] font-medium",
-            },
-            {
-                label: "Email",
-                Icon: FaEnvelope,
-                action: handleEmail,
-                variant: "secondary",
-                secondaryBg: "bg-[#996515]",
-                primaryText: "text-white",
-                className:
-                    "flex items-center justify-center gap-3 uppercase tracking-[0.3em] font-medium",
-            },
-        ],
-        [handleCall, handleWhatsApp, handleEmail]
-    );
-
-    const directAccessCards = useMemo(
-        () => [
-            {
-                label: "Email",
-                value: contactEmail,
-                description: "Replies within 2 working hours",
-                href: emailHref,
-                target: "_self",
-            },
-            {
-                label: "Direct Line",
-                value: directLine,
-                description: "Voice & secure messaging",
-                href: telHref,
-                target: "_self",
-            },
-            {
-                label: "Concierge / WhatsApp",
-                value: conciergeLine,
-                description: "24/7 multilingual support",
-                href: conciergeHref,
-                target: "_blank",
-            },
-            {
-                label: "Office Hours",
-                value: officeHours,
-                description: officeAddress,
-                href: mapsHref,
-                target: "_blank",
-            },
-        ],
-        [contactEmail, directLine, conciergeLine, officeHours, officeAddress, emailHref, telHref, conciergeHref, mapsHref]
-    );
-
-    // Calculate professional metrics
-    const experienceYears = parseInt(agent?.experience?.match(/\d+/)?.[0] || "0");
+    const itemVariants = {
+        hidden: { opacity: 0, y: 20 },
+        show: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+    };
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-[#050505] via-[#080808] to-[#050505] text-gray-100">
+        <div className="min-h-screen bg-black text-gray-100 selection:bg-[#D3A188] selection:text-black">
             {/* Navigation */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-6">
+            <motion.div
+                className="max-w-7xl mx-auto px-6 lg:px-8 pt-12 pb-8"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+            >
                 <button
                     onClick={() => navigate(-1)}
-                    className="group inline-flex items-center gap-3 text-sm uppercase tracking-[0.3em] text-gray-300 hover:text-white transition-all duration-300"
+                    className="group inline-flex items-center gap-4 text-xs uppercase tracking-[0.4em] text-gray-400 hover:text-[#D3A188] transition-all duration-300"
                 >
-                    <IoIosArrowBack className="w-5 h-5 group-hover:-translate-x-1 transition-transform duration-300" />
-                    <span className="group-hover:translate-x-1 transition-transform duration-300">Back to agents</span>
-                </button>
-            </div>
-
-            {/* Main Content - Image and Details Side by Side */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
-                    {/* Left Side - Agent Image */}
-                    <div className="lg:sticky lg:top-8 space-y-6">
-                        <div className="relative w-full max-w-2xl mx-auto lg:mx-0 rounded-2xl overflow-hidden flex items-center justify-center">
-                            <img
-                                src={agent.image}
-                                alt={agent.name}
-                                className="w-full h-auto max-h-[620px] object-contain"
-                            />
-                        </div>
-
-                        {/* Contact Buttons */}
-                        <div className="flex gap-3">
-                            {contactButtons.map(
-                                ({
-                                    label,
-                                    Icon,
-                                    action,
-                                    variant,
-                                    primaryBg,
-                                    primaryText,
-                                    secondaryBg,
-                                    secondaryText,
-                                    className,
-                                }) => (
-                                    <Button
-                                        key={label}
-                                        onClick={action}
-                                        fullWidth
-                                        variant={variant}
-                                        primaryBg={primaryBg}
-                                        primaryText={primaryText}
-                                        secondaryBg={secondaryBg}
-                                        secondaryText={secondaryText}
-                                        size="py-4 text-sm"
-                                        className={className}
-                                    >
-                                        <Icon className="w-5 h-5" />
-                                        <span>{label}</span>
-                                    </Button>
-                                )
-                            )}
-                        </div>
+                    <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:border-[#D3A188] group-hover:bg-[#D3A188]/10 transition-all">
+                        <IoIosArrowBack className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-300" />
                     </div>
+                    <span>Back to experts</span>
+                </button>
+            </motion.div>
+
+            <div className="max-w-7xl mx-auto px-6 lg:px-8 pb-32">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start">
+                    {/* Left Side - Agent Image */}
+                    <motion.div
+                        className="lg:col-span-5 lg:sticky lg:top-12 space-y-12"
+                        initial={{ opacity: 0, x: -50 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                    >
+                        <div className="relative group">
+                            <div className="absolute -inset-4 bg-[#D3A188]/5 blur-3xl rounded-full opacity-50"></div>
+                            <div className="relative aspect-[4/5] rounded-[3rem] overflow-hidden border border-white/10 bg-white/5 shadow-2xl">
+                                <img
+                                    src={agent.image}
+                                    alt={agent.name}
+                                    className="w-full h-full object-cover grayscale transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-105"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                            </div>
+                        </div>
+
+                        <motion.div
+                            className="grid grid-cols-3 gap-4"
+                            variants={containerVariants}
+                            initial="hidden"
+                            animate="show"
+                        >
+                            {contactButtons.map(({ label, Icon, action }) => (
+                                <motion.button
+                                    key={label}
+                                    variants={itemVariants}
+                                    onClick={action}
+                                    className="flex flex-col items-center gap-3 p-6 rounded-3xl border border-white/10 bg-white/5 hover:bg-[#D3A188] hover:border-[#D3A188] group transition-all duration-500"
+                                >
+                                    <Icon className="w-5 h-5 text-[#D3A188] group-hover:text-white transition-colors" />
+                                    <span className="text-[10px] uppercase tracking-[0.3em] font-medium group-hover:text-white">{label}</span>
+                                </motion.button>
+                            ))}
+                        </motion.div>
+                    </motion.div>
 
                     {/* Right Side - Agent Details */}
-                    <div className="space-y-8">
-                        {/* Agent Name and Title */}
-                        <div className="space-y-4">
-                            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light text-white leading-tight">
-                                {agent.name}
-                            </h1>
-                            <div className="space-y-3">
-                                <p className="text-xl sm:text-2xl text-gray-300 font-light">{agent.role}</p>
+                    <motion.div
+                        className="lg:col-span-7 space-y-16"
+                        initial={{ opacity: 0, x: 50 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                    >
+                        <div className="space-y-8">
+                            <div className="space-y-4">
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.2 }}
+                                    className="flex items-center gap-3"
+                                >
+                                    <div className="w-12 h-px bg-[#D3A188]"></div>
+                                    <span className="text-xs uppercase tracking-[0.5em] text-[#D3A188] font-medium">Expert Profile</span>
+                                </motion.div>
+                                <h1 className="text-6xl sm:text-8xl font-light text-white uppercase tracking-tighter leading-none">
+                                    {agent.name.split(' ')[0]} <br />
+                                    <span className="text-[#D3A188] font-medium italic">{agent.name.split(' ')[1]}</span>
+                                </h1>
+                            </div>
 
-                                {/* Key Information */}
-                                <div className="space-y-3 pt-2">
-                                    <div className="flex items-center gap-3 text-gray-300">
-                                        <span className="text-gray-500 min-w-[120px]">Experience:</span>
-                                        <span className="font-light">{agent.experience}</span>
-                                    </div>
-                                    <div className="flex items-center gap-3 text-gray-300">
-                                        <span className="text-gray-500 min-w-[120px]">Specialization:</span>
-                                        <span className="font-light">{specialties.join(", ")}</span>
-                                    </div>
-                                    <div className="flex items-center gap-3 text-gray-300">
-                                        <span className="text-gray-500 min-w-[120px]">Language:</span>
-                                        <span className="font-light">{languages.join(", ")}</span>
-                                    </div>
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 py-10 border-y border-white/10">
+                                <div className="space-y-1">
+                                    <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500 font-medium">Role</p>
+                                    <p className="text-gray-200 uppercase tracking-wider">{agent.role}</p>
+                                </div>
+                                <div className="space-y-1">
+                                    <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500 font-medium">Experience</p>
+                                    <p className="text-gray-200 uppercase tracking-wider">{agent.experience}</p>
+                                </div>
+                                <div className="space-y-1">
+                                    <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500 font-medium">Location</p>
+                                    <p className="text-gray-200 uppercase tracking-wider">Dubai, UAE</p>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Bio Section */}
-                        <div className="pt-6 border-t border-gray-800/60">
-                            <h2 className="text-xl sm:text-2xl font-light text-white mb-4">About</h2>
-                            <div className="prose prose-invert max-w-none">
-                                <p className="text-gray-300 leading-relaxed text-base sm:text-lg whitespace-pre-line">
-                                    {agent?.bio}
-                                </p>
-                            </div>
+                        <div className="space-y-8">
+                            <h2 className="text-2xl font-light text-white uppercase tracking-[0.2em] flex items-center gap-4">
+                                <span className="w-2 h-2 rounded-full bg-[#D3A188]"></span>
+                                Professional Bio
+                            </h2>
+                            <p className="text-gray-400 text-lg sm:text-xl font-light leading-relaxed whitespace-pre-line">
+                                {agent?.bio}
+                            </p>
                         </div>
 
-                        {/* Contact Details */}
-                        <div className="space-y-6 pt-6 border-t border-gray-800/60">
-                            <h2 className="text-xl sm:text-2xl font-light text-white">Direct Access</h2>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                {directAccessCards.map(({ label, value, description, href, target }) => (
-                                    <a
-                                        key={label}
-                                        href={href}
-                                        target={target}
-                                        rel={target === "_blank" ? "noreferrer" : undefined}
-                                        className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4 space-y-1 hover:border-white/40 hover:bg-white/10 transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white/60"
-                                    >
-                                        <p className="text-xs uppercase tracking-[0.4em] text-gray-400">{label}</p>
-                                        <p className="text-lg text-white font-light">{value}</p>
-                                        <p className="text-xs text-gray-500">{description}</p>
-                                    </a>
+                        <div className="space-y-10">
+                            <h2 className="text-2xl font-light text-white uppercase tracking-[0.2em] flex items-center gap-4">
+                                <span className="w-2 h-2 rounded-full bg-[#D3A188]"></span>
+                                Specialization
+                            </h2>
+                            <div className="flex flex-wrap gap-4">
+                                {specialties.map((specialty, idx) => (
+                                    <span key={idx} className="px-6 py-3 rounded-full border border-white/10 bg-white/5 text-xs uppercase tracking-[0.2em] text-gray-300">
+                                        {specialty}
+                                    </span>
+                                ))}
+                                {languages.map((lang, idx) => (
+                                    <span key={idx} className="px-6 py-3 rounded-full border border-[#D3A188]/30 bg-[#D3A188]/5 text-xs uppercase tracking-[0.4em] text-[#D3A188]">
+                                        {lang}
+                                    </span>
                                 ))}
                             </div>
                         </div>
-                    </div>
+
+                        <div className="space-y-10 pt-8">
+                            <h2 className="text-2xl font-light text-white uppercase tracking-[0.2em] flex items-center gap-4">
+                                <span className="w-2 h-2 rounded-full bg-[#D3A188]"></span>
+                                Direct Access
+                            </h2>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                {directAccessCards.map(({ label, value, description, href, target }) => (
+                                    <motion.a
+                                        key={label}
+                                        href={href}
+                                        target={target}
+                                        whileHover={{ y: -5 }}
+                                        className="group p-8 rounded-[2rem] border border-white/10 bg-white/5 hover:bg-white/10 transition-all duration-500"
+                                    >
+                                        <p className="text-[10px] uppercase tracking-[0.4em] text-gray-500 mb-4 font-medium group-hover:text-[#D3A188] transition-colors">{label}</p>
+                                        <p className="text-xl text-white font-light tracking-wide mb-2 uppercase">{value}</p>
+                                        <p className="text-xs text-gray-600 uppercase tracking-widest">{description}</p>
+                                    </motion.a>
+                                ))}
+                            </div>
+                        </div>
+                    </motion.div>
                 </div>
             </div>
         </div>

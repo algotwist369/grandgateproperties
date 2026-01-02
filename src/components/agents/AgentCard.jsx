@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const AgentCard = () => {
     const navigate = useNavigate();
@@ -61,145 +62,128 @@ const AgentCard = () => {
     }, []);
 
     const handleNavigate = (agent) => {
-        navigate(`/agents/${agent.id}`, {
-            state: {
-                agent,
-            },
+        navigate(`/en/agents/${agent.id}`, {
+            state: { agent },
         });
     };
 
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        show: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1
+            }
+        }
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, y: 30 },
+        show: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+    };
+
     return (
-        <div className="w-full py-10 px-4 sm:px-6 md:px-12 lg:px-24 space-y-8">
-            <div className="w-full flex flex-col gap-4">
-                <p className="text-sm uppercase tracking-[0.4em] text-gray-500 text-center md:text-left">
-                    OUR EXPERTS
-                </p>
-                <div className="w-full flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-                    {/* Heading */}
-                    <div className="flex flex-col gap-3 text-center md:text-left w-full md:w-1/2">
-                        <h1 className="text-3xl sm:text-4xl lg:text-[45px] text-gray-100 font-light leading-tight">
-                            Find your partner
+        <div className="w-full py-24 sm:py-32 px-6 lg:px-24 bg-black overflow-hidden">
+            <motion.div
+                className="w-full flex flex-col gap-6 mb-16"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+            >
+                <div className="flex items-center gap-4">
+                    <div className="w-12 h-px bg-[#D3A188]"></div>
+                    <p className="text-xs uppercase tracking-[0.4em] text-[#D3A188]">
+                        Elite Partners
+                    </p>
+                </div>
+
+                <div className="w-full flex flex-col md:flex-row md:items-end md:justify-between gap-8">
+                    <div className="flex flex-col gap-4 max-w-2xl">
+                        <h1 className="text-4xl sm:text-6xl font-light text-white uppercase tracking-tight">
+                            Find your <span className="text-[#A17158] font-medium italic">Partner</span>
                         </h1>
-                        <p className="text-gray-400 text-base">
-                            Connect with seasoned advisors fluent in your language and specialized in Dubai’s most in-demand communities.
+                        <p className="text-gray-400 text-lg font-light leading-relaxed">
+                            Connect with seasoned advisors fluent in your language and specialized in the world's most in-demand luxury communities.
                         </p>
                     </div>
 
-                    {/* Filters Section */}
-                    <div className="w-full md:w-auto bg-[#111] border border-gray-800 rounded-md p-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-2 shadow-[0_10px_30px_rgba(0,0,0,0.35)]">
-                        {/* Specialization */}
-                        <select
-                            name="specialization"
-                            className="w-full sm:w-[180px] p-2 bg-[#0a0a0a] text-gray-300 border border-gray-700 focus:border-gray-500 outline-none rounded-sm transition-colors"
-                        >
+                    <div className="flex flex-wrap items-center gap-4 bg-white/5 p-4 rounded-3xl border border-white/10 backdrop-blur-xl">
+                        <select className="bg-transparent text-gray-300 border-none focus:ring-0 outline-none text-sm cursor-pointer px-4">
                             <option value="">Specialization</option>
-                            <option value="top-rated">Top Rated</option>
-                            <option value="experience">Most Experienced</option>
-                            <option value="popular">Most Popular</option>
                         </select>
-
-                        {/* Language */}
-                        <select
-                            name="language"
-                            className="w-full sm:w-[180px] p-2 bg-[#0a0a0a] text-gray-300 border border-gray-700 focus:border-gray-500 outline-none rounded-sm transition-colors"
-                        >
+                        <div className="w-px h-8 bg-white/10"></div>
+                        <select className="bg-transparent text-gray-300 border-none focus:ring-0 outline-none text-sm cursor-pointer px-4">
                             <option value="">Language</option>
-                            <option value="english">English</option>
-                            <option value="spanish">Spanish</option>
-                            <option value="russian">Russian</option>
-                            <option value="hindi">Hindi</option>
                         </select>
-
-                        {/* Search Field */}
-                        <div className="flex items-center w-full sm:w-[220px] bg-[#0a0a0a] border border-gray-700 rounded-sm overflow-hidden focus-within:border-gray-500 transition-colors">
-                            <span className="px-3 text-gray-500 text-sm whitespace-nowrap hidden sm:block">
-                                Search
-                            </span>
-                            <input
-                                type="search"
-                                placeholder="Agent name..."
-                                className="w-full p-2 bg-transparent text-gray-300 outline-none placeholder:text-gray-600"
-                            />
-                        </div>
+                        <div className="w-px h-8 bg-white/10"></div>
+                        <input
+                            type="search"
+                            placeholder="Search by Agent name..."
+                            className="bg-transparent p-2 text-gray-300 outline-none placeholder:text-gray-600 text-sm min-w-[200px]"
+                        />
                     </div>
                 </div>
-            </div>
+            </motion.div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <motion.div
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8"
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true }}
+            >
                 {agents.map((agent, index) => (
-                    <div
+                    <motion.div
                         key={index}
-                        role="button"
-                        tabIndex={0}
+                        variants={itemVariants}
+                        className="group relative h-[500px] sm:h-[600px] lg:h-[700px] rounded-[2rem] overflow-hidden cursor-pointer"
+                        whileHover={{ y: -15 }}
+                        transition={{ duration: 0.4, ease: "easeOut" }}
                         onClick={() => handleNavigate(agent)}
-                        onKeyDown={(event) => {
-                            if (event.key === "Enter" || event.key === " ") {
-                                event.preventDefault();
-                                handleNavigate(agent);
-                            }
-                        }}
-                        className="group relative bg-[#181818] rounded-lg overflow-hidden border border-transparent hover:border-gray-600 transition-all duration-300 shadow-[0_15px_40px_rgba(0,0,0,0.35)] cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-gray-400"
                     >
-                        {/* Agent Image */}
-                        <div className="w-full h-[360px] sm:h-[420px] lg:h-[520px] overflow-hidden">
-                            <img
-                                src={agent.image}
-                                alt={agent.name}
-                                className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
-                            />
-                        </div>
+                        <img
+                            src={agent.image}
+                            alt={agent.name}
+                            className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                        />
 
-                        {/* Content OVER Image */}
-                        <div className="absolute bottom-0 left-0 w-full p-6 text-white bg-gradient-to-t from-black/85 via-black/40 to-transparent space-y-4">
-                            <div className="flex items-center justify-between">
+                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                        <div className="absolute bottom-0 left-0 right-0 p-10 transform translate-y-12 group-hover:translate-y-0 transition-transform duration-500">
+                            <div className="space-y-6">
                                 <div>
-                                    <div className="flex items-center gap-2">
-                                        <span className="h-[2px] w-6 bg-white/70" />
-                                        <p className="text-xs uppercase tracking-[0.3em] text-gray-300">
-                                            Elite
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <div className="w-1 h-6 bg-[#D3A188]"></div>
+                                        <p className="text-xs uppercase tracking-widest text-gray-400">
+                                            {agent.role}
                                         </p>
                                     </div>
-                                    <h2 className="text-2xl font-light">{agent.name}</h2>
+                                    <h2 className="text-3xl font-light text-white tracking-wide uppercase">
+                                        {agent.name}
+                                    </h2>
                                 </div>
-                                <span className="px-3 py-1 text-xs uppercase border border-white/30 rounded-full text-gray-100">
-                                    {agent.role.split(" ")[0]}
-                                </span>
+
+                                <div className="space-y-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 pb-2">
+                                    <div className="w-full h-px bg-white/10"></div>
+                                    <div className="flex justify-between text-xs tracking-widest text-gray-400 uppercase">
+                                        <span>Exp</span>
+                                        <span className="text-white">{agent.experience}</span>
+                                    </div>
+                                    <div className="flex justify-between text-xs tracking-widest text-gray-400 uppercase">
+                                        <span>Langs</span>
+                                        <span className="text-white">{agent.languages}</span>
+                                    </div>
+                                </div>
+
+                                <button className="w-full py-4 bg-white/5 hover:bg-[#D3A188] text-white border border-white/10 hover:border-[#D3A188] rounded-xl text-xs uppercase tracking-[0.2em] transition-all duration-300">
+                                    Enquire Now
+                                </button>
                             </div>
-
-                            <p className="text-gray-300 text-sm">{agent.role}</p>
-
-                            <div className="flex flex-col gap-2 border-t border-white/10 pt-3">
-                                <div className="flex items-center justify-between text-gray-300 text-sm">
-                                    <span className="text-gray-400">Experience</span>
-                                    <span>{agent.experience}</span>
-                                </div>
-                                <div className="flex flex-wrap gap-2 text-gray-300 text-sm">
-                                    <span className="text-gray-400">Languages:</span>
-                                    <span className="font-light">{agent.languages}</span>
-                                </div>
-                                <div className="flex flex-wrap gap-2 text-gray-300 text-sm">
-                                    <span className="text-gray-400">Areas:</span>
-                                    <span className="font-light">{agent.communities}</span>
-                                </div>
-                                <div className="flex flex-wrap gap-2 pt-1">
-                                    {agent.specialties.map((tag) => (
-                                        <span
-                                            key={tag}
-                                            className="px-3 py-1 text-[11px] uppercase tracking-[0.2em] border border-white/20 rounded-full text-gray-200"
-                                        >
-                                            {tag}
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <button className="w-full py-2 border border-white/40 rounded-sm text-sm uppercase tracking-[0.2em] text-gray-100 hover:bg-white/10 transition-colors">
-                                Connect
-                            </button>
                         </div>
-                    </div>
+                    </motion.div>
                 ))}
-            </div>
+            </motion.div>
         </div>
     );
 };

@@ -36,8 +36,8 @@ const Footer = memo(() => {
     ], []);
 
     const locations = useMemo(() => [
-        { name: 'Dubai', link: 'en/contact' },
-        { name: 'India', link: 'en/contact' }
+        { name: 'Dubai', link: '/en/contact' },
+        { name: 'India', link: '/en/contact' }
     ], []);
 
     const socialLinks = useMemo(() => [

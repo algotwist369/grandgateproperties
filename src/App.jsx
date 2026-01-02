@@ -79,14 +79,14 @@ const App = () => {
             <Route path="/en/properties/:slug" element={<PropertyDetailsPage />} />
 
             {/* Agents */}
-            <Route path="agents" element={<AgentsPage />} />
-            <Route path="agents/:id" element={<AgentDetailsPage />} />
+            <Route path="/en/agents" element={<AgentsPage />} />
+            <Route path="/en/agents/:id" element={<AgentDetailsPage />} />
 
             {/* Legal & Contact */}
-            <Route path="contact" element={<ContactPage />} />
-            <Route path="privacy" element={<PrivacyPage />} />
-            <Route path="terms" element={<TermsPage />} />
-            <Route path="cookies" element={<CookiePage />} />
+            <Route path="/en/contact" element={<ContactPage />} />
+            <Route path="/en/privacy" element={<PrivacyPage />} />
+            <Route path="/en/terms" element={<TermsPage />} />
+            <Route path="/en/cookies" element={<CookiePage />} />
 
             {/* Fallback (404 → Home) */}
             <Route path="*" element={<Navigate to="/en" replace />} />

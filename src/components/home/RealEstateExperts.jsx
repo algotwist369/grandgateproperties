@@ -2,6 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import Button from '../common/Button'
 import { homeSectionsData } from '../../data/homeSections'
+import { motion } from 'framer-motion'
 
 const RealEstateExperts = ({ selectedCountry }) => {
   const navigate = useNavigate();
@@ -9,75 +10,94 @@ const RealEstateExperts = ({ selectedCountry }) => {
   const statistics = data.stats;
 
   return (
-    <div className='relative py-4 sm:py-6 md:py-10 lg:py-14 xl:py-16'>
-      <div className='container mx-auto px-3 sm:px-4 md:px-6 lg:px-4 relative z-20'>
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-10 xl:gap-12 items-center'>
+    <div className='relative py-20 lg:py-32 overflow-hidden bg-black'>
+      <div className='container mx-auto px-6 relative z-20'>
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-16 items-center'>
           {/* Left Side - Text Content */}
-          <div className='space-y-3 sm:space-y-4 md:space-y-5 lg:space-y-6 xl:space-y-7'>
+          <motion.div
+            className='space-y-8'
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
             {/* Heading */}
-            <div className='space-y-2 sm:space-y-3 lg:space-y-4'>
-              <h2 className='text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl text-gray-400 leading-tight sm:leading-[32px] md:leading-[40px] lg:leading-[50px]'>
+            <div className='space-y-4'>
+              <h2 className='text-3xl sm:text-4xl lg:text-5xl xl:text-6xl text-white font-light leading-tight tracking-tight uppercase'>
                 {data.title}
-                <span className='relative z-10 text-[#D3A188]'> {data.highlight}</span>
+                <span className='block text-[#D3A188] font-medium mt-2'> {data.highlight}</span>
               </h2>
             </div>
 
             {/* Description */}
-            <div className='space-y-2 sm:space-y-3 lg:space-y-4'>
-              <p className='text-xs sm:text-sm md:text-base lg:text-lg text-gray-400 leading-relaxed'>
+            <div className='space-y-6'>
+              <p className='text-base lg:text-lg text-gray-400 font-light leading-relaxed max-w-xl'>
                 {data.description1}
               </p>
-              <p className='text-xs sm:text-sm md:text-base lg:text-lg text-gray-400 leading-relaxed'>
+              <p className='text-base lg:text-lg text-gray-400 font-light leading-relaxed max-w-xl'>
                 {data.description2}
               </p>
             </div>
 
             {/* Enquire Now Button */}
-            <div className='flex flex-col sm:flex-row gap-2 sm:gap-3 lg:gap-4'>
+            <div className='flex flex-col sm:flex-row gap-4 pt-4'>
               <Button
                 text="Enquire Now"
-                className='w-full sm:min-w-[180px] sm:w-auto text-[10px] sm:text-xs md:text-sm lg:text-base px-3 py-2 sm:px-4 sm:py-2.5'
-                onClick={() => navigate('/properties')}
+                className='w-full sm:min-w-[200px] py-4'
+                onClick={() => navigate('/en/properties')}
               />
 
               <Button
                 variant='secondary'
                 text="View All Experts"
-                className='w-full sm:min-w-[180px] sm:w-auto text-[10px] sm:text-xs md:text-sm lg:text-base px-3 py-2 sm:px-4 sm:py-2.5'
-                onClick={() => navigate('/agents')}
+                className='w-full sm:min-w-[200px] py-4 border-[#D3A188]/30 text-white hover:border-[#D3A188]'
+                onClick={() => navigate('/en/agents')}
               />
-
             </div>
 
             {/* Statistics */}
-            <div className='grid grid-cols-2 gap-3 sm:gap-4 md:gap-5 lg:gap-6 pt-4 sm:pt-5 md:pt-6 lg:pt-7 xl:pt-8 border-t border-[#D3A188]/20'>
+            <div className='grid grid-cols-2 gap-8 pt-12 border-t border-gray-800'>
               {statistics.map((stat, index) => (
-                <div key={index} className='text-center lg:text-left'>
-                  <div className='text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-[#D3A188] mb-1 sm:mb-2'>
+                <div key={index}>
+                  <motion.div
+                    className='text-3xl lg:text-5xl font-bold text-[#D3A188] mb-2'
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.5 + (index * 0.1) }}
+                  >
                     {stat.number}
-                  </div>
-                  <div className='text-[10px] sm:text-xs md:text-sm text-gray-400'>
+                  </motion.div>
+                  <div className='text-sm text-gray-400 uppercase tracking-widest font-medium'>
                     {stat.label}
                   </div>
                 </div>
               ))}
             </div>
-          </div>
+          </motion.div>
 
 
           {/* Right Side - Image */}
-          <div className='relative lg:order-last'>
-            <div className='relative overflow-hidden rounded-lg sm:rounded-xl lg:rounded-none'>
+          <motion.div
+            className='relative lg:order-last'
+            initial={{ opacity: 0, x: 50, scale: 0.9 }}
+            whileInView={{ opacity: 1, x: 0, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, ease: "easeOut" }}
+          >
+            <div className='relative overflow-hidden rounded-3xl shadow-2xl border border-white/5'>
               <img
                 src={data.image}
                 alt='Real Estate Expert'
-                className='w-full h-[250px] sm:h-[300px] md:h-[400px] lg:h-[500px] xl:h-[600px] object-contain'
+                className='w-full h-[400px] lg:h-[650px] object-cover hover:scale-105 transition-transform duration-700'
               />
-              <div className='absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent'></div>
+              <div className='absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60'></div>
             </div>
-            {/* Decorative Element */}
-            <div className='hidden lg:block absolute -bottom-6 -right-6 w-32 h-32 bg-[#D3A188]/20 rounded-full blur-3xl'></div>
-          </div>
+
+            {/* Minimalist Decoration */}
+            <div className='absolute -top-10 -right-10 w-40 h-40 bg-[#D3A188]/10 rounded-full blur-[80px]'></div>
+            <div className='absolute -bottom-10 -left-10 w-32 h-32 bg-[#D3A188]/10 rounded-full blur-[60px]'></div>
+          </motion.div>
         </div>
       </div>
     </div>

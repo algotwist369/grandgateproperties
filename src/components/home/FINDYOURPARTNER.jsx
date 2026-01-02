@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import Button from '../common/Button'
-import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io'
-import { homeSectionsData } from '../../data/homeSections'
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+import { motion, AnimatePresence } from "framer-motion";
+import { homeSectionsData } from '../../data/homeSections';
 
 const FINDYOURPARTNER = ({ selectedCountry }) => {
   const navigate = useNavigate();
@@ -26,13 +26,11 @@ const FINDYOURPARTNER = ({ selectedCountry }) => {
 
   // Rotate all agents and bring current one to front
   const getDisplayAgents = () => {
-    // Rotate agents array based on currentSlide
     const rotatedAgents = [
       ...agents.slice(currentSlide % agents.length),
       ...agents.slice(0, currentSlide % agents.length)
     ];
 
-    // On mobile, show only 1 card, on tablet show 2, on desktop show 4
     if (isMobile) {
       return rotatedAgents.slice(0, 1);
     } else if (isTablet) {
@@ -44,13 +42,6 @@ const FINDYOURPARTNER = ({ selectedCountry }) => {
 
   const displayAgents = getDisplayAgents();
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % agents.length);
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [agents.length]);
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % agents.length);
@@ -65,185 +56,131 @@ const FINDYOURPARTNER = ({ selectedCountry }) => {
   };
 
   return (
-    <div className='relative py-8 sm:py-12 lg:py-16'>
-      {/* Top Blur Gradient Overlay */}
+    <div className="relative py-24 sm:py-32 overflow-hidden bg-black">
+      {/* Background Accent */}
+      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-96 h-96 bg-[#D3A188]/5 blur-[120px] rounded-full"></div>
 
-      <div className='container mx-auto px-4 sm:px-6 lg:px-4 relative z-20'>
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center'>
-          {/* Left Side - Agents Slider with Overlapping Cards */}
-          <div className='relative h-[500px] sm:h-[550px] md:h-[600px] lg:h-[700px] flex items-center justify-center order-2 lg:order-1'>
-            <div className='relative w-full max-w-lg h-full'>
-              {displayAgents.map((agent, index) => {
-                const isMain = index === 0; // First card (current slide) is always on top
-                // Current card always on top, others stack behind
-                const zIndex = isMain ? 50 : 30 + (4 - index);
-                // Offset cards to create overlap effect - more visible on right, less on mobile
-                const translateX = isMain ? 0 : (isMobile ? index * 10 : index * 50);
-                const translateY = isMain ? 0 : (isMobile ? index * 5 : index * 20);
-                // Scale down cards behind - less scaling on mobile
-                const scale = isMain ? 1 : (isMobile ? 0.95 : Math.max(0.85, 0.95 - index * 0.05));
-                // Reduce opacity for cards behind - less opacity reduction on mobile
-                const opacity = isMain ? 1 : (isMobile ? 0.8 : Math.max(0.5, 0.9 - index * 0.15));
+      <div className="container mx-auto px-6 lg:px-8 relative z-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+          {/* Left Side - Agents Stack with Motion */}
+          <div className="relative h-[600px] sm:h-[700px] flex items-center justify-center order-2 lg:order-1">
+            <div className="relative w-full max-w-md h-full flex items-center justify-center">
+              <AnimatePresence mode="popLayout">
+                {displayAgents.map((agent, index) => {
+                  const isMain = index === 0;
 
-                // Find the original index of this agent in the agents array
-                const originalIndex = agents.findIndex(a => a.id === agent.id);
-
-                return (
-                  <div
-                    key={`${agent.id}-${currentSlide}`}
-                    className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm sm:max-w-md transition-all duration-700 ease-in-out cursor-pointer'
-                    style={{
-                      zIndex: zIndex,
-                      transform: `translate(-50%, -50%) translateX(${translateX}px) translateY(${translateY}px) scale(${scale})`,
-                      opacity: opacity
-                    }}
-                    onClick={() => {
-                      // Calculate how many slides to move to bring this agent to front
-                      const targetIndex = originalIndex;
-                      setCurrentSlide(targetIndex);
-                    }}
-                  >
-                    <div
-                      className={`relative rounded-xl overflow-hidden shadow-2xl border transition-all duration-300 ${isMain
-                        ? 'border-[#D3A188] border-2 shadow-[#D3A188]/40 bg-[#114566]/40'
-                        : 'border-[#D3A188]/30 bg-[#114566]/30 hover:border-[#D3A188]/50'
-                        }`}
+                  return (
+                    <motion.div
+                      key={agent.id}
+                      initial={{ opacity: 0, scale: 0.8, x: 100 }}
+                      animate={{
+                        opacity: isMain ? 1 : 0.4 - (index * 0.1),
+                        scale: 1 - (index * 0.05),
+                        x: index * 40,
+                        y: index * -20,
+                        zIndex: 50 - index
+                      }}
+                      exit={{ opacity: 0, scale: 0.5, x: -200, rotate: -10 }}
+                      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                      className="absolute w-full"
+                      onClick={() => isMain ? navigate(`/en/agents/${agent.id}`) : nextSlide()}
                     >
+                      <div className={`relative group rounded-[2.5rem] overflow-hidden border transition-all duration-500 cursor-pointer ${isMain ? 'border-[#D3A188] shadow-2xl shadow-[#D3A188]/10' : 'border-white/10'
+                        }`}>
+                        <div className="aspect-[3/4] overflow-hidden">
+                          <img
+                            src={agent.image}
+                            alt={agent.name}
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                        </div>
 
-                      {/* Agent Image */}
-                      <div className='relative h-[280px] sm:h-[320px] md:h-[360px] lg:h-[400px] overflow-hidden'>
-                        <img
-                          src={agent.image}
-                          alt={agent.name}
-                          className='w-full h-full object-cover'
-                        />
-                        <div className='absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent'></div>
-                      </div>
-
-                      {/* Agent Details */}
-                      <div className='p-4 sm:p-5 backdrop-blur-lg'>
-                        <h3 className='text-lg sm:text-xl font-bold text-white mb-1'>
-                          {agent.name}
-                        </h3>
-                        <p className='text-xs sm:text-sm text-[#D3A188] mb-2 sm:mb-3'>
-                          {agent.position}
-                        </p>
-
-                        <div className='space-y-2 text-xs text-gray-300'>
-                          <div className='flex items-center gap-2'>
-                            <span className='text-xs sm:text-sm'>{agent.experience}</span>
-                          </div>
-
-                          <div className='flex items-start gap-2'>
-                            <div className='flex flex-wrap gap-1'>
-                              {agent.languages.map((lang, idx) => (
-                                <span key={idx} className='bg-[#D3A188]/20 text-[#D3A188] px-1.5 sm:px-2 py-0.5 rounded text-[10px] sm:text-xs'>
+                        <div className="absolute bottom-0 left-0 right-0 p-8 pt-20">
+                          <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="space-y-2"
+                          >
+                            <p className="text-[10px] uppercase tracking-[0.4em] text-[#D3A188] font-medium">{agent.position}</p>
+                            <h3 className="text-2xl font-light text-white uppercase tracking-tight">{agent.name}</h3>
+                            <div className="pt-4 flex flex-wrap gap-2">
+                              {agent.languages.slice(0, 2).map((lang, idx) => (
+                                <span key={idx} className="px-3 py-1 rounded-full border border-white/10 text-[9px] uppercase tracking-widest text-gray-400">
                                   {lang}
                                 </span>
                               ))}
                             </div>
-                          </div>
+                          </motion.div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                );
-              })}
+                    </motion.div>
+                  );
+                })}
+              </AnimatePresence>
             </div>
 
-            {/* Navigation Arrows - Desktop */}
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                prevSlide();
-              }}
-              className='hidden lg:flex absolute left-20 top-1/2 -translate-y-1/2 z-50 text-[#D3A188] p-3 rounded-full transition-all duration-300 backdrop-blur-sm border border-[#D3A188]/30 hover:border-[#D3A188] shadow-lg hover:scale-110'
-              aria-label="Previous slide"
-            >
-              <IoIosArrowBack size={24} />
-            </button>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                nextSlide();
-              }}
-              className='hidden lg:flex absolute -right-8 top-1/2 -translate-y-1/2 z-50 text-[#D3A188] p-3 rounded-full transition-all duration-300 backdrop-blur-sm border border-[#D3A188]/30 hover:border-[#D3A188] shadow-lg hover:scale-110'
-              aria-label="Next slide"
-            >
-              <IoIosArrowForward size={24} />
-            </button>
-
-            {/* Navigation Arrows - Mobile/Tablet */}
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                prevSlide();
-              }}
-              className='lg:hidden flex absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-50 text-[#D3A188] p-2 sm:p-2.5 rounded-full transition-all duration-300 backdrop-blur-sm border border-[#D3A188]/30 hover:border-[#D3A188] shadow-lg bg-black/20'
-              aria-label="Previous slide"
-            >
-              <IoIosArrowBack size={20} />
-            </button>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                nextSlide();
-              }}
-              className='lg:hidden flex absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-50 text-[#D3A188] p-2 sm:p-2.5 rounded-full transition-all duration-300 backdrop-blur-sm border border-[#D3A188]/30 hover:border-[#D3A188] shadow-lg bg-black/20'
-              aria-label="Next slide"
-            >
-              <IoIosArrowForward size={20} />
-            </button>
-
-            {/* Dot Indicators */}
-            <div className='absolute bottom-2 sm:bottom-4 left-1/2 -translate-x-1/2 flex justify-center gap-2'>
-              {Array.from({ length: agents.length }).map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => goToSlide(index)}
-                  className={`h-2 w-2 sm:h-3 sm:w-3 rounded-full transition-all duration-300 ${index === currentSlide
-                    ? 'bg-[#D3A188] w-6 sm:w-8'
-                    : 'bg-gray-600 hover:bg-gray-500'
-                    }`}
-                  aria-label={`Go to slide ${index + 1}`}
-                />
-              ))}
+            {/* Custom Navigation */}
+            <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-8">
+              <button onClick={prevSlide} className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-white hover:border-[#D3A188] hover:text-[#D3A188] transition-all">
+                <IoIosArrowBack />
+              </button>
+              <div className="flex gap-2">
+                {agents.map((_, idx) => (
+                  <div
+                    key={idx}
+                    className={`h-1 transition-all duration-500 rounded-full ${idx === currentSlide ? 'w-8 bg-[#D3A188]' : 'w-2 bg-white/10'}`}
+                  />
+                ))}
+              </div>
+              <button onClick={nextSlide} className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-white hover:border-[#D3A188] hover:text-[#D3A188] transition-all">
+                <IoIosArrowForward />
+              </button>
             </div>
           </div>
 
-          {/* Right Side - Content */}
-          <div className='space-y-6 sm:space-y-7 lg:space-y-8 order-1 lg:order-2'>
-            {/* Heading */}
-            <div className='space-y-3 sm:space-y-4'>
-              <h2 className='text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-gray-400 leading-tight sm:leading-[40px] lg:leading-[50px]'>
-                FIND YOUR PERFECT REAL ESTATE
-                <span className='relative z-10 text-[#D3A188]'> PARTNER</span>
+          {/* Right Side - Content Reveal */}
+          <motion.div
+            className="space-y-12 order-1 lg:order-2"
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="space-y-6">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-px bg-[#D3A188]"></div>
+                <span className="text-xs uppercase tracking-[0.5em] text-[#D3A188] font-medium">Expert Consultation</span>
+              </div>
+              <h2 className="text-5xl lg:text-7xl font-light text-white uppercase tracking-tighter leading-[0.9]">
+                Find your <br />
+                <span className="text-[#D3A188] font-medium italic">Perfect Partner</span>
               </h2>
             </div>
 
-            {/* Description */}
-            <div className='space-y-3 sm:space-y-4'>
-              <p className='text-sm sm:text-base lg:text-lg text-gray-400 leading-relaxed'>
-                Connect with our team of expert real estate professionals who understand your needs and speak your language. Our agents are experienced, multilingual, and dedicated to helping you find the perfect property.
+            <div className="space-y-8">
+              <p className="text-gray-400 text-lg lg:text-xl font-light leading-relaxed">
+                Connect with our elite team of real estate strategists who speak your language and share your vision. We don't just find properties; we secure your future in Dubai's most exclusive landscapes.
               </p>
-              <p className='text-sm sm:text-base lg:text-lg text-gray-400 leading-relaxed'>
-                Whether you're buying your first home, investing in luxury properties, or looking for commercial spaces, our team has the expertise and local knowledge to guide you through every step.
+              <p className="text-gray-500 text-base font-light italic leading-relaxed border-l-2 border-[#D3A188]/30 pl-6">
+                "Our mission is to bridge the gap between global ambition and local opportunity through radical transparency and unmatched expertise."
               </p>
             </div>
 
-            {/* Show All Button */}
-            <div>
-              <Button
-                text="Show All Agents"
-                className='w-full sm:w-auto min-w-[200px] text-xs sm:text-sm lg:text-base px-3 py-2 sm:px-4 sm:py-2.5'
+            <div className="pt-4">
+              <button
                 onClick={() => navigate('/en/agents')}
-              />
+                className="group relative px-10 py-5 bg-white text-black text-xs uppercase tracking-[0.3em] font-bold overflow-hidden rounded-2xl transition-all hover:bg-[#D3A188] hover:text-white"
+              >
+                <span className="relative z-10">Discover All Experts</span>
+                <div className="absolute inset-0 bg-black scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500 opacity-10"></div>
+              </button>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default FINDYOURPARTNER
+export default FINDYOURPARTNER;
