@@ -232,7 +232,7 @@ const WhyChooseUs = ({ selectedCountry }) => {
                             <div className="flex flex-col sm:flex-row justify-center gap-4">
                                 <button
                                     onClick={() => navigate('/en/properties')}
-                                    className="px-10 py-5 bg-white text-black text-xs uppercase tracking-[0.3em] font-bold rounded-2xl hover:bg-[#D3A188] hover:text-white transition-all shadow-xl shadow-black/20"
+                                    className="px-10 py-5 hover:bg-white hover:text-black text-xs uppercase tracking-[0.3em] font-bold rounded-2xl bg-[#D3A188] text-white transition-all shadow-xl shadow-black/20"
                                 >
                                     Explore Portfolio
                                 </button>

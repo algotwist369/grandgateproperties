@@ -82,18 +82,18 @@ export const homeSectionsData = {
         offices: [
             {
                 id: 1,
-                image: "https://www.axcapital.ae/_ipx/s_778x480/img/ax-office/6.webp",
+                image: "https://officesnapshots.com/wp-content/uploads/2016/11/CF027755-copy-700x933.jpg",
                 title: "Dubai Office"
             },
             {
                 id: 2,
-                image: "https://www.axcapital.ae/_ipx/s_778x480/img/ax-office/5.webp",
-                title: "Abu Dhabi Office"
+                image: "https://motifuae.com/wp-content/uploads/2023/11/Real-Estate-Office-_-Office-Design-and-Build-UAE-1-1280x767.png",
+                title: "Dhabi Office"
             },
             {
                 id: 3,
-                image: "https://www.axcapital.ae/_ipx/s_778x480/img/ax-office/4.webp",
-                title: "Sharjah Office"
+                image: "https://www1.lovethatdesign.com/wp-content/uploads/2017/12/20171112-PropertyFinder-Office-SBI-05.jpg",
+                title: "Dhabi Office"
             }
         ],
         whyChooseUs: [

@@ -82,18 +82,27 @@ const Navbar = memo(({ selectedCountry, setSelectedCountry }) => {
 
     return (
         <nav className="sticky top-0 z-[100] bg-black/80 backdrop-blur-xl border-b border-white/10 px-6 py-4 lg:py-6">
-            <div className="max-w-7xl mx-auto flex items-center justify-between">
+            <div className="max-w-[99rem] mx-auto flex items-center justify-between">
 
                 {/* Logo Section */}
                 <div className="flex items-center gap-12">
                     <NavLink to="/en" className="relative group">
-                        <motion.img
-                            src="/logo/logo.png"
-                            alt="Grand Gate Properties"
-                            className="h-10 lg:h-12 w-auto object-contain"
-                            whileHover={{ scale: 1.05 }}
-                            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                        />
+                        <div className="flex items-center gap-2 z-10 relative">
+                            <motion.img
+                                src="/logo/main.png"
+                                alt="Grand Gate Properties"
+                                className="h-10 lg:h-14 w-auto object-contain"
+                                whileHover={{ scale: 1.05 }}
+                                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                            />
+                            <motion.img
+                                src="/logo/logo.png"
+                                alt="Grand Gate Properties"
+                                className="h-10 lg:h-12 w-auto object-contain"
+                                whileHover={{ scale: 1.05 }}
+                                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                            />
+                        </div>
                         <div className="absolute -inset-2 bg-[#D3A188]/5 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     </NavLink>
 

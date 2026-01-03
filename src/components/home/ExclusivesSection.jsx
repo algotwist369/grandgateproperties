@@ -1,13 +1,18 @@
-import React, { useState, useEffect, useMemo, useCallback, memo } from 'react';
+import { useMemo, memo, useRef } from 'react';
 import PropertyCard from '../common/PropertyCard';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { propertyDirectory } from '../../data/dubai_Properties';
 import { motion } from 'framer-motion';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Autoplay } from 'swiper/modules';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
 
 const ExclusivesSection = memo(({ selectedCountry }) => {
-    const [currentSlide, setCurrentSlide] = useState(0);
-    const [slidesToShow, setSlidesToShow] = useState(3);
-    const [isMobile, setIsMobile] = useState(false);
+    const prevRef = useRef(null);
+    const nextRef = useRef(null);
 
     const exclusiveProperties = useMemo(() => {
         return propertyDirectory.filter(p =>
@@ -18,44 +23,6 @@ const ExclusivesSection = memo(({ selectedCountry }) => {
             location: p.location || `${p.community}, ${p.emirate}`
         }));
     }, [selectedCountry]);
-
-    const totalSlides = exclusiveProperties.length;
-
-    useEffect(() => {
-        const handleResize = () => {
-            if (window.innerWidth < 768) {
-                setSlidesToShow(1);
-                setIsMobile(true);
-            } else if (window.innerWidth < 1024) {
-                setSlidesToShow(2);
-                setIsMobile(false);
-            } else {
-                setSlidesToShow(3);
-                setIsMobile(false);
-            }
-        };
-        handleResize();
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
-
-    useEffect(() => {
-        if (currentSlide >= totalSlides && totalSlides > 0) {
-            setCurrentSlide(0);
-        }
-    }, [totalSlides, currentSlide]);
-
-    const nextSlide = useCallback(() => {
-        if (totalSlides > 0) {
-            setCurrentSlide(prev => (prev + 1) % totalSlides);
-        }
-    }, [totalSlides]);
-
-    const prevSlide = useCallback(() => {
-        if (totalSlides > 0) {
-            setCurrentSlide(prev => (prev - 1 + totalSlides) % totalSlides);
-        }
-    }, [totalSlides]);
 
     if (!exclusiveProperties.length) return null;
 
@@ -84,92 +51,41 @@ const ExclusivesSection = memo(({ selectedCountry }) => {
                 </motion.div>
 
                 {/* Slider Container */}
-                <div className="relative group">
-                    <div className="overflow-hidden">
-                        <motion.div
-                            animate={{
-                                x: `calc(-${currentSlide * (100 / slidesToShow)}% - ${currentSlide * (2 / slidesToShow)}rem)`
-                            }}
-                            transition={{
-                                type: "spring",
-                                stiffness: 80,
-                                damping: 25,
-                                mass: 1,
-                                restDelta: 0.001
-                            }}
-                            className="flex gap-8 cursor-grab active:cursor-grabbing"
-                            drag="x"
-                            dragConstraints={{ left: 0, right: 0 }}
-                            dragElastic={0.5}
-                            onDragEnd={(e, { offset, velocity }) => {
-                                const swipeThreshold = 20;
-                                const velocityThreshold = 400;
-
-                                if (offset.x > swipeThreshold || velocity.x > velocityThreshold) {
-                                    prevSlide();
-                                } else if (offset.x < -swipeThreshold || velocity.x < -velocityThreshold) {
-                                    nextSlide();
-                                }
-                            }}
-                        >
-                            {exclusiveProperties.map((property) => (
-                                <div
-                                    key={property.id}
-                                    className="flex-shrink-0"
-                                    style={{
-                                        width: `calc((100% - ${(slidesToShow - 1) * 2}rem) / ${slidesToShow})`
-                                    }}
-                                >
-                                    <PropertyCard property={property} />
-                                </div>
-                            ))}
-                        </motion.div>
-                    </div>
-
-                    {/* Navigation */}
-                    {totalSlides > 1 && (
-                        <>
-                            <button
-                                onClick={prevSlide}
-                                className="absolute -left-4 lg:-left-12 top-1/2 -translate-y-1/2 z-20
-                                bg-black/40 backdrop-blur-md p-4 rounded-full border border-white/10
-                                text-[#D3A188] hover:bg-[#D3A188] hover:text-white transition-all duration-300
-                                opacity-0 group-hover:opacity-100 hidden lg:flex"
-                            >
-                                <IoIosArrowBack size={24} />
-                            </button>
-
-                            <button
-                                onClick={nextSlide}
-                                className="absolute -right-4 lg:-right-12 top-1/2 -translate-y-1/2 z-20
-                                bg-black/40 backdrop-blur-md p-4 rounded-full border border-white/10
-                                text-[#D3A188] hover:bg-[#D3A188] hover:text-white transition-all duration-300
-                                opacity-0 group-hover:opacity-100 hidden lg:flex"
-                            >
-                                <IoIosArrowForward size={24} />
-                            </button>
-                        </>
-                    )}
+                <div className="relative group overflow-hidden">
+                    <Swiper
+                        modules={[Navigation, Autoplay]}
+                        spaceBetween={30}
+                        slidesPerView={1}
+                        loop={true}
+                        autoplay={{ delay: 3000, disableOnInteraction: false }}
+                        navigation={{
+                            prevEl: prevRef.current,
+                            nextEl: nextRef.current,
+                        }}
+                        onBeforeInit={(swiper) => {
+                            swiper.params.navigation.prevEl = prevRef.current;
+                            swiper.params.navigation.nextEl = nextRef.current;
+                        }}
+                        breakpoints={{
+                            640: {
+                                slidesPerView: 1,
+                            },
+                            768: {
+                                slidesPerView: 2,
+                            },
+                            1024: {
+                                slidesPerView: 3,
+                            },
+                        }}
+                        className="!overflow-visible"
+                    >
+                        {exclusiveProperties.map((property) => (
+                            <SwiperSlide key={property.id} className="h-auto">
+                                <PropertyCard property={property} />
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
                 </div>
-
-                {/* Progress Indicators */}
-                {totalSlides > 1 && (
-                    <div className="flex flex-col items-center mt-16">
-                        <div className="flex gap-3 mb-4">
-                            {Array.from({ length: totalSlides }).map((_, i) => (
-                                <button
-                                    key={i}
-                                    onClick={() => setCurrentSlide(i)}
-                                    className={`h-1.5 transition-all duration-500 rounded-full ${i === currentSlide ? 'w-12 bg-[#D3A188]' : 'w-4 bg-white/10 hover:bg-white/20'
-                                        }`}
-                                />
-                            ))}
-                        </div>
-                        <span className="text-gray-500 text-sm font-medium tracking-widest uppercase">
-                            0{currentSlide + 1} / 0{totalSlides}
-                        </span>
-                    </div>
-                )}
             </div>
         </section>
     );

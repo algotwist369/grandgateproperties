@@ -6,6 +6,7 @@ import FINDYOURPARTNER from '../../components/home/FINDYOURPARTNER'
 import Lifestyle from '../../components/home/Lifestyle'
 import Visitouroffice from '../../components/home/Visitouroffice'
 import WhyChooseUs from '../../components/home/WhyChooseUs'
+import BestProperties from '../../components/home/BestProperties'
 
 const HomePage = memo(({ selectedCountry, setSelectedCountry }) => {
   return (
@@ -13,7 +14,8 @@ const HomePage = memo(({ selectedCountry, setSelectedCountry }) => {
       <HeroSection selectedCountry={selectedCountry} setSelectedCountry={setSelectedCountry} />
       <ExclusivesSection selectedCountry={selectedCountry} />
       <RealEstateExperts selectedCountry={selectedCountry} />
-      <FINDYOURPARTNER selectedCountry={selectedCountry} />
+      <BestProperties selectedCountry={selectedCountry} />
+      {/* <FINDYOURPARTNER selectedCountry={selectedCountry} /> */}
       <Lifestyle selectedCountry={selectedCountry} />
       <Visitouroffice selectedCountry={selectedCountry} />
       <WhyChooseUs selectedCountry={selectedCountry} />

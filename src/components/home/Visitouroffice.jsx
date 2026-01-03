@@ -11,7 +11,7 @@ const Visitouroffice = ({ selectedCountry }) => {
 
   return (
     <section className='relative py-24 lg:py-40 bg-black overflow-hidden'>
-      <div className='max-w-[1400px] mx-auto px-6 relative z-20'>
+      <div className='max-w-[99rem] mx-auto px-6 relative z-20'>
         {/* Header Section */}
         <motion.div
           className='text-center mb-16 lg:mb-24'

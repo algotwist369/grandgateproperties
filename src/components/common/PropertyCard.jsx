@@ -1,10 +1,12 @@
-import React, { useState, useCallback, useEffect, memo } from 'react';
+import React, { useState, useCallback, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from "framer-motion";
-import InquiryModal from './InquiryModal';
+import Heading from './Heading';
+import Button from './Button';
 import { FaLocationArrow } from "react-icons/fa6";
+import { contactData } from '../../data/contactData';
 
-const PropertyCard = memo(({ property, onModalChange }) => {
+const PropertyCard = memo(({ property }) => {
     // Helper to get display values (handles both simple and multi-unit properties)
     const getDisplayValues = () => {
         if (!property) return {};
@@ -59,12 +61,7 @@ const PropertyCard = memo(({ property, onModalChange }) => {
     const { priceLabel, bedsLabel, bathsLabel, areaLabel } = getDisplayValues();
 
     const navigate = useNavigate();
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const [imageLoaded, setImageLoaded] = useState(false);
-
-    useEffect(() => {
-        onModalChange?.(isModalOpen);
-    }, [isModalOpen, onModalChange]);
 
     const handleViewDetails = useCallback(() => {
         if (!property?.slug) return;
@@ -72,6 +69,17 @@ const PropertyCard = memo(({ property, onModalChange }) => {
             state: { propertyId: property.id, property: property.source },
         });
     }, [navigate, property]);
+
+    const handleInquire = useCallback(() => {
+        const whatsappNumber = contactData[0]?.whatsapp;
+        if (!whatsappNumber) return;
+
+        const message = encodeURIComponent(
+            `Greetings,\n\nI am interested in the ${property?.title} located in ${property?.location}.\n\nCould you please provide more details regarding the pricing and availability?\n\nThank you.`
+        );
+
+        window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
+    }, [property]);
 
     const handleImageLoad = useCallback(() => {
         setImageLoaded(true);
@@ -93,7 +101,7 @@ const PropertyCard = memo(({ property, onModalChange }) => {
         >
             {/* Image Section */}
             <div
-                className="relative h-64 sm:h-72 overflow-hidden cursor-pointer"
+                className="relative h-60 sm:h-72 overflow-hidden cursor-pointer"
                 onClick={handleViewDetails}
             >
                 <AnimatePresence mode="wait">
@@ -120,8 +128,8 @@ const PropertyCard = memo(({ property, onModalChange }) => {
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
 
                 {/* Badges */}
-                <div className="absolute top-6 left-6 flex flex-wrap gap-2">
-                    <div className="bg-[#D3A188] px-4 py-1.5 rounded-2xl">
+                <div className="absolute top-4 left-4 sm:top-6 sm:left-6 flex flex-wrap gap-2">
+                    <div className="bg-[#D3A188] px-3 py-1 sm:px-4 sm:py-1.5 rounded-2xl">
                         <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-black">
                             {property?.propertyTypes?.join(', ') || property?.type}
                         </span>
@@ -130,14 +138,17 @@ const PropertyCard = memo(({ property, onModalChange }) => {
             </div>
 
             {/* Content Section */}
-            <div className="p-8">
+            <div className="p-5 sm:p-8">
                 <div className="space-y-4">
-                    <h3
+                    <Heading
+                        as="h3"
+                        size="text-xl sm:text-2xl"
+                        weight="font-light"
+                        className="text-white uppercase tracking-tight cursor-pointer hover:text-[#D3A188] transition-colors line-clamp-1"
                         onClick={handleViewDetails}
-                        className="text-2xl font-light text-white uppercase tracking-tight cursor-pointer hover:text-[#D3A188] transition-colors line-clamp-1"
                     >
                         {property?.title}
-                    </h3>
+                    </Heading>
 
                     <div className="flex items-center gap-2 text-[#D3A188]/80">
                         <FaLocationArrow size={12} />
@@ -146,24 +157,16 @@ const PropertyCard = memo(({ property, onModalChange }) => {
 
                     {/* Specifications */}
                     <div className="flex items-center gap-6 pt-4 border-t border-white/10">
-                        {bedsLabel && (
-                            <div className="flex flex-col gap-1">
-                                <span className="text-[10px] uppercase tracking-[0.1em] text-gray-500">Beds</span>
-                                <span className="text-sm text-white font-light">{bedsLabel}</span>
+                        {[
+                            { label: 'Beds', value: bedsLabel },
+                            { label: 'Baths', value: bathsLabel },
+                            { label: 'Area', value: areaLabel }
+                        ].map((stat, index) => stat.value && (
+                            <div key={index} className="flex flex-col gap-1">
+                                <span className="text-[10px] uppercase tracking-[0.1em] text-gray-500">{stat.label}</span>
+                                <span className="text-sm text-white font-light">{stat.value}</span>
                             </div>
-                        )}
-                        {bathsLabel && (
-                            <div className="flex flex-col gap-1">
-                                <span className="text-[10px] uppercase tracking-[0.1em] text-gray-500">Baths</span>
-                                <span className="text-sm text-white font-light">{bathsLabel}</span>
-                            </div>
-                        )}
-                        {areaLabel && (
-                            <div className="flex flex-col gap-1">
-                                <span className="text-[10px] uppercase tracking-[0.1em] text-gray-500">Area</span>
-                                <span className="text-sm text-white font-light">{areaLabel}</span>
-                            </div>
-                        )}
+                        ))}
                     </div>
 
                     {/* Pricing and Actions */}
@@ -175,27 +178,27 @@ const PropertyCard = memo(({ property, onModalChange }) => {
                     </div>
 
                     <div className="grid grid-cols-2 gap-4 pt-6">
-                        <button
+                        <Button
+                            text="Details"
+                            size=""
+                            primaryBg=""
+                            primaryText=""
                             onClick={handleViewDetails}
-                            className="py-4 border border-white/10 hover:border-[#D3A188]/30 text-[10px] uppercase tracking-[0.2em] font-bold text-white rounded-2xl transition-all hover:bg-white/5"
-                        >
-                            Details
-                        </button>
-                        <button
-                            onClick={() => setIsModalOpen(true)}
-                            className="py-4 bg-white text-black hover:bg-[#D3A188] hover:text-white text-[10px] uppercase tracking-[0.2em] font-bold rounded-2xl transition-all shadow-xl hover:shadow-[#D3A188]/20"
-                        >
-                            Inquire
-                        </button>
+                            rounded="rounded-2xl"
+                            className="py-4 border border-white/10 hover:border-[#D3A188]/30 text-[10px] uppercase tracking-[0.2em] font-bold text-white transition-all hover:bg-white/5"
+                        />
+                        <Button
+                            text="Inquire"
+                            onClick={handleInquire}
+                            primaryBg="bg-[#D3A188]"
+                            primaryText="text-black"
+                            size=""
+                            rounded="rounded-2xl"
+                            className="py-4 hover:bg-white hover:text-black text-[10px] uppercase tracking-[0.2em] font-bold transition-all shadow-xl hover:shadow-[#D3A188]/20"
+                        />
                     </div>
                 </div>
             </div>
-
-            <InquiryModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                property={property}
-            />
         </motion.div>
     );
 }, (prev, next) =>

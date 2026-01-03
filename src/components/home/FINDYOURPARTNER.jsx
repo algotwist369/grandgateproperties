@@ -60,7 +60,7 @@ const FINDYOURPARTNER = ({ selectedCountry }) => {
       {/* Background Accent */}
       <div className="absolute top-1/2 left-0 -translate-y-1/2 w-96 h-96 bg-[#D3A188]/5 blur-[120px] rounded-full"></div>
 
-      <div className="container mx-auto px-6 lg:px-8 relative z-20">
+      <div className="max-w-[99rem] container mx-auto px-6 lg:px-2 relative z-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           {/* Left Side - Agents Stack with Motion */}
           <div className="relative h-[600px] sm:h-[700px] flex items-center justify-center order-2 lg:order-1">
@@ -170,7 +170,7 @@ const FINDYOURPARTNER = ({ selectedCountry }) => {
             <div className="pt-4">
               <button
                 onClick={() => navigate('/en/agents')}
-                className="group relative px-10 py-5 bg-white text-black text-xs uppercase tracking-[0.3em] font-bold overflow-hidden rounded-2xl transition-all hover:bg-[#D3A188] hover:text-white"
+                className="group relative px-10 py-5 bg-[#D3A188] text-white text-xs uppercase tracking-[0.3em] font-bold overflow-hidden rounded-2xl transition-all hover:bg-white hover:text-black"
               >
                 <span className="relative z-10">Discover All Experts</span>
                 <div className="absolute inset-0 bg-black scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500 opacity-10"></div>
