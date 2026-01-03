@@ -4,7 +4,7 @@ const Button = memo(({
   text,
   children,
   variant = 'primary',
-  primaryBg = 'bg-[#996515]',
+  primaryBg = 'bg-[#BD9B5F]',
   primaryText = 'text-gray-300',
   secondaryBg = 'bg-gray-400',
   secondaryText = 'text-gray-400',

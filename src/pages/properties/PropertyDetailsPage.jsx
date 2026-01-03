@@ -35,7 +35,7 @@ const PropertyDetailsPage = () => {
                 <p className='text-xl mb-4'>We couldn’t find that property.</p>
                 <button
                     onClick={() => navigate('/en')}
-                    className='px-6 py-3 border border-[#996515] text-[#996515] rounded hover:bg-[#996515]/10 transition'
+                    className='px-6 py-3 border border-[#BD9B5F] text-[#BD9B5F] rounded hover:bg-[#BD9B5F]/10 transition'
                 >
                     Back to home
                 </button>

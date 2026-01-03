@@ -381,7 +381,7 @@ const PropertieHeader = ({ property }) => {
                                 <img
                                     src={agent.avatar || 'https://via.placeholder.com/96'}
                                     alt={agent.name || 'Agent'}
-                                    className="w-24 h-24 object-cover border-2 border-[#996515] rounded-full"
+                                    className="w-24 h-24 object-cover border-2 border-[#BD9B5F] rounded-full"
                                 />
 
                                 <div className="flex flex-col justify-center">
@@ -415,7 +415,7 @@ const PropertieHeader = ({ property }) => {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className={`px-2 flex items-center justify-center gap-2 flex-1 py-3 border rounded transition ${whatsappHref
-                                            ? 'border-[#996515] text-[#996515] hover:bg-[#996515]/10'
+                                            ? 'border-[#BD9B5F] text-[#BD9B5F] hover:bg-[#BD9B5F]/10'
                                             : 'border-gray-700 text-gray-600 cursor-not-allowed'
                                             }`}
                                         title="WhatsApp"
@@ -426,7 +426,7 @@ const PropertieHeader = ({ property }) => {
                                     <a
                                         href={agent?.phone ? `sms:${sanitizeDigits(agent.phone)}?body=${encodedMessage}` : '#'}
                                         className={`flex items-center justify-center gap-2 flex-1 py-3 border rounded transition ${agent?.phone
-                                            ? 'border-[#996515] text-[#996515] hover:bg-[#996515]/10'
+                                            ? 'border-[#BD9B5F] text-[#BD9B5F] hover:bg-[#BD9B5F]/10'
                                             : 'border-gray-700 text-gray-600 cursor-not-allowed'
                                             }`}
                                         title="Send SMS"
@@ -437,7 +437,7 @@ const PropertieHeader = ({ property }) => {
                                     <a
                                         href={callHref || '#'}
                                         className={`flex items-center justify-center gap-2 flex-1 py-3 border rounded transition ${callHref
-                                            ? 'border-[#996515] text-[#996515] hover:bg-[#996515]/10'
+                                            ? 'border-[#BD9B5F] text-[#BD9B5F] hover:bg-[#BD9B5F]/10'
                                             : 'border-gray-700 text-gray-600 cursor-not-allowed'
                                             }`}
                                         title="Call Now"
