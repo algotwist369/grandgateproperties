@@ -35,7 +35,7 @@ const InquiryModal = memo(({ isOpen, onClose, property }) => {
         e.preventDefault();
 
         // Construct standard WhatsApp URL
-        const adminNumber = "97141234567";
+        const adminNumber = "+971 ";
 
         const text = `*New Property Inquiry*
         

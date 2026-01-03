@@ -4,8 +4,8 @@ export const contactData = [
         title: "Dubai Office",
         address: "9B Zaa'beel St - Al Karama - Dubai - United Arab Emirates, Dubai, United Arab Emirates",
         phone: "+971 5 544 22553",
-        phoneClean: "+97141234567",
-        whatsapp: "97141234567",
+        phoneClean: "+971554422553",
+        whatsapp: "971554422553",
         email: "grandgatepropertiesllc@gmail.com",
         image: "https://images.unsplash.com/photo-1512453979798-5ea904ac6605?auto=format&fit=crop&q=80&w=800"
     },
