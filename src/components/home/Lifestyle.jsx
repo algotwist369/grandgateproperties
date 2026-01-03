@@ -25,13 +25,13 @@ const Lifestyle = ({ selectedCountry }) => {
                 >
                     <h2 className='text-3xl lg:text-6xl font-light tracking-tight text-white mb-6 uppercase'>
                         Explore Luxury
-                        <span className='text-[#D3A188] font-medium'> Lifestyle</span>
+                        <span className='text-[#BD9B5F] font-medium'> Lifestyle</span>
                     </h2>
 
                     <div className='flex items-center justify-center gap-4 mb-8'>
-                        <div className='w-20 h-px bg-gradient-to-r from-transparent to-[#D3A188]/50'></div>
-                        <div className='w-2 h-2 rounded-full border border-[#D3A188]'></div>
-                        <div className='w-20 h-px bg-gradient-to-l from-transparent to-[#D3A188]/50'></div>
+                        <div className='w-20 h-px bg-gradient-to-r from-transparent to-[#BD9B5F]/50'></div>
+                        <div className='w-2 h-2 rounded-full border border-[#BD9B5F]'></div>
+                        <div className='w-20 h-px bg-gradient-to-l from-transparent to-[#BD9B5F]/50'></div>
                     </div>
                     <p className='text-lg lg:text-xl text-gray-400 font-light max-w-2xl mx-auto'>
                         Immerse yourself in the most prestigious lifestyle destinations across the globe.
@@ -53,7 +53,7 @@ const Lifestyle = ({ selectedCountry }) => {
                             clickable: true,
                             enabled: true,
                             bulletClass: 'swiper-pagination-bullet !w-4 !h-1.5 !rounded-full !bg-white/10 !opacity-100 !transition-all !duration-500 hover:!bg-white/20',
-                            bulletActiveClass: '!w-12 !bg-[#D3A188]',
+                            bulletActiveClass: '!w-12 !bg-[#BD9B5F]',
                         }}
                         breakpoints={{
                             640: {
@@ -86,7 +86,7 @@ const Lifestyle = ({ selectedCountry }) => {
                                             <h3 className='text-xl sm:text-2xl font-medium text-white tracking-wide uppercase'>
                                                 {property.title}
                                             </h3>
-                                            <div className="w-12 h-0.5 bg-[#D3A188] group-hover:w-full transition-all duration-700"></div>
+                                            <div className="w-12 h-0.5 bg-[#BD9B5F] group-hover:w-full transition-all duration-700"></div>
                                             <p className='text-gray-300 text-sm sm:text-base font-light tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100'>
                                                 {property.SubTitle}
                                             </p>

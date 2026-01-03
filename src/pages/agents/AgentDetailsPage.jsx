@@ -139,7 +139,7 @@ const AgentDetailsPage = () => {
     };
 
     return (
-        <div className="min-h-screen bg-black text-gray-100 selection:bg-[#D3A188] selection:text-black">
+        <div className="min-h-screen bg-black text-gray-100 selection:bg-[#BD9B5F] selection:text-black">
             {/* Navigation */}
             <motion.div
                 className="max-w-7xl mx-auto px-6 lg:px-8 pt-12 pb-8"
@@ -149,9 +149,9 @@ const AgentDetailsPage = () => {
             >
                 <button
                     onClick={() => navigate(-1)}
-                    className="group inline-flex items-center gap-4 text-xs uppercase tracking-[0.4em] text-gray-400 hover:text-[#D3A188] transition-all duration-300"
+                    className="group inline-flex items-center gap-4 text-xs uppercase tracking-[0.4em] text-gray-400 hover:text-[#BD9B5F] transition-all duration-300"
                 >
-                    <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:border-[#D3A188] group-hover:bg-[#D3A188]/10 transition-all">
+                    <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:border-[#BD9B5F] group-hover:bg-[#BD9B5F]/10 transition-all">
                         <IoIosArrowBack className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-300" />
                     </div>
                     <span>Back to experts</span>
@@ -168,7 +168,7 @@ const AgentDetailsPage = () => {
                         transition={{ duration: 0.8, ease: "easeOut" }}
                     >
                         <div className="relative group">
-                            <div className="absolute -inset-4 bg-[#D3A188]/5 blur-3xl rounded-full opacity-50"></div>
+                            <div className="absolute -inset-4 bg-[#BD9B5F]/5 blur-3xl rounded-full opacity-50"></div>
                             <div className="relative aspect-[4/5] rounded-[3rem] overflow-hidden border border-white/10 bg-white/5 shadow-2xl">
                                 <img
                                     src={agent.image}
@@ -190,9 +190,9 @@ const AgentDetailsPage = () => {
                                     key={label}
                                     variants={itemVariants}
                                     onClick={action}
-                                    className="flex flex-col items-center gap-3 p-6 rounded-3xl border border-white/10 bg-white/5 hover:bg-[#D3A188] hover:border-[#D3A188] group transition-all duration-500"
+                                    className="flex flex-col items-center gap-3 p-6 rounded-3xl border border-white/10 bg-white/5 hover:bg-[#BD9B5F] hover:border-[#BD9B5F] group transition-all duration-500"
                                 >
-                                    <Icon className="w-5 h-5 text-[#D3A188] group-hover:text-white transition-colors" />
+                                    <Icon className="w-5 h-5 text-[#BD9B5F] group-hover:text-white transition-colors" />
                                     <span className="text-[10px] uppercase tracking-[0.3em] font-medium group-hover:text-white">{label}</span>
                                 </motion.button>
                             ))}
@@ -214,12 +214,12 @@ const AgentDetailsPage = () => {
                                     transition={{ delay: 0.2 }}
                                     className="flex items-center gap-3"
                                 >
-                                    <div className="w-12 h-px bg-[#D3A188]"></div>
-                                    <span className="text-xs uppercase tracking-[0.5em] text-[#D3A188] font-medium">Expert Profile</span>
+                                    <div className="w-12 h-px bg-[#BD9B5F]"></div>
+                                    <span className="text-xs uppercase tracking-[0.5em] text-[#BD9B5F] font-medium">Expert Profile</span>
                                 </motion.div>
                                 <h1 className="text-6xl sm:text-8xl font-light text-white uppercase tracking-tighter leading-none">
                                     {agent.name.split(' ')[0]} <br />
-                                    <span className="text-[#D3A188] font-medium italic">{agent.name.split(' ')[1]}</span>
+                                    <span className="text-[#BD9B5F] font-medium italic">{agent.name.split(' ')[1]}</span>
                                 </h1>
                             </div>
 
@@ -241,7 +241,7 @@ const AgentDetailsPage = () => {
 
                         <div className="space-y-8">
                             <h2 className="text-2xl font-light text-white uppercase tracking-[0.2em] flex items-center gap-4">
-                                <span className="w-2 h-2 rounded-full bg-[#D3A188]"></span>
+                                <span className="w-2 h-2 rounded-full bg-[#BD9B5F]"></span>
                                 Professional Bio
                             </h2>
                             <p className="text-gray-400 text-lg sm:text-xl font-light leading-relaxed whitespace-pre-line">
@@ -251,7 +251,7 @@ const AgentDetailsPage = () => {
 
                         <div className="space-y-10">
                             <h2 className="text-2xl font-light text-white uppercase tracking-[0.2em] flex items-center gap-4">
-                                <span className="w-2 h-2 rounded-full bg-[#D3A188]"></span>
+                                <span className="w-2 h-2 rounded-full bg-[#BD9B5F]"></span>
                                 Specialization
                             </h2>
                             <div className="flex flex-wrap gap-4">
@@ -261,7 +261,7 @@ const AgentDetailsPage = () => {
                                     </span>
                                 ))}
                                 {languages.map((lang, idx) => (
-                                    <span key={idx} className="px-6 py-3 rounded-full border border-[#D3A188]/30 bg-[#D3A188]/5 text-xs uppercase tracking-[0.4em] text-[#D3A188]">
+                                    <span key={idx} className="px-6 py-3 rounded-full border border-[#BD9B5F]/30 bg-[#BD9B5F]/5 text-xs uppercase tracking-[0.4em] text-[#BD9B5F]">
                                         {lang}
                                     </span>
                                 ))}
@@ -270,7 +270,7 @@ const AgentDetailsPage = () => {
 
                         <div className="space-y-10 pt-8">
                             <h2 className="text-2xl font-light text-white uppercase tracking-[0.2em] flex items-center gap-4">
-                                <span className="w-2 h-2 rounded-full bg-[#D3A188]"></span>
+                                <span className="w-2 h-2 rounded-full bg-[#BD9B5F]"></span>
                                 Direct Access
                             </h2>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -282,7 +282,7 @@ const AgentDetailsPage = () => {
                                         whileHover={{ y: -5 }}
                                         className="group p-8 rounded-[2rem] border border-white/10 bg-white/5 hover:bg-white/10 transition-all duration-500"
                                     >
-                                        <p className="text-[10px] uppercase tracking-[0.4em] text-gray-500 mb-4 font-medium group-hover:text-[#D3A188] transition-colors">{label}</p>
+                                        <p className="text-[10px] uppercase tracking-[0.4em] text-gray-500 mb-4 font-medium group-hover:text-[#BD9B5F] transition-colors">{label}</p>
                                         <p className="text-xl text-white font-light tracking-wide mb-2 uppercase">{value}</p>
                                         <p className="text-xs text-gray-600 uppercase tracking-widest">{description}</p>
                                     </motion.a>

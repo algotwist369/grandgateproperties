@@ -38,12 +38,12 @@ const ExclusivesSection = memo(({ selectedCountry }) => {
                     transition={{ duration: 0.8 }}
                 >
                     <h2 className="text-3xl lg:text-6xl font-light tracking-tight text-white mb-6 uppercase">
-                        Our <span className="text-[#D3A188] font-medium">Exclusive</span> Residences
+                        Our <span className="text-[#BD9B5F] font-medium">Exclusive</span> Residences
                     </h2>
                     <div className='flex items-center justify-center gap-4 mb-8'>
-                        <div className='w-20 h-px bg-gradient-to-r from-transparent to-[#D3A188]/50'></div>
-                        <div className='w-2 h-2 rounded-full border border-[#D3A188]'></div>
-                        <div className='w-20 h-px bg-gradient-to-l from-transparent to-[#D3A188]/50'></div>
+                        <div className='w-20 h-px bg-gradient-to-r from-transparent to-[#BD9B5F]/50'></div>
+                        <div className='w-2 h-2 rounded-full border border-[#BD9B5F]'></div>
+                        <div className='w-20 h-px bg-gradient-to-l from-transparent to-[#BD9B5F]/50'></div>
                     </div>
                     <p className="text-gray-400 max-w-2xl mx-auto text-lg lg:text-xl font-light">
                         Discover a curated collection of ultra-luxury properties in the world's most desired locations.

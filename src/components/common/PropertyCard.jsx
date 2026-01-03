@@ -97,7 +97,7 @@ const PropertyCard = memo(({ property }) => {
             whileInView="show"
             viewport={{ once: true }}
             whileHover={{ y: -12 }}
-            className="group relative bg-[#0F3E5E]/10 rounded-2xl overflow-hidden border border-white/10 hover:border-[#D3A188]/40 transition-all duration-500 hover:shadow-2xl hover:shadow-[#D3A188]/10"
+            className="group relative bg-[#0F3E5E]/10 rounded-2xl overflow-hidden border border-white/10 hover:border-[#BD9B5F]/40 transition-all duration-500 hover:shadow-2xl hover:shadow-[#BD9B5F]/10"
         >
             {/* Image Section */}
             <div
@@ -129,7 +129,7 @@ const PropertyCard = memo(({ property }) => {
 
                 {/* Badges */}
                 <div className="absolute top-4 left-4 sm:top-6 sm:left-6 flex flex-wrap gap-2">
-                    <div className="bg-[#D3A188] px-3 py-1 sm:px-4 sm:py-1.5 rounded-2xl">
+                    <div className="bg-[#BD9B5F] px-3 py-1 sm:px-4 sm:py-1.5 rounded-2xl">
                         <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-black">
                             {property?.propertyTypes?.join(', ') || property?.type}
                         </span>
@@ -144,13 +144,13 @@ const PropertyCard = memo(({ property }) => {
                         as="h3"
                         size="text-xl sm:text-2xl"
                         weight="font-light"
-                        className="text-white uppercase tracking-tight cursor-pointer hover:text-[#D3A188] transition-colors line-clamp-1"
+                        className="text-white uppercase tracking-tight cursor-pointer hover:text-[#BD9B5F] transition-colors line-clamp-1"
                         onClick={handleViewDetails}
                     >
                         {property?.title}
                     </Heading>
 
-                    <div className="flex items-center gap-2 text-[#D3A188]/80">
+                    <div className="flex items-center gap-2 text-[#BD9B5F]/80">
                         <FaLocationArrow size={12} />
                         <span className="text-[10px] uppercase tracking-[0.2em] font-medium">{property?.location}</span>
                     </div>
@@ -172,7 +172,7 @@ const PropertyCard = memo(({ property }) => {
                     {/* Pricing and Actions */}
                     <div className="pt-6 flex items-center justify-between">
                         <div className="flex flex-col">
-                            <span className="text-[10px] uppercase tracking-[0.2em] text-[#D3A188] font-bold">Investment</span>
+                            <span className="text-[10px] uppercase tracking-[0.2em] text-[#BD9B5F] font-bold">Investment</span>
                             <span className="text-2xl font-light text-white">{priceLabel}</span>
                         </div>
                     </div>
@@ -185,16 +185,16 @@ const PropertyCard = memo(({ property }) => {
                             primaryText=""
                             onClick={handleViewDetails}
                             rounded="rounded-2xl"
-                            className="py-4 border border-white/10 hover:border-[#D3A188]/30 text-[10px] uppercase tracking-[0.2em] font-bold text-white transition-all hover:bg-white/5"
+                            className="py-4 border border-white/10 hover:border-[#BD9B5F]/30 text-[10px] uppercase tracking-[0.2em] font-bold text-white transition-all hover:bg-white/5"
                         />
                         <Button
                             text="Inquire"
                             onClick={handleInquire}
-                            primaryBg="bg-[#D3A188]"
+                            primaryBg="bg-[#BD9B5F]"
                             primaryText="text-black"
                             size=""
                             rounded="rounded-2xl"
-                            className="py-4 hover:bg-white hover:text-black text-[10px] uppercase tracking-[0.2em] font-bold transition-all shadow-xl hover:shadow-[#D3A188]/20"
+                            className="py-4 hover:bg-white hover:text-black text-[10px] uppercase tracking-[0.2em] font-bold transition-all shadow-xl hover:shadow-[#BD9B5F]/20"
                         />
                     </div>
                 </div>

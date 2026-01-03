@@ -11,7 +11,7 @@ const CookiePage = () => {
                 {/* Header */}
                 <div className='mb-12'>
                     <h1 className='text-4xl md:text-5xl font-bold text-white mb-4'>
-                        Cookie <span className='text-[#D3A188]'>Policy</span>
+                        Cookie <span className='text-[#BD9B5F]'>Policy</span>
                     </h1>
                     <p className='text-gray-400'>Last updated: December 29, 2024</p>
                 </div>
@@ -36,8 +36,8 @@ const CookiePage = () => {
                         <h2 className='text-2xl font-bold text-white mb-4'>3. Types of Cookies We Use</h2>
 
                         <div className='space-y-6'>
-                            <div className='bg-[#111] p-6 rounded-lg border border-[#D3A188]/20'>
-                                <h3 className='text-xl font-semibold text-[#D3A188] mb-3'>Essential Cookies</h3>
+                            <div className='bg-[#111] p-6 rounded-lg border border-[#BD9B5F]/20'>
+                                <h3 className='text-xl font-semibold text-[#BD9B5F] mb-3'>Essential Cookies</h3>
                                 <p className='leading-relaxed mb-2'>
                                     These cookies are necessary for the website to function properly. They enable core functionality such as:
                                 </p>
@@ -48,8 +48,8 @@ const CookiePage = () => {
                                 </ul>
                             </div>
 
-                            <div className='bg-[#111] p-6 rounded-lg border border-[#D3A188]/20'>
-                                <h3 className='text-xl font-semibold text-[#D3A188] mb-3'>Performance Cookies</h3>
+                            <div className='bg-[#111] p-6 rounded-lg border border-[#BD9B5F]/20'>
+                                <h3 className='text-xl font-semibold text-[#BD9B5F] mb-3'>Performance Cookies</h3>
                                 <p className='leading-relaxed mb-2'>
                                     These cookies help us understand how visitors interact with our website by collecting information such as:
                                 </p>
@@ -61,8 +61,8 @@ const CookiePage = () => {
                                 </ul>
                             </div>
 
-                            <div className='bg-[#111] p-6 rounded-lg border border-[#D3A188]/20'>
-                                <h3 className='text-xl font-semibold text-[#D3A188] mb-3'>Functionality Cookies</h3>
+                            <div className='bg-[#111] p-6 rounded-lg border border-[#BD9B5F]/20'>
+                                <h3 className='text-xl font-semibold text-[#BD9B5F] mb-3'>Functionality Cookies</h3>
                                 <p className='leading-relaxed mb-2'>
                                     These cookies allow the website to remember choices you make and provide enhanced features:
                                 </p>
@@ -74,8 +74,8 @@ const CookiePage = () => {
                                 </ul>
                             </div>
 
-                            <div className='bg-[#111] p-6 rounded-lg border border-[#D3A188]/20'>
-                                <h3 className='text-xl font-semibold text-[#D3A188] mb-3'>Targeting/Advertising Cookies</h3>
+                            <div className='bg-[#111] p-6 rounded-lg border border-[#BD9B5F]/20'>
+                                <h3 className='text-xl font-semibold text-[#BD9B5F] mb-3'>Targeting/Advertising Cookies</h3>
                                 <p className='leading-relaxed mb-2'>
                                     These cookies are used to deliver relevant advertisements and track ad campaign performance:
                                 </p>
@@ -109,13 +109,13 @@ const CookiePage = () => {
                         <h2 className='text-2xl font-bold text-white mb-4'>5. Managing Cookies</h2>
                         <div className='space-y-4'>
                             <div>
-                                <h3 className='text-xl font-semibold text-[#D3A188] mb-2'>Browser Settings</h3>
+                                <h3 className='text-xl font-semibold text-[#BD9B5F] mb-2'>Browser Settings</h3>
                                 <p className='leading-relaxed'>
                                     Most web browsers allow you to control cookies through their settings. You can set your browser to refuse cookies or delete certain cookies. However, blocking or deleting cookies may impact your experience on our website.
                                 </p>
                             </div>
                             <div>
-                                <h3 className='text-xl font-semibold text-[#D3A188] mb-2'>Cookie Preferences</h3>
+                                <h3 className='text-xl font-semibold text-[#BD9B5F] mb-2'>Cookie Preferences</h3>
                                 <p className='leading-relaxed'>
                                     You can manage your cookie preferences at any time by accessing the cookie settings on our website. Note that essential cookies cannot be disabled as they are necessary for the website to function.
                                 </p>
@@ -140,13 +140,13 @@ const CookiePage = () => {
                         <h2 className='text-2xl font-bold text-white mb-4'>7. Cookie Duration</h2>
                         <div className='space-y-4'>
                             <div>
-                                <h3 className='text-xl font-semibold text-[#D3A188] mb-2'>Session Cookies</h3>
+                                <h3 className='text-xl font-semibold text-[#BD9B5F] mb-2'>Session Cookies</h3>
                                 <p className='leading-relaxed'>
                                     These cookies are temporary and are deleted when you close your browser.
                                 </p>
                             </div>
                             <div>
-                                <h3 className='text-xl font-semibold text-[#D3A188] mb-2'>Persistent Cookies</h3>
+                                <h3 className='text-xl font-semibold text-[#BD9B5F] mb-2'>Persistent Cookies</h3>
                                 <p className='leading-relaxed'>
                                     These cookies remain on your device until they expire or are manually deleted. They help us recognize you when you return to our website.
                                 </p>
@@ -166,7 +166,7 @@ const CookiePage = () => {
                         <p className='leading-relaxed mb-2'>
                             If you have any questions about our use of cookies, please contact us:
                         </p>
-                        <div className='bg-[#111] p-6 rounded-lg border border-[#D3A188]/20 mt-4'>
+                        <div className='bg-[#111] p-6 rounded-lg border border-[#BD9B5F]/20 mt-4'>
                             <p className='mb-2'><span className='font-semibold text-white'>Email:</span> grandgatepropertiesllc@gmail.com</p>
                             <p className='mb-2'><span className='font-semibold text-white'>Phone:</span> +971 5 544 22553 (Dubai)</p>
                             <p><span className='font-semibold text-white'>Address:</span> 9B Zaa'beel St - Al Karama - Dubai - United Arab Emirates, Dubai, United Arab Emirates</p>

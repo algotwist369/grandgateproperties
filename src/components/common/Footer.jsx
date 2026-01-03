@@ -47,7 +47,7 @@ const Footer = memo(() => {
     ], []);
 
     return (
-        <footer className='relative border-t border-[#D3A188]/20'>
+        <footer className='relative border-t border-[#BD9B5F]/20'>
             <div className='container mx-auto px-4 sm:px-6 lg:px-8 relative z-10'>
 
                 {/* Main Footer Content */}
@@ -56,7 +56,7 @@ const Footer = memo(() => {
                     {/* Company Info */}
                     <div className='space-y-4 text-center sm:text-left'>
                         <h3 className='text-2xl font-bold text-white'>
-                            GRAND GATE <span className='text-[#D3A188]'>PROPERTIES</span>
+                            GRAND GATE <span className='text-[#BD9B5F]'>PROPERTIES</span>
                         </h3>
 
                         <p className='text-gray-300 leading-relaxed text-sm sm:text-base'>
@@ -71,7 +71,7 @@ const Footer = memo(() => {
                                     href={social.link}
                                     target='_blank'
                                     rel='noopener noreferrer'
-                                    className='text-gray-400 hover:text-[#D3A188] transition-colors'
+                                    className='text-gray-400 hover:text-[#BD9B5F] transition-colors'
                                     aria-label={social.name}
                                 >
                                     {React.cloneElement(social.icon, { size: 20 })}
@@ -88,9 +88,9 @@ const Footer = memo(() => {
                                 <li key={index}>
                                     <a
                                         href={link.link}
-                                        className='text-gray-300 hover:text-[#D3A188] transition-colors flex items-center justify-center sm:justify-start gap-2'
+                                        className='text-gray-300 hover:text-[#BD9B5F] transition-colors flex items-center justify-center sm:justify-start gap-2'
                                     >
-                                        <span className='w-1 h-1 bg-[#D3A188] rounded-full'></span>
+                                        <span className='w-1 h-1 bg-[#BD9B5F] rounded-full'></span>
                                         {link.name}
                                     </a>
                                 </li>
@@ -106,9 +106,9 @@ const Footer = memo(() => {
                                 <li key={index}>
                                     <a
                                         href={service.link}
-                                        className='text-gray-300 hover:text-[#D3A188] transition-colors flex items-center justify-center sm:justify-start gap-2'
+                                        className='text-gray-300 hover:text-[#BD9B5F] transition-colors flex items-center justify-center sm:justify-start gap-2'
                                     >
-                                        <span className='w-1 h-1 bg-[#D3A188] rounded-full'></span>
+                                        <span className='w-1 h-1 bg-[#BD9B5F] rounded-full'></span>
                                         {service.name}
                                     </a>
                                 </li>
@@ -123,7 +123,7 @@ const Footer = memo(() => {
                         <ul className='space-y-6 text-sm'>
                             {contactData.map((office) => (
                                 <li key={office.country} className='flex gap-3 items-start'>
-                                    <div className='text-[#D3A188] mt-1 flex-shrink-0'>
+                                    <div className='text-[#BD9B5F] mt-1 flex-shrink-0'>
                                         <FaMapMarkerAlt className='w-5 h-5' />
                                     </div>
 
@@ -138,7 +138,7 @@ const Footer = memo(() => {
 
                                         <a
                                             href={`tel:${office.phoneClean}`}
-                                            className='hover:text-[#D3A188] transition-colors'
+                                            className='hover:text-[#BD9B5F] transition-colors'
                                         >
                                             {office.phone}
                                         </a>
@@ -151,7 +151,7 @@ const Footer = memo(() => {
                 </div>
 
                 {/* Newsletter Section */}
-                <div className='py-8 border-t border-[#D3A188]/20'>
+                <div className='py-8 border-t border-[#BD9B5F]/20'>
                     <div className='flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6'>
                         <div className='text-center lg:text-left'>
                             <h4 className='text-lg font-semibold text-white mb-1'>
@@ -169,11 +169,11 @@ const Footer = memo(() => {
                                 value={leadContact}
                                 onChange={(e) => setLeadContact(e.target.value)}
                                 onKeyDown={(e) => e.key === 'Enter' && handleSubscribe()}
-                                className='w-full sm:w-64 px-4 py-2.5 bg-white/10 border border-[#D3A188]/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#D3A188]'
+                                className='w-full sm:w-64 px-4 py-2.5 bg-white/10 border border-[#BD9B5F]/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#BD9B5F]'
                             />
                             <button
                                 onClick={handleSubscribe}
-                                className='px-6 py-2.5 bg-[#D3A188] text-white font-semibold rounded-lg hover:bg-[#D3A188]/80 transition-colors'
+                                className='px-6 py-2.5 bg-[#BD9B5F] text-white font-semibold rounded-lg hover:bg-[#BD9B5F]/80 transition-colors'
                             >
                                 Subscribe
                             </button>
@@ -182,20 +182,20 @@ const Footer = memo(() => {
                 </div>
 
                 {/* Bottom Bar */}
-                <div className='py-6 border-t border-[#D3A188]/20'>
+                <div className='py-6 border-t border-[#BD9B5F]/20'>
                     <div className='flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left'>
                         <p className='text-gray-300 text-sm'>
                             &copy; {currentYear} Grand Gate Properties. All rights reserved.
                         </p>
 
                         <div className='flex flex-wrap justify-center md:justify-end gap-4 text-sm'>
-                            <a href='/en/privacy' className='text-gray-300 hover:text-[#D3A188]'>
+                            <a href='/en/privacy' className='text-gray-300 hover:text-[#BD9B5F]'>
                                 Privacy Policy
                             </a>
-                            <a href='/en/terms' className='text-gray-300 hover:text-[#D3A188]'>
+                            <a href='/en/terms' className='text-gray-300 hover:text-[#BD9B5F]'>
                                 Terms of Service
                             </a>
-                            <a href='/en/cookies' className='text-gray-300 hover:text-[#D3A188]'>
+                            <a href='/en/cookies' className='text-gray-300 hover:text-[#BD9B5F]'>
                                 Cookie Policy
                             </a>
                         </div>

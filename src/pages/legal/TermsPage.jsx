@@ -11,7 +11,7 @@ const TermsPage = () => {
                 {/* Header */}
                 <div className='mb-12'>
                     <h1 className='text-4xl md:text-5xl font-bold text-white mb-4'>
-                        Terms of <span className='text-[#D3A188]'>Service</span>
+                        Terms of <span className='text-[#BD9B5F]'>Service</span>
                     </h1>
                     <p className='text-gray-400'>Last updated: December 29, 2024</p>
                 </div>
@@ -43,19 +43,19 @@ const TermsPage = () => {
                         <h2 className='text-2xl font-bold text-white mb-4'>3. User Responsibilities</h2>
                         <div className='space-y-4'>
                             <div>
-                                <h3 className='text-xl font-semibold text-[#D3A188] mb-2'>Account Registration</h3>
+                                <h3 className='text-xl font-semibold text-[#BD9B5F] mb-2'>Account Registration</h3>
                                 <p className='leading-relaxed'>
                                     You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account.
                                 </p>
                             </div>
                             <div>
-                                <h3 className='text-xl font-semibold text-[#D3A188] mb-2'>Accurate Information</h3>
+                                <h3 className='text-xl font-semibold text-[#BD9B5F] mb-2'>Accurate Information</h3>
                                 <p className='leading-relaxed'>
                                     You agree to provide accurate, current, and complete information when using our services and to update such information as necessary.
                                 </p>
                             </div>
                             <div>
-                                <h3 className='text-xl font-semibold text-[#D3A188] mb-2'>Prohibited Activities</h3>
+                                <h3 className='text-xl font-semibold text-[#BD9B5F] mb-2'>Prohibited Activities</h3>
                                 <p className='leading-relaxed mb-2'>You agree not to:</p>
                                 <ul className='list-disc list-inside space-y-1 ml-4'>
                                     <li>Use our services for any illegal purpose</li>
@@ -134,7 +134,7 @@ const TermsPage = () => {
                         <p className='leading-relaxed mb-2'>
                             If you have any questions about these Terms of Service, please contact us:
                         </p>
-                        <div className='bg-[#111] p-6 rounded-lg border border-[#D3A188]/20 mt-4'>
+                        <div className='bg-[#111] p-6 rounded-lg border border-[#BD9B5F]/20 mt-4'>
                             <p className='mb-2'><span className='font-semibold text-white'>Email:</span> grandgatepropertiesllc@gmail.com</p>
                             <p className='mb-2'><span className='font-semibold text-white'>Phone:</span> +971 5 544 22553 (Dubai)</p>
                             <p><span className='font-semibold text-white'>Address:</span> 9B Zaa'beel St - Al Karama - Dubai - United Arab Emirates, Dubai, United Arab Emirates</p>

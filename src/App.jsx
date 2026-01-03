@@ -30,7 +30,7 @@ const CookiePage = lazy(() => import('./pages/legal/CookiePage'))
 const PageLoader = () => (
   <div className="min-h-screen flex items-center justify-center bg-[#111010]">
     <div className="flex flex-col items-center gap-4">
-      <div className="w-12 h-12 border-4 border-[#D3A188]/30 border-t-[#D3A188] rounded-full animate-spin"></div>
+      <div className="w-12 h-12 border-4 border-[#BD9B5F]/30 border-t-[#BD9B5F] rounded-full animate-spin"></div>
       <p className="text-gray-400 text-sm">Loading...</p>
     </div>
   </div>

@@ -256,7 +256,7 @@ const PropertieHeader = ({ property }) => {
                         <React.Fragment key={`${crumb.label}-${idx}`}>
                             <a
                                 href={crumb.path}
-                                className={`transition ${crumb.path === '#' ? 'text-[#D3A188] font-semibold' : 'text-gray-400 hover:text-[#D3A188]'}`}
+                                className={`transition ${crumb.path === '#' ? 'text-[#BD9B5F] font-semibold' : 'text-gray-400 hover:text-[#BD9B5F]'}`}
                             >
                                 {crumb.label}
                             </a>
@@ -354,7 +354,7 @@ const PropertieHeader = ({ property }) => {
                                             key={`${img}-${idx}`}
                                             onClick={() => setCurrentImageIdx(idx)}
                                             className={`w-20 h-20 rounded-lg overflow-hidden border-2 transition flex-shrink-0 relative ${currentImageIdx === idx
-                                                ? 'border-[#D3A188]'
+                                                ? 'border-[#BD9B5F]'
                                                 : 'border-gray-600 hover:border-gray-500'
                                                 }`}
                                             aria-label={`Go to image ${idx + 1}`}
@@ -481,7 +481,7 @@ const PropertieHeader = ({ property }) => {
                                             href={href}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="text-2xl text-gray-300 hover:text-[#D3A188] transition"
+                                            className="text-2xl text-gray-300 hover:text-[#BD9B5F] transition"
                                             aria-label={`Share via ${label}`}
                                         >
                                             <Icon />
@@ -491,7 +491,7 @@ const PropertieHeader = ({ property }) => {
                                             key={id}
                                             type="button"
                                             onClick={type === 'copy' ? handleCopyLink : undefined}
-                                            className="text-2xl text-gray-300 hover:text-[#D3A188] transition"
+                                            className="text-2xl text-gray-300 hover:text-[#BD9B5F] transition"
                                             aria-label={label}
                                         >
                                             <Icon />
@@ -510,7 +510,7 @@ const PropertieHeader = ({ property }) => {
                         transition={{ duration: 0.6, delay: 0.2 }}
                         className="w-full"
                     >
-                        <div className="border border-[#d3a1888c] p-4 sm:p-6 mb-6 sm:mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-2 sm:gap-4">
+                        <div className="border border-[#BD9B5F8c] p-4 sm:p-6 mb-6 sm:mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-2 sm:gap-4">
                             <p className="text-[#cea591] text-2xl sm:text-3xl">{priceLabel}</p>
                             {pricePerSqftLabel && <p className="text-gray-400 text-base sm:text-lg">{pricePerSqftLabel}</p>}
                         </div>
@@ -520,7 +520,7 @@ const PropertieHeader = ({ property }) => {
                                 {bedrooms && (
                                     <div className="flex flex-col items-center justify-center text-center px-2">
                                         <div className="flex items-center gap-2 mb-1">
-                                            <FaBed className="text-[#D3A188] text-xl sm:text-2xl" />
+                                            <FaBed className="text-[#BD9B5F] text-xl sm:text-2xl" />
                                             <span className="text-white text-lg sm:text-xl font-medium">{bedrooms}</span>
                                         </div>
                                         <p className="text-gray-500 text-xs sm:text-sm uppercase tracking-wider">Bedrooms</p>
@@ -529,7 +529,7 @@ const PropertieHeader = ({ property }) => {
                                 {bathrooms && (
                                     <div className="flex flex-col items-center justify-center text-center px-2">
                                         <div className="flex items-center gap-2 mb-1">
-                                            <FaBath className="text-[#D3A188] text-xl sm:text-2xl" />
+                                            <FaBath className="text-[#BD9B5F] text-xl sm:text-2xl" />
                                             <span className="text-white text-lg sm:text-xl font-medium">{bathrooms}</span>
                                         </div>
                                         <p className="text-gray-500 text-xs sm:text-sm uppercase tracking-wider">Bathrooms</p>
@@ -538,7 +538,7 @@ const PropertieHeader = ({ property }) => {
                                 {sqftLabel && (
                                     <div className="flex flex-col items-center justify-center text-center px-2">
                                         <div className="flex items-center gap-2 mb-1">
-                                            <FaRulerCombined className="text-[#D3A188] text-xl sm:text-2xl" />
+                                            <FaRulerCombined className="text-[#BD9B5F] text-xl sm:text-2xl" />
                                             <span className="text-white text-lg sm:text-xl font-medium">{sqftLabel}</span>
                                         </div>
                                         <p className="text-gray-500 text-xs sm:text-sm uppercase tracking-wider">Total Area</p>
@@ -547,7 +547,7 @@ const PropertieHeader = ({ property }) => {
                                 {propertyType && (
                                     <div className="flex flex-col items-center justify-center text-center px-2">
                                         <div className="flex items-center gap-2 mb-1">
-                                            <FaHome className="text-[#D3A188] text-xl sm:text-2xl" />
+                                            <FaHome className="text-[#BD9B5F] text-xl sm:text-2xl" />
                                             <span className="text-white text-lg sm:text-xl font-medium truncate max-w-[120px] sm:max-w-none" title={propertyType}>{propertyType}</span>
                                         </div>
                                         <p className="text-gray-500 text-xs sm:text-sm uppercase tracking-wider">Property Type</p>
@@ -649,7 +649,7 @@ const PropertieHeader = ({ property }) => {
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
                                     {resolvedProperty.buildings.map((building, idx) => (
                                         <div key={`building-${idx}`} className="border border-gray-700 rounded-lg p-4 bg-[#0f0f0f]">
-                                            <h4 className="text-[#D3A188] text-lg font-semibold mb-3">{building.name}</h4>
+                                            <h4 className="text-[#BD9B5F] text-lg font-semibold mb-3">{building.name}</h4>
                                             <div className="space-y-2 text-sm text-gray-300">
                                                 <p><span className="text-gray-400">Floors:</span> {building.floors}</p>
                                                 <p><span className="text-gray-400">Apartments:</span> {building.apartments}</p>
@@ -669,7 +669,7 @@ const PropertieHeader = ({ property }) => {
                                 <Heading as="h3" size="h3" color="white">Commercial Spaces</Heading>
                                 <div className="overflow-x-auto mt-4 border border-gray-700 rounded-lg">
                                     <table className="min-w-full text-sm text-left text-gray-300">
-                                        <thead className="bg-[#1a1a1a] text-[#D3A188]">
+                                        <thead className="bg-[#1a1a1a] text-[#BD9B5F]">
                                             <tr>
                                                 <th className="py-3 px-4 border-b border-gray-700">Floor</th>
                                                 <th className="py-3 px-4 border-b border-gray-700">Area (m²)</th>
@@ -710,7 +710,7 @@ const PropertieHeader = ({ property }) => {
                                     {resolvedProperty.nearbyLandmarks.map((landmark, idx) => (
                                         <div key={`landmark-${idx}`} className="flex items-center justify-between border border-gray-700 rounded-lg p-3 bg-[#0f0f0f]">
                                             <span className="text-gray-300 text-sm">{landmark.name}</span>
-                                            <span className="text-[#D3A188] text-sm font-medium">{landmark.distance}</span>
+                                            <span className="text-[#BD9B5F] text-sm font-medium">{landmark.distance}</span>
                                         </div>
                                     ))}
                                 </div>
@@ -724,7 +724,7 @@ const PropertieHeader = ({ property }) => {
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
                                     {resolvedProperty.investmentHighlights.map((highlight, idx) => (
                                         <div key={`highlight-${idx}`} className="flex items-start gap-3 border border-gray-700 rounded-lg p-4 bg-[#0f0f0f]">
-                                            <FaCheckCircle className="text-[#D3A188] text-lg flex-shrink-0 mt-0.5" />
+                                            <FaCheckCircle className="text-[#BD9B5F] text-lg flex-shrink-0 mt-0.5" />
                                             <span className="text-gray-300 text-sm">{highlight}</span>
                                         </div>
                                     ))}
@@ -743,7 +743,7 @@ const PropertieHeader = ({ property }) => {
                                         <div key={`unit-card-${idx}`} className="border border-gray-700 rounded-lg p-4 bg-[#0f0f0f]">
                                             <div className="flex justify-between items-start mb-2 gap-2">
                                                 <h4 className="font-semibold text-white text-base">{unit.title}</h4>
-                                                <span className="font-bold text-[#D3A188] text-sm whitespace-nowrap">
+                                                <span className="font-bold text-[#BD9B5F] text-sm whitespace-nowrap">
                                                     {formatCurrency(unit.price, resolvedProperty.currency)}
                                                 </span>
                                             </div>
@@ -772,7 +772,7 @@ const PropertieHeader = ({ property }) => {
                                 {/* Desktop View: Table */}
                                 <div className="hidden md:block overflow-x-auto mt-4 border border-gray-700 rounded-lg">
                                     <table className="min-w-full text-sm text-left text-gray-300">
-                                        <thead className="bg-[#1a1a1a] text-[#D3A188]">
+                                        <thead className="bg-[#1a1a1a] text-[#BD9B5F]">
                                             <tr>
                                                 <th className="py-3 px-4 border-b border-gray-700">Unit Type</th>
                                                 <th className="py-3 px-4 border-b border-gray-700">Key Features</th>
@@ -794,7 +794,7 @@ const PropertieHeader = ({ property }) => {
                                                     </td>
                                                     <td className="py-3 px-4 text-xs text-gray-400 max-w-xs">{unit.description}</td>
                                                     <td className="py-3 px-4 whitespace-nowrap">{unit.sqft?.toLocaleString() ?? unit.sqftRange ?? '—'}</td>
-                                                    <td className="py-3 px-4 font-bold text-[#D3A188] whitespace-nowrap">
+                                                    <td className="py-3 px-4 font-bold text-[#BD9B5F] whitespace-nowrap">
                                                         {formatCurrency(unit.price, resolvedProperty.currency)}
                                                     </td>
                                                 </tr>
@@ -812,7 +812,7 @@ const PropertieHeader = ({ property }) => {
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
                                     {resolvedProperty.unitTypes.map((unit, idx) => (
                                         <div key={`unit-type-${idx}`} className="border border-gray-700 rounded-lg p-4 bg-[#0f0f0f]">
-                                            <h4 className="text-[#D3A188] text-lg font-semibold mb-3">{unit.type}</h4>
+                                            <h4 className="text-[#BD9B5F] text-lg font-semibold mb-3">{unit.type}</h4>
                                             <div className="space-y-2 text-sm">
                                                 <div className="flex justify-between">
                                                     <span className="text-gray-400">Investment:</span>
@@ -824,7 +824,7 @@ const PropertieHeader = ({ property }) => {
                                                 </div>
                                                 <div className="flex justify-between pt-2 border-t border-gray-700">
                                                     <span className="text-gray-400">ROI:</span>
-                                                    <span className="text-[#D3A188] font-bold text-lg">{unit.roi}%</span>
+                                                    <span className="text-[#BD9B5F] font-bold text-lg">{unit.roi}%</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -842,7 +842,7 @@ const PropertieHeader = ({ property }) => {
                                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4">
                                     <div className="border border-gray-700 rounded-lg p-4 bg-[#0f0f0f] text-center">
                                         <p className="text-gray-400 text-xs mb-1">Annual Growth</p>
-                                        <p className="text-[#D3A188] text-2xl font-bold">{resolvedProperty.rentalProjections.annualPriceGrowth}%</p>
+                                        <p className="text-[#BD9B5F] text-2xl font-bold">{resolvedProperty.rentalProjections.annualPriceGrowth}%</p>
                                     </div>
                                     {resolvedProperty.rentalProjections.minimumRentalDays && (
                                         <>
@@ -869,7 +869,7 @@ const PropertieHeader = ({ property }) => {
                                         <table className="min-w-full text-xs text-center border border-gray-700 rounded-lg overflow-hidden">
                                             <thead className="bg-[#1a1a1a]">
                                                 <tr>
-                                                    <th className="py-2 px-2 text-[#D3A188] border-b border-gray-700">Unit</th>
+                                                    <th className="py-2 px-2 text-[#BD9B5F] border-b border-gray-700">Unit</th>
                                                     <th className="py-2 px-2 text-gray-400 border-b border-gray-700">Jan</th>
                                                     <th className="py-2 px-2 text-gray-400 border-b border-gray-700">Feb</th>
                                                     <th className="py-2 px-2 text-gray-400 border-b border-gray-700">Mar</th>
@@ -887,7 +887,7 @@ const PropertieHeader = ({ property }) => {
                                             <tbody>
                                                 {Object.entries(resolvedProperty.rentalProjections.monthlyRates).map(([unitType, rates], idx) => (
                                                     <tr key={`rate-${idx}`} className="border-b border-gray-700 hover:bg-[#1a1a1a]">
-                                                        <td className="py-2 px-2 text-[#D3A188] font-medium capitalize">{unitType.replace(/([A-Z])/g, ' $1').trim()}</td>
+                                                        <td className="py-2 px-2 text-[#BD9B5F] font-medium capitalize">{unitType.replace(/([A-Z])/g, ' $1').trim()}</td>
                                                         <td className="py-2 px-2 text-gray-300">${rates.jan}</td>
                                                         <td className="py-2 px-2 text-gray-300">${rates.feb}</td>
                                                         <td className="py-2 px-2 text-gray-300">${rates.mar}</td>
@@ -915,7 +915,7 @@ const PropertieHeader = ({ property }) => {
                             <div className="py-6 mt-6">
                                 <Heading as="h3" size="h3" color="white">Developer Information</Heading>
                                 <div className="border border-gray-700 rounded-lg p-6 bg-[#0f0f0f] mt-4">
-                                    <h4 className="text-[#D3A188] text-xl font-semibold mb-4">{resolvedProperty.developer.name}</h4>
+                                    <h4 className="text-[#BD9B5F] text-xl font-semibold mb-4">{resolvedProperty.developer.name}</h4>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                                         {resolvedProperty.developer.established && (
                                             <div>
@@ -938,7 +938,7 @@ const PropertieHeader = ({ property }) => {
                                         {resolvedProperty.developer.website && (
                                             <div>
                                                 <p className="text-gray-400">Website</p>
-                                                <a href={`https://${resolvedProperty.developer.website}`} target="_blank" rel="noopener noreferrer" className="text-[#D3A188] hover:underline">
+                                                <a href={`https://${resolvedProperty.developer.website}`} target="_blank" rel="noopener noreferrer" className="text-[#BD9B5F] hover:underline">
                                                     {resolvedProperty.developer.website}
                                                 </a>
                                             </div>
@@ -946,7 +946,7 @@ const PropertieHeader = ({ property }) => {
                                         {resolvedProperty.developer.phone && (
                                             <div>
                                                 <p className="text-gray-400">Phone</p>
-                                                <a href={`tel:${resolvedProperty.developer.phone}`} className="text-gray-200 hover:text-[#D3A188]">
+                                                <a href={`tel:${resolvedProperty.developer.phone}`} className="text-gray-200 hover:text-[#BD9B5F]">
                                                     {resolvedProperty.developer.phone}
                                                 </a>
                                             </div>
@@ -957,7 +957,7 @@ const PropertieHeader = ({ property }) => {
                                             <p className="text-gray-400 text-sm mb-2">Certifications</p>
                                             <div className="flex flex-wrap gap-2">
                                                 {resolvedProperty.developer.certifications.map((cert, idx) => (
-                                                    <span key={`cert-${idx}`} className="px-3 py-1 bg-[#D3A188]/10 text-[#D3A188] text-xs rounded-full border border-[#D3A188]/30">
+                                                    <span key={`cert-${idx}`} className="px-3 py-1 bg-[#BD9B5F]/10 text-[#BD9B5F] text-xs rounded-full border border-[#BD9B5F]/30">
                                                         {cert}
                                                     </span>
                                                 ))}
@@ -976,31 +976,31 @@ const PropertieHeader = ({ property }) => {
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                                         {resolvedProperty.contactInfo.phone && (
                                             <div className="flex items-center gap-3">
-                                                <FaPhone className="text-[#D3A188]" />
-                                                <a href={`tel:${resolvedProperty.contactInfo.phone}`} className="text-gray-200 hover:text-[#D3A188]">
+                                                <FaPhone className="text-[#BD9B5F]" />
+                                                <a href={`tel:${resolvedProperty.contactInfo.phone}`} className="text-gray-200 hover:text-[#BD9B5F]">
                                                     {resolvedProperty.contactInfo.phone}
                                                 </a>
                                             </div>
                                         )}
                                         {resolvedProperty.contactInfo.alternatePhone && (
                                             <div className="flex items-center gap-3">
-                                                <FaMobile className="text-[#D3A188]" />
-                                                <a href={`tel:${resolvedProperty.contactInfo.alternatePhone}`} className="text-gray-200 hover:text-[#D3A188]">
+                                                <FaMobile className="text-[#BD9B5F]" />
+                                                <a href={`tel:${resolvedProperty.contactInfo.alternatePhone}`} className="text-gray-200 hover:text-[#BD9B5F]">
                                                     {resolvedProperty.contactInfo.alternatePhone}
                                                 </a>
                                             </div>
                                         )}
                                         {resolvedProperty.contactInfo.website && (
                                             <div className="flex items-center gap-3">
-                                                <FaGlobe className="text-[#D3A188]" />
-                                                <a href={`https://${resolvedProperty.contactInfo.website}`} target="_blank" rel="noopener noreferrer" className="text-[#D3A188] hover:underline">
+                                                <FaGlobe className="text-[#BD9B5F]" />
+                                                <a href={`https://${resolvedProperty.contactInfo.website}`} target="_blank" rel="noopener noreferrer" className="text-[#BD9B5F] hover:underline">
                                                     {resolvedProperty.contactInfo.website}
                                                 </a>
                                             </div>
                                         )}
                                         {resolvedProperty.contactInfo.social && (
                                             <div className="flex items-center gap-3">
-                                                <FaInstagram className="text-[#D3A188]" />
+                                                <FaInstagram className="text-[#BD9B5F]" />
                                                 <span className="text-gray-200">@{resolvedProperty.contactInfo.social}</span>
                                             </div>
                                         )}
@@ -1059,7 +1059,7 @@ const PropertieHeader = ({ property }) => {
                     target="_blank"
                     rel="noopener noreferrer"
                     className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg font-medium transition ${whatsappHref
-                        ? 'bg-[#D3A188]/10 border border-[#D3A188] text-[#D3A188] hover:bg-[#D3A188]/20'
+                        ? 'bg-[#BD9B5F]/10 border border-[#BD9B5F] text-[#BD9B5F] hover:bg-[#BD9B5F]/20'
                         : 'bg-gray-800 text-gray-500 cursor-not-allowed'
                         }`}
                 >
@@ -1070,7 +1070,7 @@ const PropertieHeader = ({ property }) => {
                 <a
                     href={agent?.phone ? `sms:${sanitizeDigits(agent.phone)}?body=${encodedMessage}` : '#'}
                     className={`flex items-center justify-center justify-self-center p-3 rounded-lg transition aspect-square ${agent?.phone
-                        ? 'bg-[#D3A188]/20 text-[#D3A188] border border-[#D3A188]/50'
+                        ? 'bg-[#BD9B5F]/20 text-[#BD9B5F] border border-[#BD9B5F]/50'
                         : 'bg-gray-800 text-gray-500 border border-gray-700 cursor-not-allowed'
                         }`}
                     title="SMS"
@@ -1081,7 +1081,7 @@ const PropertieHeader = ({ property }) => {
                 <a
                     href={callHref || '#'}
                     className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg font-medium transition ${callHref
-                        ? 'bg-[#D3A188] text-white hover:bg-[#c49278]'
+                        ? 'bg-[#BD9B5F] text-white hover:bg-[#c49278]'
                         : 'bg-gray-800 text-gray-500 cursor-not-allowed'
                         }`}
                 >
@@ -1183,7 +1183,7 @@ const PropertieHeader = ({ property }) => {
                                         setCurrentImageIdx(idx);
                                     }}
                                     className={`w-16 h-16 rounded overflow-hidden border-2 transition flex-shrink-0 ${currentImageIdx === idx
-                                        ? 'border-[#D3A188]'
+                                        ? 'border-[#BD9B5F]'
                                         : 'border-gray-600 hover:border-gray-400'
                                         }`}
                                     aria-label={`Go to image ${idx + 1}`}

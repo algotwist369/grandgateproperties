@@ -72,12 +72,12 @@ Message: ${formData.message}`;
                 }
             }}
         >
-            <div className='relative w-full max-w-md bg-[#111] border border-[#D3A188]/30 rounded-2xl shadow-2xl overflow-hidden animate-scale-in'>
+            <div className='relative w-full max-w-md bg-[#111] border border-[#BD9B5F]/30 rounded-2xl shadow-2xl overflow-hidden animate-scale-in'>
 
                 {/* Header */}
                 <div className='flex items-center justify-between p-6 border-b border-gray-800 bg-[#0B0D10]'>
                     <h3 className='text-xl font-bold text-white'>
-                        Inquire about <span className='text-[#D3A188]'>Property</span>
+                        Inquire about <span className='text-[#BD9B5F]'>Property</span>
                     </h3>
                     <button
                         onClick={onClose}
@@ -90,11 +90,11 @@ Message: ${formData.message}`;
                 {/* Body */}
                 <form onSubmit={handleSubmit} className='p-6 space-y-4'>
                     <div>
-                        <label className='block text-xs font-medium text-[#D3A188] mb-1.5'>Full Name</label>
+                        <label className='block text-xs font-medium text-[#BD9B5F] mb-1.5'>Full Name</label>
                         <input
                             type="text"
                             required
-                            className='w-full bg-black/30 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#D3A188] transition-colors text-sm'
+                            className='w-full bg-black/30 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#BD9B5F] transition-colors text-sm'
                             placeholder="John Doe"
                             value={formData.name}
                             onChange={(e) => handleInputChange('name', e.target.value)}
@@ -102,11 +102,11 @@ Message: ${formData.message}`;
                     </div>
 
                     <div>
-                        <label className='block text-xs font-medium text-[#D3A188] mb-1.5'>Phone Number</label>
+                        <label className='block text-xs font-medium text-[#BD9B5F] mb-1.5'>Phone Number</label>
                         <input
                             type="tel"
                             required
-                            className='w-full bg-black/30 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#D3A188] transition-colors text-sm'
+                            className='w-full bg-black/30 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#BD9B5F] transition-colors text-sm'
                             placeholder="+971 50 000 0000"
                             value={formData.phone}
                             onChange={(e) => handleInputChange('phone', e.target.value)}
@@ -114,11 +114,11 @@ Message: ${formData.message}`;
                     </div>
 
                     <div>
-                        <label className='block text-xs font-medium text-[#D3A188] mb-1.5'>Email Address</label>
+                        <label className='block text-xs font-medium text-[#BD9B5F] mb-1.5'>Email Address</label>
                         <input
                             type="email"
                             required
-                            className='w-full bg-black/30 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#D3A188] transition-colors text-sm'
+                            className='w-full bg-black/30 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#BD9B5F] transition-colors text-sm'
                             placeholder="john@example.com"
                             value={formData.email}
                             onChange={(e) => handleInputChange('email', e.target.value)}
@@ -126,10 +126,10 @@ Message: ${formData.message}`;
                     </div>
 
                     <div>
-                        <label className='block text-xs font-medium text-[#D3A188] mb-1.5'>Message</label>
+                        <label className='block text-xs font-medium text-[#BD9B5F] mb-1.5'>Message</label>
                         <textarea
                             rows="3"
-                            className='w-full bg-black/30 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#D3A188] transition-colors text-sm resize-none'
+                            className='w-full bg-black/30 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#BD9B5F] transition-colors text-sm resize-none'
                             placeholder="I'm interested in this property..."
                             value={formData.message}
                             onChange={(e) => handleInputChange('message', e.target.value)}
@@ -140,7 +140,7 @@ Message: ${formData.message}`;
                         type="submit"
                         fullWidth={true}
                         className='flex items-center justify-center gap-2 mt-4 font-bold'
-                        primaryBg='bg-[#D3A188]'
+                        primaryBg='bg-[#BD9B5F]'
                         primaryText='text-black'
                     >
                         Send Inquiry

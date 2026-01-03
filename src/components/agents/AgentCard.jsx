@@ -92,8 +92,8 @@ const AgentCard = () => {
                 transition={{ duration: 0.8 }}
             >
                 <div className="flex items-center gap-4">
-                    <div className="w-12 h-px bg-[#D3A188]"></div>
-                    <p className="text-xs uppercase tracking-[0.4em] text-[#D3A188]">
+                    <div className="w-12 h-px bg-[#BD9B5F]"></div>
+                    <p className="text-xs uppercase tracking-[0.4em] text-[#BD9B5F]">
                         Elite Partners
                     </p>
                 </div>
@@ -154,7 +154,7 @@ const AgentCard = () => {
                             <div className="space-y-6">
                                 <div>
                                     <div className="flex items-center gap-2 mb-2">
-                                        <div className="w-1 h-6 bg-[#D3A188]"></div>
+                                        <div className="w-1 h-6 bg-[#BD9B5F]"></div>
                                         <p className="text-xs uppercase tracking-widest text-gray-400">
                                             {agent.role}
                                         </p>
@@ -176,7 +176,7 @@ const AgentCard = () => {
                                     </div>
                                 </div>
 
-                                <button className="w-full py-4 bg-white/5 hover:bg-[#D3A188] text-white border border-white/10 hover:border-[#D3A188] rounded-xl text-xs uppercase tracking-[0.2em] transition-all duration-300">
+                                <button className="w-full py-4 bg-white/5 hover:bg-[#BD9B5F] text-white border border-white/10 hover:border-[#BD9B5F] rounded-xl text-xs uppercase tracking-[0.2em] transition-all duration-300">
                                     Enquire Now
                                 </button>
                             </div>

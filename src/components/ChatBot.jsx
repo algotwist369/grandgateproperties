@@ -317,9 +317,9 @@ const ChatBot = () => {
             {/* Auto Notification */}
             {showNotification && !isOpen && (
                 <div className="fixed bottom-24 right-6 z-50 animate-slide-up">
-                    <div className="bg-gradient-to-br from-[#114566] to-[#0a1f2e] rounded-xl shadow-2xl border-2 border-[#D3A188]/30 p-4 max-w-sm">
+                    <div className="bg-gradient-to-br from-[#114566] to-[#0a1f2e] rounded-xl shadow-2xl border-2 border-[#BD9B5F]/30 p-4 max-w-sm">
                         <div className="flex items-start gap-3">
-                            <div className="w-10 h-10 bg-[#D3A188] rounded-full flex items-center justify-center flex-shrink-0">
+                            <div className="w-10 h-10 bg-[#BD9B5F] rounded-full flex items-center justify-center flex-shrink-0">
                                 <FaRobot className="text-white" />
                             </div>
                             <div className="flex-1">
@@ -337,7 +337,7 @@ const ChatBot = () => {
                                 </p>
                                 <button
                                     onClick={handleNotificationClick}
-                                    className="w-full bg-[#D3A188] text-white text-xs font-semibold py-2 px-4 rounded-lg hover:bg-[#D3A188]/80 transition-all flex items-center justify-center gap-2"
+                                    className="w-full bg-[#BD9B5F] text-white text-xs font-semibold py-2 px-4 rounded-lg hover:bg-[#BD9B5F]/80 transition-all flex items-center justify-center gap-2"
                                 >
                                     <FaComments />
                                     <span>Chat Now</span>
@@ -356,15 +356,15 @@ const ChatBot = () => {
                     aria-label="Open chat"
                 >
                     <FaComments className="text-2xl" />
-                    <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#D3A188] rounded-full border-2 border-white"></span>
+                    <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#BD9B5F] rounded-full border-2 border-white"></span>
                 </button>
             )}
 
             {/* Chat Window */}
             {isOpen && (
-                <div className="fixed bottom-6 right-6 z-50 w-96 max-w-[calc(100vw-2rem)] bg-gradient-to-b from-[#114566] to-[#0a1f2e] rounded-2xl shadow-2xl flex flex-col h-[600px] max-h-[calc(100vh-8rem)] border border-[#D3A188]/20">
+                <div className="fixed bottom-6 right-6 z-50 w-96 max-w-[calc(100vw-2rem)] bg-gradient-to-b from-[#114566] to-[#0a1f2e] rounded-2xl shadow-2xl flex flex-col h-[600px] max-h-[calc(100vh-8rem)] border border-[#BD9B5F]/20">
                     {/* Header */}
-                    <div className="bg-gradient-to-r from-[#114566] to-[#0a1f2e] text-white p-4 rounded-t-2xl flex items-center justify-between border-b border-[#D3A188]/20">
+                    <div className="bg-gradient-to-r from-[#114566] to-[#0a1f2e] text-white p-4 rounded-t-2xl flex items-center justify-between border-b border-[#BD9B5F]/20">
                         <div className="flex items-center gap-3">
                             <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
                                 <FaRobot className="text-xl" />
@@ -372,7 +372,7 @@ const ChatBot = () => {
                             <div>
                                 <h3 className="font-bold text-lg">AI Assistant</h3>
                                 <p className="text-xs text-white/80 flex items-center gap-1">
-                                    <span className="w-2 h-2 bg-[#D3A188] rounded-full"></span>
+                                    <span className="w-2 h-2 bg-[#BD9B5F] rounded-full"></span>
                                     Online
                                 </p>
                             </div>
@@ -394,7 +394,7 @@ const ChatBot = () => {
                                 className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
                             >
                                 <div className={`flex gap-2 max-w-[80%] ${message.sender === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
-                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${message.sender === 'user' ? 'bg-[#114566]' : 'bg-[#D3A188]'
+                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${message.sender === 'user' ? 'bg-[#114566]' : 'bg-[#BD9B5F]'
                                         }`}>
                                         {message.sender === 'user' ? (
                                             <FaUser className="text-white text-sm" />
@@ -404,8 +404,8 @@ const ChatBot = () => {
                                     </div>
                                     <div className="flex flex-col">
                                         <div className={`rounded-2xl px-4 py-2 ${message.sender === 'user'
-                                            ? 'bg-[#114566] text-white rounded-tr-sm border border-[#D3A188]/20'
-                                            : 'bg-[#D3A188]/20 backdrop-blur-sm text-white rounded-tl-sm border border-[#D3A188]/30'
+                                            ? 'bg-[#114566] text-white rounded-tr-sm border border-[#BD9B5F]/20'
+                                            : 'bg-[#BD9B5F]/20 backdrop-blur-sm text-white rounded-tl-sm border border-[#BD9B5F]/30'
                                             }`}>
                                             <p className="text-sm whitespace-pre-line">{message.text}</p>
                                         </div>
@@ -415,7 +415,7 @@ const ChatBot = () => {
                                                     <button
                                                         key={index}
                                                         onClick={() => handleQuickReply(reply.action, reply.text)}
-                                                        className="text-xs bg-[#D3A188]/20 border border-[#D3A188]/40 text-white px-3 py-1.5 rounded-full hover:bg-[#D3A188]/30 transition-colors"
+                                                        className="text-xs bg-[#BD9B5F]/20 border border-[#BD9B5F]/40 text-white px-3 py-1.5 rounded-full hover:bg-[#BD9B5F]/30 transition-colors"
                                                     >
                                                         {reply.text}
                                                     </button>
@@ -431,14 +431,14 @@ const ChatBot = () => {
                         {isTyping && (
                             <div className="flex justify-start">
                                 <div className="flex gap-2">
-                                    <div className="w-8 h-8 rounded-full bg-[#D3A188] flex items-center justify-center flex-shrink-0">
+                                    <div className="w-8 h-8 rounded-full bg-[#BD9B5F] flex items-center justify-center flex-shrink-0">
                                         <FaRobot className="text-white text-sm" />
                                     </div>
-                                    <div className="bg-[#D3A188]/20 backdrop-blur-sm border border-[#D3A188]/30 rounded-2xl rounded-tl-sm px-4 py-3">
+                                    <div className="bg-[#BD9B5F]/20 backdrop-blur-sm border border-[#BD9B5F]/30 rounded-2xl rounded-tl-sm px-4 py-3">
                                         <div className="flex gap-1">
-                                            <div className="w-2 h-2 bg-[#D3A188] rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                                            <div className="w-2 h-2 bg-[#D3A188] rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                                            <div className="w-2 h-2 bg-[#D3A188] rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                                            <div className="w-2 h-2 bg-[#BD9B5F] rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                                            <div className="w-2 h-2 bg-[#BD9B5F] rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                                            <div className="w-2 h-2 bg-[#BD9B5F] rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
                                         </div>
                                     </div>
                                 </div>
@@ -449,7 +449,7 @@ const ChatBot = () => {
                     </div>
 
                     {/* Input Area */}
-                    <div className="border-t border-[#D3A188]/30 p-4 bg-[#0a1f2e]/50 backdrop-blur-sm rounded-b-2xl">
+                    <div className="border-t border-[#BD9B5F]/30 p-4 bg-[#0a1f2e]/50 backdrop-blur-sm rounded-b-2xl">
                         <div className="flex items-end gap-2">
                             <div className="flex-1 relative">
                                 <textarea
@@ -459,14 +459,14 @@ const ChatBot = () => {
                                     onKeyPress={handleKeyPress}
                                     placeholder="Type your message..."
                                     rows={1}
-                                    className="w-full px-4 py-2.5 pr-12 bg-white/10 border-2 border-[#D3A188]/30 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-[#D3A188] focus:border-[#D3A188] resize-none max-h-32"
+                                    className="w-full px-4 py-2.5 pr-12 bg-white/10 border-2 border-[#BD9B5F]/30 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-[#BD9B5F] focus:border-[#BD9B5F] resize-none max-h-32"
                                     style={{ minHeight: '44px' }}
                                 />
                             </div>
                             <button
                                 onClick={() => handleSendMessage()}
                                 disabled={!inputValue.trim() || isTyping}
-                                className="w-11 h-11 bg-[#D3A188] text-white rounded-xl hover:bg-[#D3A188]/80 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center flex-shrink-0"
+                                className="w-11 h-11 bg-[#BD9B5F] text-white rounded-xl hover:bg-[#BD9B5F]/80 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center flex-shrink-0"
                                 aria-label="Send message"
                             >
                                 {isTyping ? (
@@ -509,19 +509,19 @@ const ChatBot = () => {
         }
         
         .chat-messages::-webkit-scrollbar-thumb {
-          background: linear-gradient(to bottom, #D3A188, #b8876a);
+          background: linear-gradient(to bottom, #BD9B5F, #b8876a);
           border-radius: 10px;
           border: 1px solid rgba(211, 161, 136, 0.3);
         }
         
         .chat-messages::-webkit-scrollbar-thumb:hover {
-          background: linear-gradient(to bottom, #b8876a, #D3A188);
+          background: linear-gradient(to bottom, #b8876a, #BD9B5F);
         }
         
         /* Firefox Scrollbar */
         .chat-messages {
           scrollbar-width: thin;
-          scrollbar-color: #D3A188 rgba(10, 31, 46, 0.3);
+          scrollbar-color: #BD9B5F rgba(10, 31, 46, 0.3);
         }
       `}</style>
         </>

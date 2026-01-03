@@ -39,8 +39,8 @@ const Navbar = memo(({ selectedCountry, setSelectedCountry }) => {
     // Memoize link class function
     const linkClass = useCallback(({ isActive }) =>
         isActive
-            ? 'text-[#D3A188] font-bold'
-            : 'text-white/70 hover:text-[#D3A188] transition-colors duration-200',
+            ? 'text-[#BD9B5F] font-bold'
+            : 'text-white/70 hover:text-[#BD9B5F] transition-colors duration-200',
         []
     );
 
@@ -103,7 +103,7 @@ const Navbar = memo(({ selectedCountry, setSelectedCountry }) => {
                                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
                             />
                         </div>
-                        <div className="absolute -inset-2 bg-[#D3A188]/5 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div className="absolute -inset-2 bg-[#BD9B5F]/5 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     </NavLink>
 
                     {/* Desktop Navigation */}
@@ -127,7 +127,7 @@ const Navbar = memo(({ selectedCountry, setSelectedCountry }) => {
                 <div className="hidden lg:flex items-center gap-8">
                     <div className="flex items-center gap-6 border-r border-white/10 pr-8">
                         <select
-                            className="bg-transparent text-[#D3A188] text-[10px] uppercase tracking-[0.2em] font-bold focus:outline-none cursor-pointer"
+                            className="bg-transparent text-[#BD9B5F] text-[10px] uppercase tracking-[0.2em] font-bold focus:outline-none cursor-pointer"
                             value={selectedCountry}
                             onChange={handleCountryChange}
                         >
@@ -135,11 +135,11 @@ const Navbar = memo(({ selectedCountry, setSelectedCountry }) => {
                             <option value="India" className="bg-neutral-900">India</option>
                         </select>
 
-                        <a href={`https://wa.me/${currentWhatsapp}`} target="_blank" rel="noopener noreferrer" className="text-[#D3A188] hover:text-white transition-colors">
+                        <a href={`https://wa.me/${currentWhatsapp}`} target="_blank" rel="noopener noreferrer" className="text-[#BD9B5F] hover:text-white transition-colors">
                             <MdWhatsapp size={22} />
                         </a>
 
-                        <a href={`tel:${currentPhone}`} className="text-white hover:text-[#D3A188] text-[10px] uppercase tracking-[0.2em] font-bold transition-colors">
+                        <a href={`tel:${currentPhone}`} className="text-white hover:text-[#BD9B5F] text-[10px] uppercase tracking-[0.2em] font-bold transition-colors">
                             Advisory
                         </a>
                     </div>
@@ -156,7 +156,7 @@ const Navbar = memo(({ selectedCountry, setSelectedCountry }) => {
 
                 {/* Mobile Controls */}
                 <div className="flex items-center gap-4 lg:hidden">
-                    <a href={`https://wa.me/${currentWhatsapp}`} className="text-[#D3A188]">
+                    <a href={`https://wa.me/${currentWhatsapp}`} className="text-[#BD9B5F]">
                         <MdWhatsapp size={24} />
                     </a>
                     <button
@@ -185,7 +185,7 @@ const Navbar = memo(({ selectedCountry, setSelectedCountry }) => {
                                         <NavLink
                                             to={item.path}
                                             onClick={() => setIsMobileMenuOpen(false)}
-                                            className={({ isActive }) => `text-4xl font-light uppercase tracking-tighter ${isActive ? 'text-[#D3A188]' : 'text-white'}`}
+                                            className={({ isActive }) => `text-4xl font-light uppercase tracking-tighter ${isActive ? 'text-[#BD9B5F]' : 'text-white'}`}
                                         >
                                             {item.label}
                                         </NavLink>

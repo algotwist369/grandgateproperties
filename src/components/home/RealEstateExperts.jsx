@@ -25,7 +25,7 @@ const RealEstateExperts = ({ selectedCountry }) => {
             <div className='space-y-4'>
               <h2 className='text-3xl sm:text-4xl lg:text-5xl xl:text-6xl text-white font-light leading-tight tracking-tight uppercase'>
                 {data.title}
-                <span className='block text-[#D3A188] font-medium mt-2'> {data.highlight}</span>
+                <span className='block text-[#BD9B5F] font-medium mt-2'> {data.highlight}</span>
               </h2>
             </div>
 
@@ -50,7 +50,7 @@ const RealEstateExperts = ({ selectedCountry }) => {
               <Button
                 variant='secondary'
                 text="View All Experts"
-                className='w-full sm:min-w-[200px] py-4 border-[#D3A188]/30 text-white hover:border-[#D3A188]'
+                className='w-full sm:min-w-[200px] py-4 border-[#BD9B5F]/30 text-white hover:border-[#BD9B5F]'
                 onClick={() => navigate('/en/agents')}
               />
             </div>
@@ -60,7 +60,7 @@ const RealEstateExperts = ({ selectedCountry }) => {
               {statistics.map((stat, index) => (
                 <div key={index}>
                   <motion.div
-                    className='text-3xl lg:text-5xl font-bold text-[#D3A188] mb-2'
+                    className='text-3xl lg:text-5xl font-bold text-[#BD9B5F] mb-2'
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
@@ -95,8 +95,8 @@ const RealEstateExperts = ({ selectedCountry }) => {
             </div>
 
             {/* Minimalist Decoration */}
-            <div className='absolute -top-10 -right-10 w-40 h-40 bg-[#D3A188]/10 rounded-full blur-[80px]'></div>
-            <div className='absolute -bottom-10 -left-10 w-32 h-32 bg-[#D3A188]/10 rounded-full blur-[60px]'></div>
+            <div className='absolute -top-10 -right-10 w-40 h-40 bg-[#BD9B5F]/10 rounded-full blur-[80px]'></div>
+            <div className='absolute -bottom-10 -left-10 w-32 h-32 bg-[#BD9B5F]/10 rounded-full blur-[60px]'></div>
           </motion.div>
         </div>
       </div>

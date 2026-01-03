@@ -68,7 +68,7 @@ const SelectField = memo(({ label, value, onChange, options }) => (
             value={value}
             onChange={onChange}
             className="w-full p-3 lg:p-4 bg-white/5 border border-gray-800 rounded-xl
-                       focus:outline-none focus:ring-1 focus:ring-[#D3A188]/50
+                       focus:outline-none focus:ring-1 focus:ring-[#BD9B5F]/50
                        text-white text-sm lg:text-base appearance-none hover:bg-white/10"
         >
             {options.map(opt => (
@@ -162,13 +162,13 @@ const HeroSection = memo(({ selectedCountry, setSelectedCountry }) => {
             {/* ================= CONTENT ================= */}
             <div className="relative z-10 w-full h-full flex items-center">
                 <div className="w-11/12 max-w-[99rem] mx-auto px-4">
-                    <div className="md:backdrop-blur-md md:rounded-2xl md:p-6 lg:p-12 md:border md:border-[#D3A188]/20 md:bg-black/10 md:shadow-2xl grid lg:grid-cols-2 gap-12">
+                    <div className="md:backdrop-blur-md md:rounded-2xl md:p-6 lg:p-12 md:border md:border-[#BD9B5F]/20 md:bg-black/10 md:shadow-2xl grid lg:grid-cols-2 gap-12">
 
                         {/* LEFT */}
                         <div className="hidden md:flex flex-col justify-center gap-6">
                             <h1 className="text-white text-3xl sm:text-4xl lg:text-[56px] leading-snug lg:leading-[1.2] uppercase">
                                 INVEST IN{' '}
-                                <span className="text-[#D3A188] font-medium">
+                                <span className="text-[#BD9B5F] font-medium">
                                     {LOCATIONS[selectedCountry]}
                                 </span>
                                 <br />
@@ -205,7 +205,7 @@ const HeroSection = memo(({ selectedCountry, setSelectedCountry }) => {
                         </div>
 
                         {/* RIGHT */}
-                        <div className="bg-black/40 backdrop-blur-xl rounded-2xl p-6 lg:p-8 border border-[#D3A188]/20 shadow-2xl mt-16 md:mt-0">
+                        <div className="bg-black/40 backdrop-blur-xl rounded-2xl p-6 lg:p-8 border border-[#BD9B5F]/20 shadow-2xl mt-16 md:mt-0">
 
                             {/* TABS */}
                             <div className="flex gap-6 mb-8 border-b border-gray-800">
@@ -216,7 +216,7 @@ const HeroSection = memo(({ selectedCountry, setSelectedCountry }) => {
                                             setSelectedCountry(country)
                                         }
                                         className={`pb-3 font-medium transition-all ${selectedCountry === country
-                                            ? 'text-[#D3A188]'
+                                            ? 'text-[#BD9B5F]'
                                             : 'text-gray-500 hover:text-gray-300'
                                             }`}
                                     >
@@ -259,7 +259,7 @@ const HeroSection = memo(({ selectedCountry, setSelectedCountry }) => {
                                                     e.target.checked,
                                             }))
                                         }
-                                        className="w-5 h-5 accent-[#D3A188]"
+                                        className="w-5 h-5 accent-[#BD9B5F]"
                                     />
                                     <span className="text-sm text-gray-400">
                                         Enable Smart Search

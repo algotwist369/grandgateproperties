@@ -27,7 +27,7 @@ const ContactPage = () => {
     };
 
     return (
-        <div className="min-h-screen pt-32 pb-24 bg-black text-gray-100 selection:bg-[#D3A188] selection:text-black">
+        <div className="min-h-screen pt-32 pb-24 bg-black text-gray-100 selection:bg-[#BD9B5F] selection:text-black">
             {/* Header */}
             <motion.div
                 className="max-w-7xl mx-auto px-6 lg:px-8 text-center mb-24"
@@ -36,12 +36,12 @@ const ContactPage = () => {
                 transition={{ duration: 0.8 }}
             >
                 <div className="flex items-center justify-center gap-4 mb-6">
-                    <div className="w-12 h-px bg-[#D3A188]"></div>
-                    <span className="text-xs uppercase tracking-[0.5em] text-[#D3A188] font-medium">Global presence</span>
-                    <div className="w-12 h-px bg-[#D3A188]"></div>
+                    <div className="w-12 h-px bg-[#BD9B5F]"></div>
+                    <span className="text-xs uppercase tracking-[0.5em] text-[#BD9B5F] font-medium">Global presence</span>
+                    <div className="w-12 h-px bg-[#BD9B5F]"></div>
                 </div>
                 <h1 className="text-5xl md:text-8xl font-light text-white uppercase tracking-tighter mb-8 leading-none">
-                    Get in <span className="text-[#D3A188] font-medium italic">Touch</span>
+                    Get in <span className="text-[#BD9B5F] font-medium italic">Touch</span>
                 </h1>
                 <p className="text-gray-400 max-w-2xl mx-auto text-lg font-light leading-relaxed">
                     Our team of strategic advisors is ready to assist you. Visit one of our flagship offices or connect with us directly to begin your journey.
@@ -61,7 +61,7 @@ const ContactPage = () => {
                         <motion.div
                             key={office.country}
                             variants={itemVariants}
-                            className="group relative bg-white/5 rounded-[2.5rem] overflow-hidden border border-white/10 hover:border-[#D3A188]/30 transition-all duration-500 flex flex-col hover:shadow-2xl hover:shadow-[#D3A188]/5"
+                            className="group relative bg-white/5 rounded-[2.5rem] overflow-hidden border border-white/10 hover:border-[#BD9B5F]/30 transition-all duration-500 flex flex-col hover:shadow-2xl hover:shadow-[#BD9B5F]/5"
                         >
                             {/* Image Section */}
                             <div className="h-64 overflow-hidden relative">
@@ -84,8 +84,8 @@ const ContactPage = () => {
 
                                 <div className="space-y-6 mb-10 flex-1">
                                     <div className="flex items-start gap-4">
-                                        <div className="w-10 h-10 rounded-2xl bg-[#D3A188]/10 flex items-center justify-center shrink-0 border border-[#D3A188]/20 group-hover:bg-[#D3A188] group-hover:border-[#D3A188] transition-all duration-500">
-                                            <IoLocationOutline size={20} className="text-[#D3A188] group-hover:text-black transition-colors" />
+                                        <div className="w-10 h-10 rounded-2xl bg-[#BD9B5F]/10 flex items-center justify-center shrink-0 border border-[#BD9B5F]/20 group-hover:bg-[#BD9B5F] group-hover:border-[#BD9B5F] transition-all duration-500">
+                                            <IoLocationOutline size={20} className="text-[#BD9B5F] group-hover:text-black transition-colors" />
                                         </div>
                                         <p className="text-sm text-gray-400 leading-relaxed font-light">{office.address}</p>
                                     </div>
@@ -104,15 +104,15 @@ const ContactPage = () => {
                                         href={`https://wa.me/${office.whatsapp}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex items-center justify-center gap-3 px-6 py-4 rounded-2xl border border-white/10 hover:border-[#D3A188]/50 text-xs uppercase tracking-[0.2em] font-medium text-white hover:bg-[#D3A188]/5 transition-all"
+                                        className="flex items-center justify-center gap-3 px-6 py-4 rounded-2xl border border-white/10 hover:border-[#BD9B5F]/50 text-xs uppercase tracking-[0.2em] font-medium text-white hover:bg-[#BD9B5F]/5 transition-all"
                                     >
-                                        <FaWhatsapp className="text-[#D3A188]" size={16} />
+                                        <FaWhatsapp className="text-[#BD9B5F]" size={16} />
                                         <span>WhatsApp</span>
                                     </a>
 
                                     <a
                                         href={`tel:${office.phoneClean}`}
-                                        className="flex items-center justify-center gap-3 px-6 py-4 rounded-2xl bg-white text-black hover:bg-[#D3A188] hover:text-white text-xs uppercase tracking-[0.2em] font-bold transition-all shadow-lg hover:shadow-[#D3A188]/20"
+                                        className="flex items-center justify-center gap-3 px-6 py-4 rounded-2xl bg-white text-black hover:bg-[#BD9B5F] hover:text-white text-xs uppercase tracking-[0.2em] font-bold transition-all shadow-lg hover:shadow-[#BD9B5F]/20"
                                     >
                                         <IoCallOutline size={16} />
                                         <span>Call</span>

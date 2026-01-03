@@ -122,7 +122,7 @@ const WhyChooseUs = ({ selectedCountry }) => {
     return (
         <div className="relative py-24 sm:py-32 overflow-hidden bg-black">
             {/* Background Decorative Element */}
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#D3A188]/5 blur-[120px] rounded-full translate-x-1/2 -translate-y-1/2"></div>
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#BD9B5F]/5 blur-[120px] rounded-full translate-x-1/2 -translate-y-1/2"></div>
 
             <div className="container mx-auto px-6 lg:px-8 relative z-20">
                 {/* Header Section */}
@@ -134,14 +134,14 @@ const WhyChooseUs = ({ selectedCountry }) => {
                     transition={{ duration: 0.8 }}
                 >
                     <div className="flex items-center justify-center gap-4 mb-6">
-                        <div className="w-12 h-px bg-[#D3A188]"></div>
-                        <span className="text-xs uppercase tracking-[0.5em] text-[#D3A188] font-medium">Proven Excellence</span>
-                        <div className="w-12 h-px bg-[#D3A188]"></div>
+                        <div className="w-12 h-px bg-[#BD9B5F]"></div>
+                        <span className="text-xs uppercase tracking-[0.5em] text-[#BD9B5F] font-medium">Proven Excellence</span>
+                        <div className="w-12 h-px bg-[#BD9B5F]"></div>
                     </div>
 
                     <h1 className="text-5xl md:text-7xl font-light text-white uppercase tracking-tighter mb-8 leading-none">
                         Your Trusted <br />
-                        <span className="text-[#D3A188] font-medium italic">Strategic Partner</span>
+                        <span className="text-[#BD9B5F] font-medium italic">Strategic Partner</span>
                     </h1>
 
                     <p className="text-gray-400 max-w-2xl mx-auto text-lg font-light leading-relaxed">
@@ -161,15 +161,15 @@ const WhyChooseUs = ({ selectedCountry }) => {
                         <motion.div
                             key={index}
                             variants={itemVariants}
-                            className="relative group p-10 rounded-[2.5rem] border border-white/10 bg-white/5 hover:border-[#D3A188]/30 transition-all duration-500 text-center"
+                            className="relative group p-10 rounded-[2.5rem] border border-white/10 bg-white/5 hover:border-[#BD9B5F]/30 transition-all duration-500 text-center"
                         >
-                            <div className="flex justify-center mb-6 text-[#D3A188] opacity-50 group-hover:opacity-100 transition-opacity">
+                            <div className="flex justify-center mb-6 text-[#BD9B5F] opacity-50 group-hover:opacity-100 transition-opacity">
                                 {stat.icon}
                             </div>
                             <div className="text-4xl sm:text-5xl font-light text-white mb-2 tracking-tighter">
                                 <Counter value={stat.targetValue} suffix={stat.suffix} />
                             </div>
-                            <div className="text-[10px] uppercase tracking-[0.3em] text-[#D3A188] mb-1 font-medium">
+                            <div className="text-[10px] uppercase tracking-[0.3em] text-[#BD9B5F] mb-1 font-medium">
                                 {stat.label}
                             </div>
                             <div className="text-xs text-gray-500 uppercase tracking-widest">
@@ -191,10 +191,10 @@ const WhyChooseUs = ({ selectedCountry }) => {
                         <motion.div
                             key={index}
                             variants={itemVariants}
-                            className="group p-8 rounded-[2rem] border border-white/10 bg-white/5 hover:bg-white/10 hover:border-[#D3A188]/20 transition-all duration-500"
+                            className="group p-8 rounded-[2rem] border border-white/10 bg-white/5 hover:bg-white/10 hover:border-[#BD9B5F]/20 transition-all duration-500"
                         >
                             <div className="flex items-start gap-6">
-                                <div className="w-12 h-12 rounded-2xl bg-[#D3A188]/10 flex items-center justify-center text-[#D3A188] group-hover:bg-[#D3A188] group-hover:text-black transition-all duration-500 shrink-0">
+                                <div className="w-12 h-12 rounded-2xl bg-[#BD9B5F]/10 flex items-center justify-center text-[#BD9B5F] group-hover:bg-[#BD9B5F] group-hover:text-black transition-all duration-500 shrink-0">
                                     {feature.icon}
                                 </div>
                                 <div className="space-y-3">
@@ -220,11 +220,11 @@ const WhyChooseUs = ({ selectedCountry }) => {
                 >
                     <div className="relative inline-block group px-12 py-16 sm:px-20 sm:py-24 rounded-[3rem] overflow-hidden">
                         <div className="absolute inset-0 bg-white/5 backdrop-blur-3xl border border-white/10"></div>
-                        <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-transparent via-[#D3A188] to-transparent opacity-50"></div>
+                        <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-transparent via-[#BD9B5F] to-transparent opacity-50"></div>
 
                         <div className="relative z-10 max-w-2xl">
                             <h2 className="text-3xl sm:text-5xl font-light text-white uppercase tracking-tighter mb-8">
-                                Ready to find your <span className="text-[#D3A188] italic font-medium">Dream Property?</span>
+                                Ready to find your <span className="text-[#BD9B5F] italic font-medium">Dream Property?</span>
                             </h2>
                             <p className="text-gray-400 text-lg font-light mb-12">
                                 Let our bespoke advisors curate the perfect portfolio for your lifestyle and legacy.
@@ -232,7 +232,7 @@ const WhyChooseUs = ({ selectedCountry }) => {
                             <div className="flex flex-col sm:flex-row justify-center gap-4">
                                 <button
                                     onClick={() => navigate('/en/properties')}
-                                    className="px-10 py-5 hover:bg-white hover:text-black text-xs uppercase tracking-[0.3em] font-bold rounded-2xl bg-[#D3A188] text-white transition-all shadow-xl shadow-black/20"
+                                    className="px-10 py-5 hover:bg-white hover:text-black text-xs uppercase tracking-[0.3em] font-bold rounded-2xl bg-[#BD9B5F] text-white transition-all shadow-xl shadow-black/20"
                                 >
                                     Explore Portfolio
                                 </button>

@@ -11,7 +11,7 @@ const PrivacyPage = () => {
                 {/* Header */}
                 <div className='mb-12'>
                     <h1 className='text-4xl md:text-5xl font-bold text-white mb-4'>
-                        Privacy <span className='text-[#D3A188]'>Policy</span>
+                        Privacy <span className='text-[#BD9B5F]'>Policy</span>
                     </h1>
                     <p className='text-gray-400'>Last updated: December 29, 2024</p>
                 </div>
@@ -29,7 +29,7 @@ const PrivacyPage = () => {
                         <h2 className='text-2xl font-bold text-white mb-4'>2. Information We Collect</h2>
                         <div className='space-y-4'>
                             <div>
-                                <h3 className='text-xl font-semibold text-[#D3A188] mb-2'>Personal Information</h3>
+                                <h3 className='text-xl font-semibold text-[#BD9B5F] mb-2'>Personal Information</h3>
                                 <p className='leading-relaxed'>
                                     We may collect personal information that you voluntarily provide to us, including:
                                 </p>
@@ -41,7 +41,7 @@ const PrivacyPage = () => {
                                 </ul>
                             </div>
                             <div>
-                                <h3 className='text-xl font-semibold text-[#D3A188] mb-2'>Automated Information</h3>
+                                <h3 className='text-xl font-semibold text-[#BD9B5F] mb-2'>Automated Information</h3>
                                 <p className='leading-relaxed'>
                                     When you visit our website, we automatically collect certain information about your device, including:
                                 </p>
@@ -129,7 +129,7 @@ const PrivacyPage = () => {
                         <p className='leading-relaxed mb-2'>
                             If you have any questions about this Privacy Policy, please contact us:
                         </p>
-                        <div className='bg-[#111] p-6 rounded-lg border border-[#D3A188]/20 mt-4'>
+                        <div className='bg-[#111] p-6 rounded-lg border border-[#BD9B5F]/20 mt-4'>
                             <p className='mb-2'><span className='font-semibold text-white'>Email:</span> grandgatepropertiesllc@gmail.com</p>
                             <p className='mb-2'><span className='font-semibold text-white'>Phone:</span> +971 5 544 22553 (Dubai)</p>
                             <p><span className='font-semibold text-white'>Address:</span> 9B Zaa'beel St - Al Karama - Dubai - United Arab Emirates, Dubai, United Arab Emirates</p>

@@ -21,13 +21,13 @@ const Visitouroffice = ({ selectedCountry }) => {
           transition={{ duration: 0.8 }}
         >
           <h2 className='text-3xl lg:text-6xl font-light tracking-tight text-white mb-6 uppercase'>
-            Visit Our <span className='text-[#D3A188] font-medium'>Office</span>
+            Visit Our <span className='text-[#BD9B5F] font-medium'>Office</span>
           </h2>
 
           <div className='flex items-center justify-center gap-4 mb-8'>
-            <div className='w-20 h-px bg-gradient-to-r from-transparent to-[#D3A188]/50'></div>
-            <div className='w-2 h-2 rounded-full border border-[#D3A188]'></div>
-            <div className='w-20 h-px bg-gradient-to-l from-transparent to-[#D3A188]/50'></div>
+            <div className='w-20 h-px bg-gradient-to-r from-transparent to-[#BD9B5F]/50'></div>
+            <div className='w-2 h-2 rounded-full border border-[#BD9B5F]'></div>
+            <div className='w-20 h-px bg-gradient-to-l from-transparent to-[#BD9B5F]/50'></div>
           </div>
 
           <p className='text-lg lg:text-xl text-gray-400 font-light max-w-3xl mx-auto leading-relaxed'>
@@ -80,7 +80,7 @@ const Visitouroffice = ({ selectedCountry }) => {
                         <div className="flex items-end justify-between">
                           <div className="space-y-4">
                             <div className="flex items-center gap-3">
-                              <div className="w-1 h-8 bg-[#D3A188]"></div>
+                              <div className="w-1 h-8 bg-[#BD9B5F]"></div>
                               <h3 className='text-2xl sm:text-4xl font-light text-white tracking-wider uppercase'>
                                 {office.title}
                               </h3>
@@ -90,7 +90,7 @@ const Visitouroffice = ({ selectedCountry }) => {
                             </p>
                           </div>
 
-                          <div className='w-16 h-16 rounded-full border border-white/20 flex items-center justify-center hover:bg-[#D3A188] hover:border-[#D3A188] transition-all duration-300 group'>
+                          <div className='w-16 h-16 rounded-full border border-white/20 flex items-center justify-center hover:bg-[#BD9B5F] hover:border-[#BD9B5F] transition-all duration-300 group'>
                             <svg className='w-6 h-6 text-white group-hover:scale-110 transition-transform' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
                               <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={1.5} d='M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z' />
                               <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={1.5} d='M15 11a3 3 0 11-6 0 3 3 0 016 0z' />
@@ -112,7 +112,7 @@ const Visitouroffice = ({ selectedCountry }) => {
             <button
               key={idx}
               onClick={() => setCurrentIndex(idx)}
-              className={`h-1.5 transition-all duration-500 rounded-full ${idx === currentIndex ? 'w-12 bg-[#D3A188]' : 'w-4 bg-white/10'}`}
+              className={`h-1.5 transition-all duration-500 rounded-full ${idx === currentIndex ? 'w-12 bg-[#BD9B5F]' : 'w-4 bg-white/10'}`}
             />
           ))}
         </div>

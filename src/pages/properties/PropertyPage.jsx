@@ -227,7 +227,7 @@ const PropertyPage = () => {
     const visibleProperties = filteredProperties.slice(0, visibleCount);
 
     return (
-        <div className="min-h-screen pt-32 pb-24 bg-black text-gray-100 selection:bg-[#D3A188] selection:text-black">
+        <div className="min-h-screen pt-32 pb-24 bg-black text-gray-100 selection:bg-[#BD9B5F] selection:text-black">
             {/* Header */}
             <motion.div
                 className="max-w-7xl mx-auto px-6 lg:px-8 text-center mb-24"
@@ -236,12 +236,12 @@ const PropertyPage = () => {
                 transition={{ duration: 0.8 }}
             >
                 <div className="flex items-center justify-center gap-4 mb-6">
-                    <div className="w-12 h-px bg-[#D3A188]"></div>
-                    <span className="text-xs uppercase tracking-[0.5em] text-[#D3A188] font-medium">Curated Collection</span>
-                    <div className="w-12 h-px bg-[#D3A188]"></div>
+                    <div className="w-12 h-px bg-[#BD9B5F]"></div>
+                    <span className="text-xs uppercase tracking-[0.5em] text-[#BD9B5F] font-medium">Curated Collection</span>
+                    <div className="w-12 h-px bg-[#BD9B5F]"></div>
                 </div>
                 <h1 className="text-5xl md:text-8xl font-light text-white uppercase tracking-tighter mb-8 leading-none">
-                    Discover your <span className="text-[#D3A188] font-medium italic">Legacy</span>
+                    Discover your <span className="text-[#BD9B5F] font-medium italic">Legacy</span>
                 </h1>
                 <p className="text-gray-400 max-w-2xl mx-auto text-lg font-light leading-relaxed">
                     Explore our exclusive portfolio of ultra-luxury residences, architecturally synchronized with the world's most prestigious environments.
@@ -257,7 +257,7 @@ const PropertyPage = () => {
             >
                 <div className="bg-white/5 backdrop-blur-2xl rounded-[2.5rem] border border-white/10 p-4 shadow-2xl flex items-center gap-4">
                     <div className="flex-1 relative group">
-                        <IoSearchOutline className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-[#D3A188] transition-colors" />
+                        <IoSearchOutline className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-[#BD9B5F] transition-colors" />
                         <input
                             type="text"
                             placeholder="Explore by location or name..."
@@ -303,7 +303,7 @@ const PropertyPage = () => {
 
                         <button
                             onClick={handleResetFilters}
-                            className="px-6 py-4 text-[10px] uppercase tracking-[0.2em] font-bold text-[#D3A188] hover:text-white transition-colors"
+                            className="px-6 py-4 text-[10px] uppercase tracking-[0.2em] font-bold text-[#BD9B5F] hover:text-white transition-colors"
                         >
                             Reset
                         </button>
@@ -315,13 +315,13 @@ const PropertyPage = () => {
             <div className="lg:hidden px-6 mb-8">
                 <button
                     onClick={() => setIsFilterOpen(true)}
-                    className="w-full bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl py-5 px-6 flex items-center justify-between text-[#D3A188]"
+                    className="w-full bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl py-5 px-6 flex items-center justify-between text-[#BD9B5F]"
                 >
                     <div className="flex items-center gap-3">
                         <IoFilterOutline size={20} />
                         <span className="text-[10px] uppercase tracking-[0.3em] font-bold">Refine Results</span>
                     </div>
-                    <span className="text-[10px] bg-[#D3A188] text-black px-3 py-1 rounded-full font-bold">Filters</span>
+                    <span className="text-[10px] bg-[#BD9B5F] text-black px-3 py-1 rounded-full font-bold">Filters</span>
                 </button>
             </div>
 
@@ -357,7 +357,7 @@ const PropertyPage = () => {
                                             <button
                                                 key={c}
                                                 onClick={() => handleFilterChange('country', c)}
-                                                className={`py-4 rounded-xl text-[10px] uppercase tracking-widest font-bold border transition-all ${filters.country === c ? 'bg-[#D3A188] border-[#D3A188] text-black' : 'bg-white/5 border-white/5 text-white'}`}
+                                                className={`py-4 rounded-xl text-[10px] uppercase tracking-widest font-bold border transition-all ${filters.country === c ? 'bg-[#BD9B5F] border-[#BD9B5F] text-black' : 'bg-white/5 border-white/5 text-white'}`}
                                             >
                                                 {c}
                                             </button>
@@ -383,7 +383,7 @@ const PropertyPage = () => {
                                             <button
                                                 key={b}
                                                 onClick={() => handleFilterChange('bedrooms', b)}
-                                                className={`py-4 rounded-xl text-[10px] uppercase tracking-widest font-bold border transition-all ${filters.bedrooms === b ? 'bg-[#D3A188] border-[#D3A188] text-black' : 'bg-white/5 border-white/5 text-white'}`}
+                                                className={`py-4 rounded-xl text-[10px] uppercase tracking-widest font-bold border transition-all ${filters.bedrooms === b ? 'bg-[#BD9B5F] border-[#BD9B5F] text-black' : 'bg-white/5 border-white/5 text-white'}`}
                                             >
                                                 {b}
                                             </button>
@@ -398,7 +398,7 @@ const PropertyPage = () => {
                                             <button
                                                 key={r.label}
                                                 onClick={() => handleFilterChange('priceRange', r.label)}
-                                                className={`w-full py-4 px-6 rounded-xl text-[10px] uppercase tracking-widest font-bold border transition-all text-left flex justify-between items-center ${filters.priceRange === r.label ? 'bg-[#D3A188] border-[#D3A188] text-black' : 'bg-white/5 border-white/5 text-white'}`}
+                                                className={`w-full py-4 px-6 rounded-xl text-[10px] uppercase tracking-widest font-bold border transition-all text-left flex justify-between items-center ${filters.priceRange === r.label ? 'bg-[#BD9B5F] border-[#BD9B5F] text-black' : 'bg-white/5 border-white/5 text-white'}`}
                                             >
                                                 {r.label}
                                                 {filters.priceRange === r.label && <div className="w-2 h-2 bg-black rounded-full" />}
@@ -463,7 +463,7 @@ const PropertyPage = () => {
                         <p className="text-gray-500 font-light mb-12">Expand your horizons to discover more possibilities.</p>
                         <button
                             onClick={handleResetFilters}
-                            className="px-12 py-5 bg-white text-black text-xs uppercase tracking-[0.3em] font-bold rounded-2xl hover:bg-[#D3A188] hover:text-white transition-all shadow-xl shadow-white/5"
+                            className="px-12 py-5 bg-white text-black text-xs uppercase tracking-[0.3em] font-bold rounded-2xl hover:bg-[#BD9B5F] hover:text-white transition-all shadow-xl shadow-white/5"
                         >
                             Clear All Filters
                         </button>
@@ -475,7 +475,7 @@ const PropertyPage = () => {
                     <div ref={observerTarget} className="mt-24 text-center">
                         <div className="inline-flex items-center gap-4 px-10 py-6 bg-white/5 rounded-full border border-white/10">
                             <motion.div
-                                className="w-2 h-2 bg-[#D3A188] rounded-full"
+                                className="w-2 h-2 bg-[#BD9B5F] rounded-full"
                                 animate={{ scale: [1, 1.5, 1], opacity: [0.5, 1, 0.5] }}
                                 transition={{ repeat: Infinity, duration: 1.5 }}
                             ></motion.div>
