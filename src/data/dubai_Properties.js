@@ -748,6 +748,147 @@ export const propertyDirectory = [
             "min": 5600000,
             "max": 8700000
         }
+    },
+
+    {
+        "id": "mareva-the-oasis-brochure",
+        "slug": "dubai-mareva-the-oasis-brochure",
+        "is_new": 1,
+        "title": "Mareva The Oasis Brochure",
+        "developer": "The Oasis Properties",
+        "headline": "4, 5 & 6 Bedroom Ultra-Luxury Waterfront Villas",
+        "community": "Marèva – The Oasis by EMAAR",
+        "location": "The Oasis, Dubai, United Arab Emirates",
+        "emirate": "Dubai, UAE",
+        "country": "Dubai",
+
+        "propertyCategory": "Luxury Villa Community",
+        "propertyTypes": ["Villa"],
+
+        "startingPrice": 13470000,
+        "currency": "AED",
+
+        "description": `Marèva at The Oasis by EMAAR is a masterfully planned waterfront villa community that redefines luxury living in Dubai. Designed around serene swimmable lagoons, lush landscapes, and resort-inspired amenities, Marèva offers an exclusive lifestyle where elegance, privacy, and nature coexist seamlessly.
+
+        Featuring contemporary 4, 5, and 6-bedroom villas with expansive layouts, refined architecture, and private outdoor spaces, the community is crafted for discerning homeowners and investors seeking long-term value in a globally trusted EMAAR development`,
+
+        "handover": "Q4 2028",
+
+        "intro_video": "/properties/MAREVA/videos/THE_OASIS_LATEST_PHASE_TEASER_16X9.mp4",
+
+        "properties_doc": [
+            {
+                "title": "MAREVA THE OASIS BROCHURE",
+                "url": "/properties/MAREVA/docs/MAREVA_THE_OASIS_BROCHURE.pdf"
+            },
+            {
+                "title": "MAREVA THE OASIS FLOOR PLANS",
+                "url": "/properties/MAREVA/docs/MAREVA_THE_OASIS_FLOOR_PLANS.pdf"
+
+            },
+            {
+                "title": "MAREVA THE OASIS MOODBOARD",
+                "url": "/properties/MAREVA/docs/MAREVA_THE_OASIS_MOODBOARD.pdf"
+            },
+            {
+                "title": "MAREVA THE OASIS ONEPAGER",
+                "url": "/properties/MAREVA/docs/MAREVA_THE_OASIS_ONEPAGER.pdf"
+            },
+            {
+                "title": "MAREVA THE OASIS PAYMENT PLAN",
+                "url": "/properties/MAREVA/docs/MAREVA_THE_OASIS_PAYMENT_PLAN.pdf"
+            },
+        ],
+
+        "amenities": [
+            "Swimmable Lagoon",
+            "Swimming Pools",
+            "Pocket Parks & Beaches",
+            "Wellness & Spa Facilities",
+            "Community Parks & Playgrounds",
+            "Outdoor Tracks for Jogging and Cycling",
+            "Sports Courts & Fitness Facilities",
+            "Retail Centres & Community Centre",
+            "Schools & Clubhouse"
+        ],
+
+        "featured": true,
+
+        "units": [
+            {
+                "unitId": "4-bedroom-villa",
+                "title": "4 Bedroom Villa",
+                "propertyType": "Villa",
+                "bedrooms": 4,
+                "bathrooms": null,
+                "sqftRange": "7,254–8,105 sq.ft",
+                "price": 13470000,
+                "description": "Spacious 4 bedroom luxury villa with contemporary architecture, expansive built-up area, private garden, and premium finishes, ideal for refined family living."
+            },
+            {
+                "unitId": "5-bedroom-villa",
+                "title": "5 Bedroom Villa",
+                "propertyType": "Villa",
+                "bedrooms": 5,
+                "bathrooms": null,
+                "sqftRange": "7,965–8,705 sq.ft",
+                "price": 15380000,
+                "description": "Elegant 5 bedroom villa offering generous living spaces, modern interiors, large plot area, and a lifestyle-focused layout within a prestigious community."
+            },
+            {
+                "unitId": "6-bedroom-villa",
+                "title": "6 Bedroom Villa",
+                "propertyType": "Villa",
+                "bedrooms": 6,
+                "bathrooms": null,
+                "sqftRange": "12,779–14,384 sq.ft",
+                "price": 23470000,
+                "description": "Ultra-luxury 6 bedroom villa featuring expansive interiors, grand layout, large plot size, private outdoor spaces, and high-end finishes for elite living."
+            }
+        ],
+
+        agent: {
+            id: 'moosa-kaleem',
+            name: 'Moosa Kaleem',
+            title: 'Luxury Real Estate Property Specialist',
+            avatar: 'https://png.pngtree.com/png-clipart/20230927/original/pngtree-man-avatar-image-for-profile-png-image_13001882.png',
+            whatsapp: '+971554422553',
+            phone: '+971554422553',
+            email: 'grandgatepropertiesllc@gmail.com',
+            facebook: '',
+            instagram: ''
+        },
+
+        "heroImage": "/properties/MAREVA/MAREVA_OASIS_BR.jpg",
+
+        "gallery": [
+            "/properties/MAREVA/MAREVA_OASIS_BR2.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR3.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR4.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR5.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR6.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR7.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR8.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR9.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR10.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR11.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR12.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR13.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR14.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR15.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR16.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR17.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR18.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR19.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR20.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR21.jpg",
+
+        ],
+
+        "priceRange": {
+            "min": 13470000,
+            "max": 23470000
+        }
     }
 ]
 

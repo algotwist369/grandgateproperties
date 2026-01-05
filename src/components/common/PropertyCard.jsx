@@ -87,7 +87,8 @@ const PropertyCard = memo(({ property }) => {
 
     const cardVariants = {
         hidden: { opacity: 0, y: 30 },
-        show: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+        show: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+        hover: { y: -12, transition: { duration: 0.4, ease: "easeOut" } }
     };
 
     return (
@@ -96,7 +97,7 @@ const PropertyCard = memo(({ property }) => {
             initial="hidden"
             whileInView="show"
             viewport={{ once: true }}
-            whileHover={{ y: -12 }}
+            whileHover="hover"
             className="group relative bg-[#0F3E5E]/10 rounded-2xl overflow-hidden border border-white/10 hover:border-[#BD9B5F]/40 transition-all duration-500 hover:shadow-2xl hover:shadow-[#BD9B5F]/10"
         >
             {/* Image Section */}
@@ -138,65 +139,78 @@ const PropertyCard = memo(({ property }) => {
             </div>
 
             {/* Content Section */}
-            <div className="p-5 sm:p-8">
+            <div className="p-5 sm:p-7">
                 <div className="space-y-4">
-                    <Heading
-                        as="h3"
-                        size="text-xl sm:text-2xl"
-                        weight="font-light"
-                        className="text-white uppercase tracking-tight cursor-pointer hover:text-[#BD9B5F] transition-colors line-clamp-1"
-                        onClick={handleViewDetails}
-                    >
-                        {property?.title}
-                    </Heading>
+                    <div>
+                        <Heading
+                            as="h3"
+                            size="text-xl sm:text-2xl"
+                            weight="font-light"
+                            className="text-white uppercase tracking-tight cursor-pointer hover:text-[#BD9B5F] transition-colors line-clamp-1 mb-2"
+                            onClick={handleViewDetails}
+                        >
+                            {property?.title}
+                        </Heading>
 
-                    <div className="flex items-center gap-2 text-[#BD9B5F]/80">
-                        <FaLocationArrow size={12} />
-                        <span className="text-[10px] uppercase tracking-[0.2em] font-medium">{property?.location}</span>
-                    </div>
-
-                    {/* Specifications */}
-                    <div className="flex items-center gap-6 pt-4 border-t border-white/10">
-                        {[
-                            { label: 'Beds', value: bedsLabel },
-                            { label: 'Baths', value: bathsLabel },
-                            { label: 'Area', value: areaLabel }
-                        ].map((stat, index) => stat.value && (
-                            <div key={index} className="flex flex-col gap-1">
-                                <span className="text-[10px] uppercase tracking-[0.1em] text-gray-500">{stat.label}</span>
-                                <span className="text-sm text-white font-light">{stat.value}</span>
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Pricing and Actions */}
-                    <div className="pt-6 flex items-center justify-between">
-                        <div className="flex flex-col">
-                            <span className="text-[10px] uppercase tracking-[0.2em] text-[#BD9B5F] font-bold">Investment</span>
-                            <span className="text-2xl font-light text-white">{priceLabel}</span>
+                        <div className="flex items-center gap-2 text-[#BD9B5F]/80">
+                            <FaLocationArrow size={10} className="flex-shrink-0" />
+                            <span className="text-[10px] uppercase tracking-[0.2em] font-medium truncate">{property?.location}</span>
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4 pt-6">
-                        <Button
-                            text="Details"
-                            size=""
-                            primaryBg=""
-                            primaryText=""
-                            onClick={handleViewDetails}
-                            rounded="rounded-2xl"
-                            className="py-4 border border-white/10 hover:border-[#BD9B5F]/30 text-[10px] uppercase tracking-[0.2em] font-bold text-white transition-all hover:bg-white/5"
-                        />
-                        <Button
-                            text="Inquire"
-                            onClick={handleInquire}
-                            primaryBg="bg-[#BD9B5F]"
-                            primaryText="text-black"
-                            size=""
-                            rounded="rounded-2xl"
-                            className="py-4 hover:bg-white hover:text-black text-[10px] uppercase tracking-[0.2em] font-bold transition-all shadow-xl hover:shadow-[#BD9B5F]/20"
-                        />
+                    {/* Pricing - Always Visible but refined */}
+                    <div className="flex flex-col pt-2">
+                        <span className="text-[9px] uppercase tracking-[0.2em] text-[#BD9B5F]/60 font-medium">Investment From</span>
+                        <span className="text-xl font-light text-white">{priceLabel}</span>
                     </div>
+
+                    {/* Revealable Details on Hover */}
+                    <motion.div
+                        initial={{ height: 0, opacity: 0, marginTop: 0 }}
+                        variants={{
+                            show: { height: 0, opacity: 0, marginTop: 0 },
+                            hover: {
+                                height: "auto",
+                                opacity: 1,
+                                marginTop: 16,
+                                transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] }
+                            }
+                        }}
+                        animate={undefined} // Controlled by group-hover via variants
+                        className="overflow-hidden border-t border-white/5"
+                    >
+                        <div className="pt-4 space-y-6">
+                            {/* Specifications */}
+                            <div className="flex items-center gap-6">
+                                {[
+                                    { label: 'Beds', value: bedsLabel },
+                                    { label: 'Baths', value: bathsLabel },
+                                    { label: 'Area', value: areaLabel }
+                                ].map((stat, index) => stat.value && (
+                                    <div key={index} className="flex flex-col gap-1">
+                                        <span className="text-[9px] uppercase tracking-[0.1em] text-gray-500 font-medium">{stat.label}</span>
+                                        <span className="text-xs text-white font-light">{stat.value}</span>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Actions */}
+                            <div className="grid grid-cols-2 gap-3 pb-2">
+                                <Button
+                                    text="Details"
+                                    onClick={handleViewDetails}
+                                    className="py-3.5 border border-white/10 hover:border-[#BD9B5F]/30 text-[9px] uppercase tracking-[0.2em] font-bold text-white transition-all hover:bg-white/5 rounded-xl"
+                                />
+                                <Button
+                                    text="Inquire"
+                                    onClick={handleInquire}
+                                    primaryBg="bg-[#BD9B5F]"
+                                    primaryText="text-black"
+                                    className="py-3.5 hover:bg-white hover:text-black text-[9px] uppercase tracking-[0.2em] font-bold transition-all shadow-lg rounded-xl"
+                                />
+                            </div>
+                        </div>
+                    </motion.div>
                 </div>
             </div>
         </motion.div>

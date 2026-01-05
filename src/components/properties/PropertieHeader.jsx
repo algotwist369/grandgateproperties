@@ -7,6 +7,8 @@ import { FaLinkedin } from 'react-icons/fa6'
 import Heading from '../common/Heading'
 import { FaBed, FaBath, FaRulerCombined, FaHome, FaInstagram } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
+import { VideoModal, PdfModal } from '../common'
+import { FaFilePdf, FaFileAlt, FaChevronRight } from 'react-icons/fa'
 
 const MAP_FALLBACK =
     "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15081.626343519032!2d73.0047826!3d19.0898111!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c1d305a5b82b%3A0x9180c9d872385d37!2sThe%20King's%20Luxury%20Spa!5e0!3m2!1sen!2sin!4v1763381077242!5m2!1sen!2sin"
@@ -31,6 +33,9 @@ const sanitizeDigits = (value = '') => value.replace(/[^+\d]/g, '')
 const PropertieHeader = ({ property }) => {
     const [currentImageIdx, setCurrentImageIdx] = useState(0)
     const [isZoomed, setIsZoomed] = useState(false)
+    const [activePdfUrl, setActivePdfUrl] = useState(null)
+    const [activePdfTitle, setActivePdfTitle] = useState('')
+    const [showVideoPopup, setShowVideoPopup] = useState(false)
     const resolvedProperty = property ?? null
 
     useEffect(() => {
@@ -48,6 +53,16 @@ const PropertieHeader = ({ property }) => {
             document.body.style.overflow = 'unset'
         }
     }, [isZoomed])
+
+    // Auto-show video popup if intro_video exists
+    useEffect(() => {
+        if (resolvedProperty?.intro_video) {
+            const timer = setTimeout(() => {
+                setShowVideoPopup(true)
+            }, 1500) // Delay popup slightly for better UX
+            return () => clearTimeout(timer)
+        }
+    }, [resolvedProperty?.intro_video, resolvedProperty?.id])
 
     const gallery = useMemo(() => {
         let items = []
@@ -1008,9 +1023,70 @@ const PropertieHeader = ({ property }) => {
                                 </div>
                             </div>
                         )}
+                        {/* Exclusive Project Assets Section */}
+                        {resolvedProperty?.properties_doc?.length > 0 && (
+                            <div className="py-12 mt-6 border-t border-gray-800/50">
+                                <div className="flex items-center justify-between mb-8">
+                                    <div className="flex flex-col">
+                                        <span className="text-[10px] uppercase tracking-[0.2em] text-[#BD9B5F] font-semibold mb-2 ml-1">Premium Resources</span>
+                                        <Heading as="h3" size="h3" color="white" className="!leading-none">Exclusive Project Assets</Heading>
+                                    </div>
+                                    <div className="hidden sm:block h-[1px] flex-1 bg-gradient-to-r from-gray-800 to-transparent ml-8" />
+                                </div>
+
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                                    {resolvedProperty.properties_doc.map((doc, idx) => (
+                                        <button
+                                            key={`doc-${idx}`}
+                                            onClick={() => {
+                                                setActivePdfUrl(doc.url)
+                                                setActivePdfTitle(doc.title)
+                                            }}
+                                            className="group flex flex-col text-left p-0.5 rounded-xl bg-gradient-to-b from-gray-800/50 to-transparent hover:from-[#BD9B5F]/30 transition-all duration-500 overflow-hidden"
+                                        >
+                                            <div className="flex items-center gap-4 p-5 bg-[#0A0A0A] rounded-[10px] h-full transition-colors group-hover:bg-[#0F0F0F]">
+                                                <div className="relative flex-shrink-0">
+                                                    <div className="absolute inset-0 bg-red-500/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+                                                    <div className="relative p-3.5 bg-gray-900/50 text-gray-400 rounded-lg border border-gray-800 group-hover:border-[#BD9B5F]/50 group-hover:text-red-500 transition-all">
+                                                        {doc.url.toLowerCase().endsWith('.pdf') ? <FaFilePdf size={22} /> : <FaFileAlt size={22} />}
+                                                    </div>
+                                                </div>
+
+                                                <div className="flex-1 min-w-0">
+                                                    <p className="text-gray-400 text-[10px] uppercase tracking-wider mb-1 font-medium group-hover:text-[#BD9B5F] transition-colors">
+                                                        {doc.url.split('.').pop()} Asset
+                                                    </p>
+                                                    <p className="text-white text-sm font-semibold truncate leading-snug" title={doc.title}>
+                                                        {doc.title}
+                                                    </p>
+                                                </div>
+
+                                                <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all text-[#BD9B5F]">
+                                                    <FaChevronRight size={14} />
+                                                </div>
+                                            </div>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
                     </motion.div>
                 </div>
             </div>
+
+            <VideoModal
+                isOpen={showVideoPopup}
+                onClose={() => setShowVideoPopup(false)}
+                videoUrl={resolvedProperty?.intro_video}
+            />
+
+            <PdfModal
+                isOpen={!!activePdfUrl}
+                onClose={() => setActivePdfUrl(null)}
+                pdfUrl={activePdfUrl}
+                title={activePdfTitle}
+            />
 
             <div className="border border-gray-800"></div>
 
