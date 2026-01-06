@@ -95,8 +95,8 @@ export const propertyDirectory = [
         ],
 
         agent: {
-            id: 'moosa-kaleem',
-            name: 'Moosa Kaleem',
+            id: 'abdul-latheef',
+            name: 'Abdul Latheef',
             title: 'Luxury Real Estate Property Specialist',
             avatar: 'https://png.pngtree.com/png-clipart/20230927/original/pngtree-man-avatar-image-for-profile-png-image_13001882.png',
             whatsapp: '+971554422553',
@@ -210,8 +210,8 @@ export const propertyDirectory = [
             }
         ],
         agent: {
-            id: 'moosa-kaleem',
-            name: 'Moosa Kaleem',
+            id: 'abdul-latheef',
+            name: 'Abdul Latheef',
             title: 'Luxury Real Estate Property Specialist',
             avatar: 'https://png.pngtree.com/png-clipart/20230927/original/pngtree-man-avatar-image-for-profile-png-image_13001882.png',
             whatsapp: '+971554422553',
@@ -300,8 +300,8 @@ export const propertyDirectory = [
             }
         ],
         agent: {
-            id: 'moosa-kaleem',
-            name: 'Moosa Kaleem',
+            id: 'abdul-latheef',
+            name: 'Abdul Latheef',
             title: 'Luxury Real Estate Property Specialist',
             avatar: 'https://png.pngtree.com/png-clipart/20230927/original/pngtree-man-avatar-image-for-profile-png-image_13001882.png',
             whatsapp: '+971554422553',
@@ -418,8 +418,8 @@ export const propertyDirectory = [
             }
         ],
         agent: {
-            id: 'moosa-kaleem',
-            name: 'Moosa Kaleem',
+            id: 'abdul-latheef',
+            name: 'Abdul Latheef',
             title: 'Luxury Real Estate Property Specialist',
             avatar: 'https://png.pngtree.com/png-clipart/20230927/original/pngtree-man-avatar-image-for-profile-png-image_13001882.png',
             whatsapp: '+971554422553',
@@ -535,8 +535,8 @@ export const propertyDirectory = [
             }
         ],
         agent: {
-            id: 'moosa-kaleem',
-            name: 'Moosa Kaleem',
+            id: 'abdul-latheef',
+            name: 'Abdul Latheef',
             title: 'Luxury Real Estate Property Specialist',
             avatar: 'https://png.pngtree.com/png-clipart/20230927/original/pngtree-man-avatar-image-for-profile-png-image_13001882.png',
             whatsapp: '+971554422553',
@@ -641,8 +641,8 @@ export const propertyDirectory = [
             }
         ],
         agent: {
-            id: 'moosa-kaleem',
-            name: 'Moosa Kaleem',
+            id: 'abdul-latheef',
+            name: 'Abdul Latheef',
             title: 'Luxury Real Estate Property Specialist',
             avatar: 'https://png.pngtree.com/png-clipart/20230927/original/pngtree-man-avatar-image-for-profile-png-image_13001882.png',
             whatsapp: '+971554422553',
@@ -733,8 +733,8 @@ export const propertyDirectory = [
         ],
 
         agent: {
-            id: 'moosa-kaleem',
-            name: 'Moosa Kaleem',
+            id: 'abdul-latheef',
+            name: 'Abdul Latheef',
             title: 'Luxury Real Estate Property Specialist',
             avatar: 'https://png.pngtree.com/png-clipart/20230927/original/pngtree-man-avatar-image-for-profile-png-image_13001882.png',
             whatsapp: '+971554422553',
@@ -848,8 +848,8 @@ export const propertyDirectory = [
         ],
 
         agent: {
-            id: 'moosa-kaleem',
-            name: 'Moosa Kaleem',
+            id: 'abdul-latheef',
+            name: 'Abdul Latheef',
             title: 'Luxury Real Estate Property Specialist',
             avatar: 'https://png.pngtree.com/png-clipart/20230927/original/pngtree-man-avatar-image-for-profile-png-image_13001882.png',
             whatsapp: '+971554422553',
