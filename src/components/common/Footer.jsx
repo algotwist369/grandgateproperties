@@ -41,9 +41,9 @@ const Footer = memo(() => {
     ], []);
 
     const socialLinks = useMemo(() => [
-        { icon: <FaInstagram />, link: 'https://instagram.com', name: 'Instagram' },
-        { icon: <FaFacebook />, link: 'https://www.facebook.com/profile.php?id=61578777834956&mibextid=wwXIfr&rdid=bUM6rghfT8fvYUEx&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1HDBn3tuV8%2F%3Fmibextid%3DwwXIfr#', name: 'Facebook' },
-        { icon: <FaLinkedin />, link: 'https://www.linkedin.com/company/aries-estates/', name: 'LinkedIn' },
+        { icon: <FaInstagram />, link: 'https://www.instagram.com/grandgateproperties/', name: 'Instagram' },
+        { icon: <FaFacebook />, link: 'https://www.facebook.com/profile.php?id=61585773879074', name: 'Facebook' },
+        // { icon: <FaLinkedin />, link: 'https://www.linkedin.com/company/aries-estates/', name: 'LinkedIn' },
     ], []);
 
     return (
