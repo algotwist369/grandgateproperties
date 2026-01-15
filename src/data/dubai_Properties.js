@@ -1,4 +1,257 @@
 export const propertyDirectory = [
+
+    {
+        "id": "mareva-the-oasis-brochure",
+        "slug": "dubai-mareva-the-oasis-brochure",
+        "is_new": 1,
+        "title": "Mareva The Oasis Brochure",
+        "developer": "The Oasis Properties",
+        "headline": "4, 5 & 6 Bedroom Ultra-Luxury Waterfront Villas",
+        "community": "Marèva – The Oasis by EMAAR",
+        "location": "The Oasis, Dubai, United Arab Emirates",
+        "emirate": "Dubai, UAE",
+        "country": "Dubai",
+
+        "propertyCategory": "Luxury Villa Community",
+        "propertyTypes": ["Villa"],
+
+        "startingPrice": 13470000,
+        "currency": "AED",
+
+        "description": `Marèva at The Oasis by EMAAR is a masterfully planned waterfront villa community that redefines luxury living in Dubai. Designed around serene swimmable lagoons, lush landscapes, and resort-inspired amenities, Marèva offers an exclusive lifestyle where elegance, privacy, and nature coexist seamlessly.
+
+        Featuring contemporary 4, 5, and 6-bedroom villas with expansive layouts, refined architecture, and private outdoor spaces, the community is crafted for discerning homeowners and investors seeking long-term value in a globally trusted EMAAR development`,
+
+        "handover": "Q4 2028",
+
+        "intro_video": "/properties/MAREVA/videos/THE_OASIS_LATEST_PHASE_TEASER_16X9.mp4",
+
+        "properties_doc": [
+            {
+                "title": "MAREVA THE OASIS BROCHURE",
+                "url": "/properties/MAREVA/docs/MAREVA_THE_OASIS_BROCHURE.pdf"
+            },
+            {
+                "title": "MAREVA THE OASIS FLOOR PLANS",
+                "url": "/properties/MAREVA/docs/MAREVA_THE_OASIS_FLOOR_PLANS.pdf"
+
+            },
+            {
+                "title": "MAREVA THE OASIS MOODBOARD",
+                "url": "/properties/MAREVA/docs/MAREVA_THE_OASIS_MOODBOARD.pdf"
+            },
+            {
+                "title": "MAREVA THE OASIS ONEPAGER",
+                "url": "/properties/MAREVA/docs/MAREVA_THE_OASIS_ONEPAGER.pdf"
+            },
+            {
+                "title": "MAREVA THE OASIS PAYMENT PLAN",
+                "url": "/properties/MAREVA/docs/MAREVA_THE_OASIS_PAYMENT_PLAN.pdf"
+            },
+        ],
+
+        "amenities": [
+            "Swimmable Lagoon",
+            "Swimming Pools",
+            "Pocket Parks & Beaches",
+            "Wellness & Spa Facilities",
+            "Community Parks & Playgrounds",
+            "Outdoor Tracks for Jogging and Cycling",
+            "Sports Courts & Fitness Facilities",
+            "Retail Centres & Community Centre",
+            "Schools & Clubhouse"
+        ],
+
+        "featured": true,
+
+        "units": [
+            {
+                "unitId": "4-bedroom-villa",
+                "title": "4 Bedroom Villa",
+                "propertyType": "Villa",
+                "bedrooms": 4,
+                "bathrooms": null,
+                "sqftRange": "7,254–8,105 sq.ft",
+                "price": 13470000,
+                "description": "Spacious 4 bedroom luxury villa with contemporary architecture, expansive built-up area, private garden, and premium finishes, ideal for refined family living."
+            },
+            {
+                "unitId": "5-bedroom-villa",
+                "title": "5 Bedroom Villa",
+                "propertyType": "Villa",
+                "bedrooms": 5,
+                "bathrooms": null,
+                "sqftRange": "7,965–8,705 sq.ft",
+                "price": 15380000,
+                "description": "Elegant 5 bedroom villa offering generous living spaces, modern interiors, large plot area, and a lifestyle-focused layout within a prestigious community."
+            },
+            {
+                "unitId": "6-bedroom-villa",
+                "title": "6 Bedroom Villa",
+                "propertyType": "Villa",
+                "bedrooms": 6,
+                "bathrooms": null,
+                "sqftRange": "12,779–14,384 sq.ft",
+                "price": 23470000,
+                "description": "Ultra-luxury 6 bedroom villa featuring expansive interiors, grand layout, large plot size, private outdoor spaces, and high-end finishes for elite living."
+            }
+        ],
+
+        agent: {
+            id: 'abdul-latheef',
+            name: 'Abdul Latheef',
+            title: 'Luxury Real Estate Property Specialist',
+            avatar: 'https://png.pngtree.com/png-clipart/20230927/original/pngtree-man-avatar-image-for-profile-png-image_13001882.png',
+            whatsapp: '+971554422553',
+            phone: '+971554422553',
+            email: 'grandgatepropertiesllc@gmail.com',
+            facebook: '',
+            instagram: ''
+        },
+
+        "heroImage": "/properties/MAREVA/MAREVA_OASIS_BR.jpg",
+
+        "gallery": [
+            "/properties/MAREVA/MAREVA_OASIS_BR2.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR3.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR4.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR5.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR6.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR7.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR8.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR9.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR10.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR11.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR12.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR13.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR14.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR15.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR16.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR17.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR18.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR19.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR20.jpg",
+            "/properties/MAREVA/MAREVA_OASIS_BR21.jpg",
+
+        ],
+
+        "priceRange": {
+            "min": 13470000,
+            "max": 23470000
+        }
+    },
+
+    {
+        "id": "mercedes-benz-places-binghatti-city-brochure",
+        "slug": "dubai-mercedes-benz-places-binghatti-city",
+        "is_new": 1,
+
+        "title": "Mercedes-Benz Places | Binghatti City Brochure",
+        "developer": "Binghatti Developers",
+        "headline": "Ultra-Luxury Branded Residences by Mercedes-Benz",
+        "community": "Binghatti City",
+        "location": "Downtown Dubai, Dubai, United Arab Emirates",
+        "emirate": "Dubai, UAE",
+        "country": "Dubai",
+
+        "propertyCategory": "Luxury Branded Residences",
+        "propertyTypes": ["Studio", "Apartment"],
+
+        "startingPrice": 1200000,
+        "currency": "AED",
+
+        "description": `Mercedes-Benz Places | Binghatti City marks a historic collaboration between global automotive icon Mercedes-Benz and Dubai’s renowned developer Binghatti. Launched on 14th January 2025, the project achieved a record-breaking milestone with over 2,000 Expressions of Interest secured within just three hours — a testament to its unmatched appeal and investment confidence.
+
+        Designed with Mercedes-Benz’s signature philosophy of sensual purity and innovation, the residences blend cutting-edge architecture with refined interiors, premium finishes, and lifestyle-focused amenities. Positioned in a prime Dubai location, the project offers an exceptional opportunity for end-users and investors seeking exclusivity, brand prestige, and long-term capital appreciation in one of Dubai’s most talked-about developments.`,
+
+        "handover": "Q4 2028 (Estimated)",
+
+        // "intro_video": "/properties/MERCEDES_BINGHATTI/videos/MERCEDES_BINGHATTI_TEASER_16X9.mp4",
+
+        // "properties_doc": [
+        //     {
+        //         "title": "MERCEDES-BENZ PLACES BINGHATTI CITY BROCHURE",
+        //         "url": "/properties/MERCEDES_BINGHATTI/docs/MERCEDES_BINGHATTI_BROCHURE.pdf"
+        //     },
+        //     {
+        //         "title": "MERCEDES-BENZ PLACES FLOOR PLANS",
+        //         "url": "/properties/MERCEDES_BINGHATTI/docs/MERCEDES_BINGHATTI_FLOOR_PLANS.pdf"
+        //     },
+        //     {
+        //         "title": "MERCEDES-BENZ PLACES PAYMENT PLAN",
+        //         "url": "/properties/MERCEDES_BINGHATTI/docs/MERCEDES_BINGHATTI_PAYMENT_PLAN.pdf"
+        //     },
+        //     {
+        //         "title": "MERCEDES-BENZ PLACES ONEPAGER",
+        //         "url": "/properties/MERCEDES_BINGHATTI/docs/MERCEDES_BINGHATTI_ONEPAGER.pdf"
+        //     }
+        // ],
+
+        "amenities": [
+            "Mercedes-Benz Branded Lobby & Interiors",
+            "Infinity Swimming Pool",
+            "State-of-the-Art Fitness Centre",
+            "Residents Lounge",
+            "Concierge Services",
+            "High-Speed Elevators",
+            "Smart Home Automation",
+            "Covered Parking",
+            "Retail & Dining Outlets",
+            "24/7 Security"
+        ],
+
+        "featured": true,
+
+        "units": [
+            {
+                "unitId": "studio-apartment",
+                "title": "Studio Apartment",
+                "propertyType": "Studio",
+                "bedrooms": 0,
+                "bathrooms": 1,
+                "sqftRange": "420–520 sq.ft",
+                "price": 1200000,
+                "description": "Elegantly designed studio residence featuring premium finishes, smart layouts, and Mercedes-Benz inspired interiors, ideal for high-yield investment and urban luxury living."
+            },
+            {
+                "unitId": "1-bedroom-apartment",
+                "title": "1 Bedroom Apartment",
+                "propertyType": "Apartment",
+                "bedrooms": 1,
+                "bathrooms": 2,
+                "sqftRange": "780–920 sq.ft",
+                "price": 2100000,
+                "description": "Spacious 1 bedroom branded apartment offering refined living areas, contemporary design, and exclusive lifestyle amenities within a globally iconic branded development."
+            }
+        ],
+
+        "agent": {
+            "id": "abdul-latheef",
+            "name": "Abdul Latheef",
+            "title": "Luxury Real Estate Property Specialist",
+            "avatar": "https://png.pngtree.com/png-clipart/20230927/original/pngtree-man-avatar-image-for-profile-png-image_13001882.png",
+            "whatsapp": "+971554422553",
+            "phone": "+971554422553",
+            "email": "grandgatepropertiesllc@gmail.com",
+            "facebook": "",
+            "instagram": ""
+        },
+
+        "heroImage": "/properties/MercedesBenzPlaces/home.jpeg",
+
+        "gallery": [
+            "/properties/MercedesBenzPlaces/home.jpeg",
+            "https://dubai.mercedesbenzplaces.com/images/banner-1.png",
+            "https://dubai.mercedesbenzplaces.com/images/banner-2.png",
+            "https://dubai.mercedesbenzplaces.com/images/banner-3.png",
+            "https://dubai.mercedesbenzplaces.com/images/small-5.png",
+        ],
+
+        "priceRange": {
+            "min": 1200000,
+            "max": 2300000
+        }
+    },
     // --- Bay Grove Residences ---
     {
         id: "bay-grove-residences",
@@ -35,7 +288,7 @@ export const propertyDirectory = [
         featured: true,
 
         mapEmbedUrl:
-            "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4475.832075503898!2d55.31975399999999!3d25.305331!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f5b0031a80c05%3A0x3aabfd68d9c1a2bf!2sBay%20Grove%20Residences%20Dubai%20Islands%20By%20Nakheel!5e1!3m2!1sen!2sin!4v1767359573652!5m2!1sen!2sin",
+            "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3608.620623477324!2d55.3093553!3d25.2496999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x432a6cc1f8e846f9%3A0x9f7e59459212aae9!2sGrand%20Gate%20Properties%20LLC!5e0!3m2!1sen!2sin!4v1768478892602!5m2!1sen!2sin",
 
         heroImage:
             "https://www.nakheel.com/images/nakheelcorporatelibraries/developments/projects/gallery-images-1920x1080-ext-05.jpg?sfvrsn=693ac79_1",
@@ -582,7 +835,7 @@ export const propertyDirectory = [
 
         "featured": true,
 
-        "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m13!1m8!1m3!1d287118.4789094748!2d55.152183!3d25.022436!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMjXCsDAxJzEzLjYiTiA1NcKwMTAnNDAuNCJF!5e1!3m2!1sen!2sae!4v1767348566457!5m2!1sen!2sae",
+        "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3608.620623477324!2d55.3093553!3d25.2496999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x432a6cc1f8e846f9%3A0x9f7e59459212aae9!2sGrand%20Gate%20Properties%20LLC!5e0!3m2!1sen!2sin!4v1768478892602!5m2!1sen!2sin",
 
         "heroImage": "https://prod-waslcdn.wasl.ae/waslae-filesystem/2025-09/5%20BR%20Back%20View.webp",
 
@@ -747,147 +1000,6 @@ export const propertyDirectory = [
         "priceRange": {
             "min": 5600000,
             "max": 8700000
-        }
-    },
-
-    {
-        "id": "mareva-the-oasis-brochure",
-        "slug": "dubai-mareva-the-oasis-brochure",
-        "is_new": 1,
-        "title": "Mareva The Oasis Brochure",
-        "developer": "The Oasis Properties",
-        "headline": "4, 5 & 6 Bedroom Ultra-Luxury Waterfront Villas",
-        "community": "Marèva – The Oasis by EMAAR",
-        "location": "The Oasis, Dubai, United Arab Emirates",
-        "emirate": "Dubai, UAE",
-        "country": "Dubai",
-
-        "propertyCategory": "Luxury Villa Community",
-        "propertyTypes": ["Villa"],
-
-        "startingPrice": 13470000,
-        "currency": "AED",
-
-        "description": `Marèva at The Oasis by EMAAR is a masterfully planned waterfront villa community that redefines luxury living in Dubai. Designed around serene swimmable lagoons, lush landscapes, and resort-inspired amenities, Marèva offers an exclusive lifestyle where elegance, privacy, and nature coexist seamlessly.
-
-        Featuring contemporary 4, 5, and 6-bedroom villas with expansive layouts, refined architecture, and private outdoor spaces, the community is crafted for discerning homeowners and investors seeking long-term value in a globally trusted EMAAR development`,
-
-        "handover": "Q4 2028",
-
-        "intro_video": "/properties/MAREVA/videos/THE_OASIS_LATEST_PHASE_TEASER_16X9.mp4",
-
-        "properties_doc": [
-            {
-                "title": "MAREVA THE OASIS BROCHURE",
-                "url": "/properties/MAREVA/docs/MAREVA_THE_OASIS_BROCHURE.pdf"
-            },
-            {
-                "title": "MAREVA THE OASIS FLOOR PLANS",
-                "url": "/properties/MAREVA/docs/MAREVA_THE_OASIS_FLOOR_PLANS.pdf"
-
-            },
-            {
-                "title": "MAREVA THE OASIS MOODBOARD",
-                "url": "/properties/MAREVA/docs/MAREVA_THE_OASIS_MOODBOARD.pdf"
-            },
-            {
-                "title": "MAREVA THE OASIS ONEPAGER",
-                "url": "/properties/MAREVA/docs/MAREVA_THE_OASIS_ONEPAGER.pdf"
-            },
-            {
-                "title": "MAREVA THE OASIS PAYMENT PLAN",
-                "url": "/properties/MAREVA/docs/MAREVA_THE_OASIS_PAYMENT_PLAN.pdf"
-            },
-        ],
-
-        "amenities": [
-            "Swimmable Lagoon",
-            "Swimming Pools",
-            "Pocket Parks & Beaches",
-            "Wellness & Spa Facilities",
-            "Community Parks & Playgrounds",
-            "Outdoor Tracks for Jogging and Cycling",
-            "Sports Courts & Fitness Facilities",
-            "Retail Centres & Community Centre",
-            "Schools & Clubhouse"
-        ],
-
-        "featured": true,
-
-        "units": [
-            {
-                "unitId": "4-bedroom-villa",
-                "title": "4 Bedroom Villa",
-                "propertyType": "Villa",
-                "bedrooms": 4,
-                "bathrooms": null,
-                "sqftRange": "7,254–8,105 sq.ft",
-                "price": 13470000,
-                "description": "Spacious 4 bedroom luxury villa with contemporary architecture, expansive built-up area, private garden, and premium finishes, ideal for refined family living."
-            },
-            {
-                "unitId": "5-bedroom-villa",
-                "title": "5 Bedroom Villa",
-                "propertyType": "Villa",
-                "bedrooms": 5,
-                "bathrooms": null,
-                "sqftRange": "7,965–8,705 sq.ft",
-                "price": 15380000,
-                "description": "Elegant 5 bedroom villa offering generous living spaces, modern interiors, large plot area, and a lifestyle-focused layout within a prestigious community."
-            },
-            {
-                "unitId": "6-bedroom-villa",
-                "title": "6 Bedroom Villa",
-                "propertyType": "Villa",
-                "bedrooms": 6,
-                "bathrooms": null,
-                "sqftRange": "12,779–14,384 sq.ft",
-                "price": 23470000,
-                "description": "Ultra-luxury 6 bedroom villa featuring expansive interiors, grand layout, large plot size, private outdoor spaces, and high-end finishes for elite living."
-            }
-        ],
-
-        agent: {
-            id: 'abdul-latheef',
-            name: 'Abdul Latheef',
-            title: 'Luxury Real Estate Property Specialist',
-            avatar: 'https://png.pngtree.com/png-clipart/20230927/original/pngtree-man-avatar-image-for-profile-png-image_13001882.png',
-            whatsapp: '+971554422553',
-            phone: '+971554422553',
-            email: 'grandgatepropertiesllc@gmail.com',
-            facebook: '',
-            instagram: ''
-        },
-
-        "heroImage": "/properties/MAREVA/MAREVA_OASIS_BR.jpg",
-
-        "gallery": [
-            "/properties/MAREVA/MAREVA_OASIS_BR2.jpg",
-            "/properties/MAREVA/MAREVA_OASIS_BR3.jpg",
-            "/properties/MAREVA/MAREVA_OASIS_BR4.jpg",
-            "/properties/MAREVA/MAREVA_OASIS_BR5.jpg",
-            "/properties/MAREVA/MAREVA_OASIS_BR6.jpg",
-            "/properties/MAREVA/MAREVA_OASIS_BR7.jpg",
-            "/properties/MAREVA/MAREVA_OASIS_BR8.jpg",
-            "/properties/MAREVA/MAREVA_OASIS_BR9.jpg",
-            "/properties/MAREVA/MAREVA_OASIS_BR10.jpg",
-            "/properties/MAREVA/MAREVA_OASIS_BR11.jpg",
-            "/properties/MAREVA/MAREVA_OASIS_BR12.jpg",
-            "/properties/MAREVA/MAREVA_OASIS_BR13.jpg",
-            "/properties/MAREVA/MAREVA_OASIS_BR14.jpg",
-            "/properties/MAREVA/MAREVA_OASIS_BR15.jpg",
-            "/properties/MAREVA/MAREVA_OASIS_BR16.jpg",
-            "/properties/MAREVA/MAREVA_OASIS_BR17.jpg",
-            "/properties/MAREVA/MAREVA_OASIS_BR18.jpg",
-            "/properties/MAREVA/MAREVA_OASIS_BR19.jpg",
-            "/properties/MAREVA/MAREVA_OASIS_BR20.jpg",
-            "/properties/MAREVA/MAREVA_OASIS_BR21.jpg",
-
-        ],
-
-        "priceRange": {
-            "min": 13470000,
-            "max": 23470000
         }
     }
 ]
