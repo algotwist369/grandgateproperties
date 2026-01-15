@@ -11,7 +11,7 @@ import { VideoModal, PdfModal } from '../common'
 import { FaFilePdf, FaFileAlt, FaChevronRight } from 'react-icons/fa'
 
 const MAP_FALLBACK =
-    "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15081.626343519032!2d73.0047826!3d19.0898111!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c1d305a5b82b%3A0x9180c9d872385d37!2sThe%20King's%20Luxury%20Spa!5e0!3m2!1sen!2sin!4v1763381077242!5m2!1sen!2sin"
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3608.620623477324!2d55.3093553!3d25.2496999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x432a6cc1f8e846f9%3A0x9f7e59459212aae9!2sGrand%20Gate%20Properties%20LLC!5e0!3m2!1sen!2sin!4v1768478892602!5m2!1sen!2sin"
 
 const formatCurrency = (value, currency = 'AED', maximumFractionDigits = 0) => {
     if (typeof value !== 'number') return value || '—'
