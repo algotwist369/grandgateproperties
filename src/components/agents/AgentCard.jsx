@@ -6,54 +6,14 @@ const AgentCard = () => {
     const navigate = useNavigate();
     const agents = [
         {
-            id: "ben-thomas",
-            name: "Ben Thomas",
-            role: "Head of Secondary",
+            id: "fatma-zohra-absi",
+            name: "Fatma Zohra Absi ",
+            role: "Senior Real Estate Consultant",
             experience: "19 years",
-            languages: "English, Spanish",
+            languages: ["English", "Arabic", "French"],
+            image: "/agent/Agent1.jpeg",
             communities: "Dubai Marina, Palm Jumeirah",
-            image: "https://fnst.axflare.com/img/team/JPEG/oEsyFzyLSm.jpg",
             specialties: ["Luxury Sales", "Penthouses"],
-        },
-        {
-            id: "dimitry-zolotco",
-            name: "Dimitry Zolotco",
-            role: "Associate Director",
-            experience: "15 years",
-            languages: "English, Russian, Romanian",
-            communities: "Downtown, Business Bay",
-            image: "https://fnst.axflare.com/img/team/JPEG/XqjPzqAxew.jpeg",
-            specialties: ["Investment Advisory", "Off-plan"],
-        },
-        {
-            id: "maksim-tuguchev",
-            name: "Maksim Tuguchev",
-            role: "Associate Director",
-            experience: "15 years",
-            languages: "English, Russian",
-            communities: "JBR, Bluewaters",
-            image: "https://fnst.axflare.com/img/team/JPEG/NQdQHfPaqp.jpg",
-            specialties: ["Secondary Market", "Negotiation"],
-        },
-        {
-            id: "olga-gojin",
-            name: "Olga Gojin",
-            role: "Property Expert",
-            experience: "18 years",
-            languages: "English, Russian, Romanian",
-            communities: "Arabian Ranches, Tilal Al Ghaf",
-            image: "https://fnst.axflare.com/img/team/JPEG/hnhevodlOC.jpg",
-            specialties: ["Family Villas", "Relocations"],
-        },
-        {
-            id: "julia-hart",
-            name: "Julia Hart",
-            role: "Luxury Consultant",
-            experience: "12 years",
-            languages: "English, French",
-            communities: "Palm Jumeirah, Emirates Hills",
-            image: "https://fnst.axflare.com/img/team/JPEG/XpEfv2OaWj.jpeg",
-            specialties: ["Beachfront", "Signature Mansions"],
         },
     ];
 
@@ -83,7 +43,7 @@ const AgentCard = () => {
     };
 
     return (
-        <div className="w-full py-24 sm:py-32 px-6 lg:px-24 bg-black overflow-hidden">
+        <div className="w-full md:py-8 sm:py-32 px-6 lg:px-24 bg-black overflow-hidden">
             <motion.div
                 className="w-full flex flex-col gap-6 mb-16"
                 initial={{ opacity: 0, y: 20 }}
@@ -127,7 +87,7 @@ const AgentCard = () => {
             </motion.div>
 
             <motion.div
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8"
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
                 variants={containerVariants}
                 initial="hidden"
                 whileInView="show"
@@ -137,7 +97,7 @@ const AgentCard = () => {
                     <motion.div
                         key={index}
                         variants={itemVariants}
-                        className="group relative h-[500px] sm:h-[600px] lg:h-[700px] rounded-[2rem] overflow-hidden cursor-pointer"
+                        className="group relative h-[450px] sm:h-[500px] lg:h-[550px] rounded-[2rem] overflow-hidden cursor-pointer"
                         whileHover={{ y: -15 }}
                         transition={{ duration: 0.4, ease: "easeOut" }}
                         onClick={() => handleNavigate(agent)}
@@ -172,7 +132,7 @@ const AgentCard = () => {
                                     </div>
                                     <div className="flex justify-between text-xs tracking-widest text-gray-400 uppercase">
                                         <span>Langs</span>
-                                        <span className="text-white">{agent.languages}</span>
+                                        <span className="text-white">{agent.languages.join(", ")}</span>
                                     </div>
                                 </div>
 

@@ -6,83 +6,19 @@ import Button from "../../components/common/Button";
 
 const agentDirectory = [
     {
-        id: "ben-thomas",
-        name: "Ben Thomas",
-        role: "Head of Secondary",
+        id: "fatma-zohra-absi",
+        name: "Fatma Zohra Absi ",
+        role: "Senior Real Estate Consultant",
         experience: "19 years",
-        languages: "English, Spanish",
+        languages: ["English", "Arabic", "French"],
+        image: "/agent/Agent1.jpeg",
         communities: "Dubai Marina, Palm Jumeirah",
-        image: "https://fnst.axflare.com/img/team/JPEG/oEsyFzyLSm.jpg",
-        specialties: ["Secondary Market"],
-        bio: "Ben has been a successful and forward-thinking real estate professional for 18 years. He was born and educated (Business and F&B) in Wales, United Kingdom.\n\nHe moved to Spain at the age of 19 to start a family business, and lived there for 3 years. Ben then lived and worked in London before moving to Dubai in 2003.\n\nBen started his Dubai real estate career by joining a startup business and buying in as a Junior partner, Emirates Homes Real Estate.\n\nAgency grew into an outstanding boutique real estate company, renowned in the market for their industry expertise, investment advisory and attention to clients needs and requirements.\n\nBen and his team built a very strong competitive brand before selling the company to a very healthy bid after 13 years of operation.\n\nBen joined AX CAPITAL as Director of Sales in the real estate secondary market. He is passionate in assisting the growth of people within the organisation through strategic management.\n\nHe is also a firm believer in individuality, and identifies different ways of getting the best out of people.",
+        specialties: ["Luxury Sales", "Penthouses"],
+        bio: "Fatma Zohra Absi is a highly accomplished Senior Real Estate Consultant with over 19 years of experience in the dynamic Dubai property market. Renowned for her exceptional negotiation skills and deep market knowledge, she has built a stellar reputation for delivering outstanding results for her clients.",
         achievements: [
             "Closed AED 1.2B in resale transactions during 2023",
             "Recognized as Dubai's #1 Secondary Specialist (Luxury Living Awards)",
             "Featured speaker at Cityscape Global on waterfront investments",
-        ],
-    },
-    {
-        id: "dimitry-zolotco",
-        name: "Dimitry Zolotco",
-        role: "Associate Director",
-        experience: "15 years",
-        languages: "English, Russian, Romanian",
-        communities: "Downtown, Business Bay",
-        image: "https://fnst.axflare.com/img/team/JPEG/XqjPzqAxew.jpeg",
-        specialties: ["Investment Advisory", "Off-plan"],
-        bio: "Dimitry partners with international investors looking to optimize ROI across Downtown Dubai and Business Bay. He excels at structuring rental guarantees and off-plan exit strategies.",
-        achievements: [
-            "Secured 30+ bulk off-plan allocations for GCC funds",
-            "Average client ROI of 12.4% across managed portfolio",
-            "Panelist at PropTech ME on data-driven acquisitions",
-        ],
-    },
-    {
-        id: "maksim-tuguchev",
-        name: "Maksim Tuguchev",
-        role: "Associate Director",
-        experience: "15 years",
-        languages: "English, Russian",
-        communities: "JBR, Bluewaters",
-        image: "https://fnst.axflare.com/img/team/JPEG/NQdQHfPaqp.jpg",
-        specialties: ["Secondary Market", "Negotiation"],
-        bio: "Maksim is the go-to negotiator for high-demand waterfront assets. His clients rely on his ability to secure scarce stock quietly, often before listings reach the market.",
-        achievements: [
-            "Maintains 98% asking-price achievement for sellers",
-            "Brokered record-breaking Bluewaters penthouse resale",
-            "Trusted advisor to multiple family offices from CIS region",
-        ],
-    },
-    {
-        id: "olga-gojin",
-        name: "Olga Gojin",
-        role: "Property Expert",
-        experience: "18 years",
-        languages: "English, Russian, Romanian",
-        communities: "Arabian Ranches, Tilal Al Ghaf",
-        image: "https://fnst.axflare.com/img/team/JPEG/hnhevodlOC.jpg",
-        specialties: ["Family Villas", "Relocations"],
-        bio: "Olga orchestrates seamless relocations for executives and diplomats seeking gated villa living. Her network spans international schools, relocation advisors, and private clubs.",
-        achievements: [
-            "Placed 200+ expatriate families in the past 24 months",
-            "Preferred partner for three Fortune 500 HR divisions",
-            "Created bespoke community onboarding program",
-        ],
-    },
-    {
-        id: "julia-hart",
-        name: "Julia Hart",
-        role: "Luxury Consultant",
-        experience: "12 years",
-        languages: "English, French",
-        communities: "Palm Jumeirah, Emirates Hills",
-        image: "https://fnst.axflare.com/img/team/JPEG/XpEfv2OaWj.jpeg",
-        specialties: ["Beachfront", "Signature Mansions"],
-        bio: "Julia curates iconic beachfront lifestyles, from Palm signature villas to custom estates in Emirates Hills. Her approach centers around privacy, architecture, and legacy planning.",
-        achievements: [
-            "Closed 14 signature villa transactions in 2023",
-            "Consulted on bespoke mansion builds with CK Architecture",
-            "Quoted regularly by Luxury Property UAE magazine",
         ],
     },
 ];
@@ -99,26 +35,26 @@ const AgentDetailsPage = () => {
     }, [id]);
 
     const specialties = agent?.specialties || [];
-    const languages = agent?.languages ? agent.languages.split(", ") : [];
+    const languages = Array.isArray(agent?.languages) ? agent.languages : (typeof agent?.languages === 'string' ? agent.languages.split(", ") : []);
 
     const contactButtons = [
-        { label: "Call", Icon: FaPhone, action: () => (window.location.href = `tel:+971508888123`) },
-        { label: "WhatsApp", Icon: FaWhatsapp, action: () => window.open(`https://wa.me/971508888123`, "_blank") },
-        { label: "Email", Icon: FaEnvelope, action: () => (window.location.href = `mailto:agent@grandgate.ae`) },
+        { label: "Call", Icon: FaPhone, action: () => (window.location.href = `tel:+971543861511`) },
+        { label: "WhatsApp", Icon: FaWhatsapp, action: () => window.open(`https://wa.me/971543861511`, "_blank") },
+        { label: "Email", Icon: FaEnvelope, action: () => (window.location.href = `mailto:absifatmazohra@gmail.com`) },
     ];
 
     const directAccessCards = [
         {
             label: "Direct line",
-            value: "+971 50 888 8123",
+            value: "+971 54 386 1511",
             description: "24/7 Priority Support",
-            href: "tel:+971508888123",
+            href: "tel:+971543861511",
         },
         {
             label: "WhatsApp",
             value: "Secure Chat",
             description: "Encrypted Communication",
-            href: "https://wa.me/971508888123",
+            href: "https://wa.me/971543861511",
             target: "_blank",
         },
     ];
