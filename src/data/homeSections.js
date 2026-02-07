@@ -18,9 +18,17 @@ export const homeSectionsData = {
                 id: 1,
                 name: "Fatma Zohra Absi ",
                 position: "Senior Real Estate Consultant",
-                experience: "12+ Years",
+                experience: "10+ Years",
                 languages: ["English", "Arabic", "French"],
                 image: "/agent/Agent1.jpeg",
+            },
+            {
+                id: 2,
+                name: "Dakshayami R Nair ",
+                position: "Senior Real Estate Consultant",
+                experience: "10+ Years",
+                languages: ["Malayalam", "English", "Tamil"],
+                image: "/agent/agent2.PNG",
             },
         ],
         lifestyle: [
@@ -121,6 +129,14 @@ export const homeSectionsData = {
                 experience: "12+ Years",
                 languages: ["English", "Arabic", "French"],
                 image: "/agent/Agent1.jpeg",
+            },
+            {
+                id: 2,
+                name: "Dakshayami R Nair ",
+                position: "Senior Real Estate Consultant",
+                experience: "12+ Years",
+                languages: ["Malayalam", "English", "Tamil"],
+                image: "/agent/agent2.PNG",
             },
         ],
         lifestyle: [

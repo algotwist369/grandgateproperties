@@ -9,12 +9,32 @@ const agentDirectory = [
         id: "fatma-zohra-absi",
         name: "Fatma Zohra Absi ",
         role: "Senior Real Estate Consultant",
-        experience: "19 years",
+        experience: "10 years",
         languages: ["English", "Arabic", "French"],
         image: "/agent/Agent1.jpeg",
         communities: "Dubai Marina, Palm Jumeirah",
         specialties: ["Luxury Sales", "Penthouses"],
-        bio: "Fatma Zohra Absi is a highly accomplished Senior Real Estate Consultant with over 19 years of experience in the dynamic Dubai property market. Renowned for her exceptional negotiation skills and deep market knowledge, she has built a stellar reputation for delivering outstanding results for her clients.",
+        phone: "+971543861511",
+        email: "absifatmazohra@gmail.com",
+        bio: "Fatma Zohra Absi is a highly accomplished Senior Real Estate Consultant with over 10 years of experience in the dynamic Dubai property market. Renowned for her exceptional negotiation skills and deep market knowledge, she has built a stellar reputation for delivering outstanding results for her clients.",
+        achievements: [
+            "Closed AED 1.2B in resale transactions during 2023",
+            "Recognized as Dubai's #1 Secondary Specialist (Luxury Living Awards)",
+            "Featured speaker at Cityscape Global on waterfront investments",
+        ],
+    },
+    {
+        id: "dakshayami-r-nair",
+        name: "Dakshayami R-Nair",
+        role: "Senior Real Estate Consultant",
+        experience: "10 years",
+        languages: ["Malayalam", "English", "Tamil"],
+        image: "/agent/agent2.PNG",
+        communities: "Dubai Marina, Palm Jumeirah",
+        specialties: ["Luxury Sales", "Penthouses"],
+        phone: "+971567206015",
+        email: "daksharnair15@gmail.com",
+        bio: "Dakshayami R Nair is a highly accomplished Senior Real Estate Consultant with over 10 years of experience in the dynamic Dubai property market. Renowned for her exceptional negotiation skills and deep market knowledge, she has built a stellar reputation for delivering outstanding results for her clients.",
         achievements: [
             "Closed AED 1.2B in resale transactions during 2023",
             "Recognized as Dubai's #1 Secondary Specialist (Luxury Living Awards)",
@@ -38,23 +58,23 @@ const AgentDetailsPage = () => {
     const languages = Array.isArray(agent?.languages) ? agent.languages : (typeof agent?.languages === 'string' ? agent.languages.split(", ") : []);
 
     const contactButtons = [
-        { label: "Call", Icon: FaPhone, action: () => (window.location.href = `tel:+971543861511`) },
-        { label: "WhatsApp", Icon: FaWhatsapp, action: () => window.open(`https://wa.me/971543861511`, "_blank") },
-        { label: "Email", Icon: FaEnvelope, action: () => (window.location.href = `mailto:absifatmazohra@gmail.com`) },
+        { label: "Call", Icon: FaPhone, action: () => (window.location.href = `tel:${agent.phone}`) },
+        { label: "WhatsApp", Icon: FaWhatsapp, action: () => window.open(`https://wa.me/${agent?.phone?.replace(/\+/g, "")}?text=${encodeURIComponent(`Hello ${agent.name}, I am interested in your real estate services.`)}`, "_blank") },
+        { label: "Email", Icon: FaEnvelope, action: () => (window.location.href = `mailto:${agent.email}`) },
     ];
 
     const directAccessCards = [
         {
             label: "Direct line",
-            value: "+971 54 386 1511",
+            value: agent?.phone?.replace(/(\+\d{3})(\d{2})(\d{3})(\d{4})/, '$1 $2 $3 $4') || agent.phone,
             description: "24/7 Priority Support",
-            href: "tel:+971543861511",
+            href: `tel:${agent.phone}`,
         },
         {
             label: "WhatsApp",
             value: "Secure Chat",
             description: "Encrypted Communication",
-            href: "https://wa.me/971543861511",
+            href: `https://wa.me/${agent?.phone?.replace(/\+/g, "")}?text=${encodeURIComponent(`Hello ${agent.name}, I am interested in your real estate services.`)}`,
             target: "_blank",
         },
     ];
@@ -186,21 +206,32 @@ const AgentDetailsPage = () => {
                         </div>
 
                         <div className="space-y-10">
-                            <h2 className="text-2xl font-light text-white uppercase tracking-[0.2em] flex items-center gap-4">
-                                <span className="w-2 h-2 rounded-full bg-[#BD9B5F]"></span>
-                                Specialization
-                            </h2>
-                            <div className="flex flex-wrap gap-4">
-                                {specialties.map((specialty, idx) => (
-                                    <span key={idx} className="px-6 py-3 rounded-full border border-white/10 bg-white/5 text-xs uppercase tracking-[0.2em] text-gray-300">
-                                        {specialty}
-                                    </span>
-                                ))}
-                                {languages.map((lang, idx) => (
-                                    <span key={idx} className="px-6 py-3 rounded-full border border-[#BD9B5F]/30 bg-[#BD9B5F]/5 text-xs uppercase tracking-[0.4em] text-[#BD9B5F]">
-                                        {lang}
-                                    </span>
-                                ))}
+                            <div>
+                                <h2 className="text-2xl font-light text-white uppercase tracking-[0.2em] flex items-center gap-4 mb-6">
+                                    <span className="w-2 h-2 rounded-full bg-[#BD9B5F]"></span>
+                                    Specialization
+                                </h2>
+                                <div className="flex flex-wrap gap-4">
+                                    {specialties.map((specialty, idx) => (
+                                        <span key={idx} className="px-6 py-3 rounded-full border border-white/10 bg-white/5 text-xs uppercase tracking-[0.2em] text-gray-300">
+                                            {specialty}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div>
+                                <h2 className="text-2xl font-light text-white uppercase tracking-[0.2em] flex items-center gap-4 mb-6">
+                                    <span className="w-2 h-2 rounded-full bg-[#BD9B5F]"></span>
+                                    Languages
+                                </h2>
+                                <div className="flex flex-wrap gap-4">
+                                    {languages.map((lang, idx) => (
+                                        <span key={idx} className="px-6 py-3 rounded-full border border-[#BD9B5F]/30 bg-[#BD9B5F]/5 text-xs uppercase tracking-[0.4em] text-[#BD9B5F]">
+                                            {lang}
+                                        </span>
+                                    ))}
+                                </div>
                             </div>
                         </div>
 
