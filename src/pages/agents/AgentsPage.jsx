@@ -17,7 +17,7 @@ const AgentsPage = () => {
     const fetchAgents = async () => {
       try {
         setLoading(true);
-        const data = await getAllAgents();
+        const data = await getAllAgents(1, 40); // Increased limit for full team view
         // data.agents contains the array from our API
         setAgents(data.agents || []);
       } catch (err) {
@@ -33,7 +33,6 @@ const AgentsPage = () => {
 
   return (
     <div className="bg-black min-h-screen">
-      <AgentHeaders />
       {error && (
         <div className="py-10 text-center text-red-500 uppercase tracking-widest text-xs">
           {error}

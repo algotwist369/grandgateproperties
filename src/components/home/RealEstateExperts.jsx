@@ -1,17 +1,47 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Button from '../common/Button'
 import { homeSectionsData } from '../../data/homeSections'
 import { motion } from 'framer-motion'
 import { getFullUrl } from '../../apis/user_api';
+import { getAllAgents } from '../../apis/agent_api';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, EffectFade } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/effect-fade';
 
 const RealEstateExperts = ({ selectedCountry }) => {
   const navigate = useNavigate();
   const data = homeSectionsData[selectedCountry]?.experts || homeSectionsData['Dubai'].experts;
   const statistics = data.stats;
+  const [agents, setAgents] = useState([]);
+
+  useEffect(() => {
+    const fetchAgents = async () => {
+      try {
+        const response = await getAllAgents(1, 10);
+        if (response && response.agents) {
+          setAgents(response.agents);
+        }
+      } catch (error) {
+        console.error("Error fetching agents:", error);
+      }
+    };
+    fetchAgents();
+  }, []);
 
   return (
     <div className='relative py-20 lg:py-32 overflow-hidden bg-black'>
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src="https://res.cloudinary.com/dcm79v527/image/upload/v1770633450/dubai_image_id5mv5.jpg"
+          alt="Background"
+          className="w-full h-full object-cover opacity-50"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/50 to-black/60"></div>
+      </div>
+
       <div className='container mx-auto px-6 relative z-20'>
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-16 items-center'>
           {/* Left Side - Text Content */}
@@ -78,7 +108,7 @@ const RealEstateExperts = ({ selectedCountry }) => {
           </motion.div>
 
 
-          {/* Right Side - Image */}
+          {/* Right Side - Agent Slider */}
           <motion.div
             className='relative lg:order-last'
             initial={{ opacity: 0, x: 50, scale: 0.9 }}
@@ -86,13 +116,48 @@ const RealEstateExperts = ({ selectedCountry }) => {
             viewport={{ once: true }}
             transition={{ duration: 1, ease: "easeOut" }}
           >
-            <div className='relative overflow-hidden rounded-3xl shadow-2xl border border-white/5'>
-              <img
-                src={getFullUrl(data.image)}
-                alt='Real Estate Expert'
-                className='w-full h-[400px] lg:h-[650px] object-cover hover:scale-105 transition-transform duration-700'
-              />
-              <div className='absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60'></div>
+            <div className='relative overflow-hidden rounded-3xl shadow-2xl border border-white/5 h-[400px] lg:h-[650px] max-w-[550px] w-full'>
+              {agents.length > 0 ? (
+                <Swiper
+                  modules={[Autoplay, EffectFade]}
+                  effect="fade"
+                  speed={1000}
+                  autoplay={{
+                    delay: 3000,
+                    disableOnInteraction: false,
+                  }}
+                  loop={true}
+                  className="h-full w-full"
+                >
+                  {agents.map((agent) => (
+                    <SwiperSlide key={agent.id || agent._id}>
+                      <div className="relative w-full h-full group cursor-pointer" onClick={() => navigate(`/en/agents/${agent.slug || agent._id}`)}>
+                        <img
+                          src={agent.avatar_url ? getFullUrl(agent.avatar_url) : 'https://res.cloudinary.com/dcm79v527/image/upload/v1770633742/monikawl999-dubai-1085058_1920_pzrzav.jpg'}
+                          alt={agent.agent_name || agent.fullName}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+
+                        <div className="absolute bottom-0 left-0 right-0 p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                          <h3 className="text-2xl lg:text-3xl text-white font-light uppercase tracking-wide mb-1">{agent.agent_name || agent.fullName}</h3>
+                          <p className="text-[#BD9B5F] text-xs uppercase tracking-widest">{agent.agent_role || agent.role}</p>
+                        </div>
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              ) : (
+                // Fallback Image
+                <div className="relative w-full h-full">
+                  <img
+                    src={getFullUrl(data.image)}
+                    alt='Real Estate Expert'
+                    className='w-full h-full object-cover'
+                  />
+                  <div className='absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60'></div>
+                </div>
+              )}
             </div>
 
             {/* Minimalist Decoration */}

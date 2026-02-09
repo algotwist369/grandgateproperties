@@ -40,6 +40,7 @@ const sanitizeDigits = (value = '') => value.replace(/[^+\d]/g, '')
 
 const PropertieHeader = ({ property }) => {
     const [currentImageIdx, setCurrentImageIdx] = useState(0)
+    const [currentAgentIdx, setCurrentAgentIdx] = useState(0)
     const [isZoomed, setIsZoomed] = useState(false)
     const [activePdfUrl, setActivePdfUrl] = useState(null)
     const [activePdfTitle, setActivePdfTitle] = useState('')
@@ -48,7 +49,8 @@ const PropertieHeader = ({ property }) => {
 
     useEffect(() => {
         setCurrentImageIdx(0)
-    }, [resolvedProperty?.id])
+        setCurrentAgentIdx(0)
+    }, [resolvedProperty?._id, resolvedProperty?.id])
 
     // Lock body scroll when zoom modal is open
     useEffect(() => {
@@ -78,8 +80,9 @@ const PropertieHeader = ({ property }) => {
         else if (Array.isArray(resolvedProperty?.image)) items = [...resolvedProperty.image]
         else if (typeof resolvedProperty?.image === 'string') items = [resolvedProperty.image]
 
-        if (resolvedProperty?.heroImage && !items.includes(resolvedProperty.heroImage)) {
-            items.unshift(resolvedProperty.heroImage)
+        const hImg = resolvedProperty?.hero_image || resolvedProperty?.heroImage
+        if (hImg && !items.includes(hImg)) {
+            items.unshift(hImg)
         }
         return items
     }, [resolvedProperty])
@@ -95,7 +98,12 @@ const PropertieHeader = ({ property }) => {
         return crumbs
     }, [resolvedProperty])
 
-    const agent = resolvedProperty?.agent ?? {}
+    const agentsList = useMemo(() => {
+        if (Array.isArray(resolvedProperty?.agents) && resolvedProperty.agents.length > 0) return resolvedProperty.agents
+        if (resolvedProperty?.agent) return [resolvedProperty.agent]
+        return []
+    }, [resolvedProperty])
+
     let bedrooms = resolvedProperty?.bedrooms ?? resolvedProperty?.beds
     let bathrooms = resolvedProperty?.bathrooms ?? resolvedProperty?.baths
     let sqftLabel = resolvedProperty?.sqft ? `${formatNumber(resolvedProperty.sqft)} sq.ft` : resolvedProperty?.area
@@ -123,13 +131,24 @@ const PropertieHeader = ({ property }) => {
             }
         }
     }
-    const propertyType = resolvedProperty?.propertyTypes?.join(', ') ?? resolvedProperty?.propertyType ?? resolvedProperty?.type
-    const priceLabel = resolvedProperty?.startingPrice
-        ? `From ${formatCurrency(resolvedProperty.startingPrice, resolvedProperty?.currency)}`
+    const propertyTypes = Array.isArray(resolvedProperty?.property_types) ? resolvedProperty.property_types :
+        (Array.isArray(resolvedProperty?.propertyTypes) ? resolvedProperty.propertyTypes :
+            (resolvedProperty?.property_category ? [resolvedProperty.property_category] :
+                (resolvedProperty?.propertyType ? [resolvedProperty.propertyType] :
+                    (resolvedProperty?.type ? [resolvedProperty.type] : []))))
+
+    const propertyTypeString = propertyTypes.join(', ')
+    const priceLabel = (resolvedProperty?.starting_price || resolvedProperty?.startingPrice)
+        ? `From ${formatCurrency(resolvedProperty.starting_price || resolvedProperty.startingPrice, resolvedProperty?.currency)}`
         : (resolvedProperty?.price ? formatCurrency(resolvedProperty.price, resolvedProperty?.currency) : resolvedProperty?.price)
-    const pricePerSqftLabel = resolvedProperty?.pricePerSqft
-        ? `${formatCurrency(resolvedProperty.pricePerSqft, resolvedProperty?.currency, 2)} / sq.ft`
+    const pricePerSqftLabel = resolvedProperty?.price_per_sqft || resolvedProperty?.pricePerSqft
+        ? `${formatCurrency(resolvedProperty.price_per_sqft || resolvedProperty.pricePerSqft, resolvedProperty?.currency, 2)} / sq.ft`
         : resolvedProperty?.pricePerSqftText ?? resolvedProperty?.pricePerSqft
+
+    const headline = resolvedProperty?.headline
+    const handover = resolvedProperty?.handover
+    const paymentPlan = (resolvedProperty?.payment_plan && resolvedProperty.payment_plan.length > 0) ? resolvedProperty.payment_plan : (resolvedProperty?.paymentPlan || [])
+    const nearbyLocations = (resolvedProperty?.nearby_locations && resolvedProperty.nearby_locations.length > 0) ? resolvedProperty.nearby_locations : (resolvedProperty?.nearbyLandmarks || [])
 
     const shareUrl = useMemo(() => {
         if (resolvedProperty?.shareUrl) return resolvedProperty.shareUrl
@@ -180,16 +199,29 @@ const PropertieHeader = ({ property }) => {
         ]
     }, [resolvedProperty?.title, shareText, shareUrl])
 
-    const messageText = `Hello ${agent.name || 'Grand Gate Properties'},\n\nI would like to schedule a viewing for:\n${resolvedProperty?.title || 'this property'}\n\nLocation: ${resolvedProperty?.community || 'Dubai'}\nPrice: ${priceLabel}\n\nPlease contact me to arrange a viewing.\n\nThank you.`
-    const encodedMessage = encodeURIComponent(messageText)
+    const getAgentContactData = useCallback((agent) => {
+        if (!agent) return {}
+        const messageText = `Hello ${agent.agent_name || agent.name || 'Grand Gate Properties'},\n\nI would like to schedule a viewing for:\n${resolvedProperty?.title || 'this property'}\n\nLocation: ${resolvedProperty?.community || 'Dubai'}\nPrice: ${priceLabel}\n\nPlease contact me to arrange a viewing.\n\nThank you.`
+        const encodedMessage = encodeURIComponent(messageText)
 
-    const whatsappHref = agent?.whatsapp ? `https://wa.me/${sanitizeDigits(agent.whatsapp)}?text=${encodedMessage}` : undefined
-    const callHref = agent?.phone ? `tel:${sanitizeDigits(agent.phone)}` : undefined
+        const whatsappNum = agent?.agent_phone || agent?.whatsapp || agent?.phone
+        const phoneNum = agent?.agent_phone || agent?.phone
 
-    const handleInquiry = () => {
-        if (!agent?.whatsapp) return
-        window.open(`https://wa.me/${sanitizeDigits(agent.whatsapp)}?text=${encodedMessage}`, '_blank');
-    }
+        return {
+            whatsappHref: whatsappNum ? `https://wa.me/${sanitizeDigits(whatsappNum)}?text=${encodedMessage}` : undefined,
+            callHref: phoneNum ? `tel:${sanitizeDigits(phoneNum)}` : undefined,
+            smsHref: phoneNum ? `sms:${sanitizeDigits(phoneNum)}?body=${encodedMessage}` : undefined,
+            handleInquiry: () => {
+                if (!whatsappNum) return
+                window.open(`https://wa.me/${sanitizeDigits(whatsappNum)}?text=${encodedMessage}`, '_blank');
+            }
+        }
+    }, [resolvedProperty?.title, resolvedProperty?.community, priceLabel])
+
+    const primaryAgentData = useMemo(() => {
+        if (agentsList.length > 0) return getAgentContactData(agentsList[0])
+        return {}
+    }, [agentsList, getAgentContactData])
 
     const handleCopyLink = async () => {
         try {
@@ -252,22 +284,17 @@ const PropertieHeader = ({ property }) => {
         { label: 'Reference No.', value: resolvedProperty?.reference },
         { label: 'DLD Permit Number', value: resolvedProperty?.dldPermit },
         { label: 'Furnishing', value: resolvedProperty?.furnishing },
-        { label: 'Property type', value: propertyType },
+        { label: 'Handover', value: handover },
+        { label: 'Developer', value: typeof resolvedProperty?.developer === 'string' ? resolvedProperty.developer : resolvedProperty?.developer?.name },
+        { label: 'Property type', value: propertyTypeString },
         { label: 'Parking Lots', value: resolvedProperty?.parkingLots },
     ].filter((item) => item.value)
 
     const marketInsights = resolvedProperty?.marketInsights ?? []
     const areaStats = resolvedProperty?.stats ?? {}
-    const heroImage = resolvedProperty?.heroImage || areaStats.heroImage || gallery[0] || 'https://fnst.axflare.com/community/WEBP/oyLcYvyrCp.webp'
+    const heroImage = resolvedProperty?.hero_image || resolvedProperty?.heroImage || areaStats.heroImage || gallery[0] || 'https://fnst.axflare.com/community/WEBP/oyLcYvyrCp.webp'
     const mapEmbedUrl = resolvedProperty?.mapEmbedUrl || MAP_FALLBACK
 
-    const amenityRows = useMemo(() => {
-        const rows = []
-        for (let i = 0; i < amenities.length; i += 4) {
-            rows.push(amenities.slice(i, i + 4))
-        }
-        return rows
-    }, [amenities])
 
     const navigate = useNavigate()
 
@@ -394,89 +421,148 @@ const PropertieHeader = ({ property }) => {
                             )}
                         </div>
 
-                        <h1 className="text-xl sm:text-2xl lg:text-[30px] text-white mb-4 sm:mb-8 leading-tight">{resolvedProperty.title}</h1>
+                        <h1 className="text-xl sm:text-2xl lg:text-[30px] text-white mb-2 leading-tight">{resolvedProperty.title}</h1>
+                        {headline && <p className="text-[#BD9B5F] text-sm lg:text-base font-medium mb-4 uppercase tracking-wider">{headline}</p>}
                         <p className="text-gray-400 text-base sm:text-lg lg:text-xl pb-6">{resolvedProperty.description}</p>
                     </motion.div>
 
                     <aside className="w-full lg:sticky lg:top-20 self-start flex flex-col gap-8">
-                        <div className="p-6 border border-gray-700 text-gray-400 rounded-lg bg-[#0f0f0f]">
-                            <div className="flex gap-5 mb-6">
-                                <img
-                                    src={formatImageUrl(agent.avatar) || 'https://via.placeholder.com/96'}
-                                    alt={agent.name || 'Agent'}
-                                    className="w-24 h-24 object-cover border-2 border-[#BD9B5F] rounded-full"
-                                />
+                        <div className="relative group/agents">
+                            <AnimatePresence mode="wait">
+                                {agentsList.length > 0 && (
+                                    <motion.div
+                                        key={agentsList[currentAgentIdx]?._id || currentAgentIdx}
+                                        initial={{ opacity: 0, x: 20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        exit={{ opacity: 0, x: -20 }}
+                                        transition={{ duration: 0.3 }}
+                                        drag="x"
+                                        dragConstraints={{ left: 0, right: 0 }}
+                                        dragElastic={0.4}
+                                        onDragEnd={(e, { offset, velocity }) => {
+                                            const swipe = swipePower(offset.x, velocity.x);
+                                            if (swipe < -swipeConfidenceThreshold) {
+                                                setCurrentAgentIdx(prev => (prev === agentsList.length - 1 ? 0 : prev + 1));
+                                            } else if (swipe > swipeConfidenceThreshold) {
+                                                setCurrentAgentIdx(prev => (prev === 0 ? agentsList.length - 1 : prev - 1));
+                                            }
+                                        }}
+                                        className="cursor-grab active:cursor-grabbing"
+                                    >
+                                        {(() => {
+                                            const agentItem = agentsList[currentAgentIdx];
+                                            const { whatsappHref, callHref, smsHref, handleInquiry } = getAgentContactData(agentItem);
+                                            return (
+                                                <div className="p-6 border border-gray-700 text-gray-400 rounded-lg bg-[#0f0f0f]">
+                                                    <div className="flex gap-5 mb-6">
+                                                        <img
+                                                            src={agentItem.avatar_url ? formatImageUrl(agentItem.avatar_url) : (agentItem.avatar ? formatImageUrl(agentItem.avatar) : 'https://via.placeholder.com/96')}
+                                                            alt={agentItem.agent_name || agentItem.name || 'Agent'}
+                                                            className="w-20 h-20 sm:w-24 sm:h-24 object-cover border-2 border-[#BD9B5F] rounded-full"
+                                                        />
 
-                                <div className="flex flex-col justify-center">
-                                    <h2 className="text-xl font-semibold text-white">{agent.name || 'Your advisor'}</h2>
-                                    <p className="text-gray-500 text-sm">{agent.title || 'Property Consultant'}</p>
+                                                        <div className="flex flex-col justify-center">
+                                                            <h2 className="text-lg sm:text-xl font-semibold text-white leading-tight">{agentItem.agent_name || agentItem.name || 'Your advisor'}</h2>
+                                                            <p className="text-gray-500 text-xs sm:text-sm mt-1">{agentItem.agent_role || agentItem.title || 'Property Consultant'}</p>
 
-                                    <div className="flex gap-3 mt-2 text-gray-400">
-                                        {agent.facebook && (
-                                            <a href={agent.facebook} target="_blank" rel="noopener noreferrer" className="hover:text-[#1877F2] transition-colors">
-                                                <MdOutlineFacebook size={20} />
-                                            </a>
-                                        )}
-                                        {agent.instagram && (
-                                            <a href={agent.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-[#E4405F] transition-colors">
-                                                <FaInstagram size={18} />
-                                            </a>
-                                        )}
-                                        {agent.linkedin && (
-                                            <a href={agent.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-[#0A66C2] transition-colors">
-                                                <FaLinkedin size={18} />
-                                            </a>
-                                        )}
+                                                            <div className="flex gap-3 mt-3 text-gray-400">
+                                                                {agentItem.facebook && (
+                                                                    <a href={agentItem.facebook} target="_blank" rel="noopener noreferrer" className="hover:text-[#1877F2] transition-colors">
+                                                                        <MdOutlineFacebook size={20} />
+                                                                    </a>
+                                                                )}
+                                                                {agentItem.instagram && (
+                                                                    <a href={agentItem.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-[#E4405F] transition-colors">
+                                                                        <FaInstagram size={18} />
+                                                                    </a>
+                                                                )}
+                                                                {agentItem.linkedin && (
+                                                                    <a href={agentItem.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-[#0A66C2] transition-colors">
+                                                                        <FaLinkedin size={18} />
+                                                                    </a>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="space-y-4">
+                                                        <div className="flex gap-3">
+                                                            <a
+                                                                href={whatsappHref || '#'}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className={`px-2 flex items-center justify-center gap-2 flex-1 py-3 border rounded transition ${whatsappHref
+                                                                    ? 'border-[#BD9B5F] text-[#BD9B5F] hover:bg-[#BD9B5F]/10'
+                                                                    : 'border-gray-700 text-gray-600 cursor-not-allowed'
+                                                                    }`}
+                                                                title="WhatsApp"
+                                                            >
+                                                                <FaWhatsapp className="text-xl" /> <span className="hidden sm:inline">WhatsApp</span>
+                                                            </a>
+
+                                                            <a
+                                                                href={smsHref || '#'}
+                                                                className={`flex items-center justify-center gap-2 flex-1 py-3 border rounded transition ${smsHref
+                                                                    ? 'border-[#BD9B5F] text-[#BD9B5F] hover:bg-[#BD9B5F]/10'
+                                                                    : 'border-gray-700 text-gray-600 cursor-not-allowed'
+                                                                    }`}
+                                                                title="Send SMS"
+                                                            >
+                                                                <FaCommentDots className="text-xl" /> <span className="hidden sm:inline">SMS</span>
+                                                            </a>
+
+                                                            <a
+                                                                href={callHref || '#'}
+                                                                className={`flex items-center justify-center gap-2 flex-1 py-3 border rounded transition ${callHref
+                                                                    ? 'border-[#BD9B5F] text-[#BD9B5F] hover:bg-[#BD9B5F]/10'
+                                                                    : 'border-gray-700 text-gray-600 cursor-not-allowed'
+                                                                    }`}
+                                                                title="Call Now"
+                                                            >
+                                                                <MdCall className="text-xl" /> <span className="hidden sm:inline">Call</span>
+                                                            </a>
+                                                        </div>
+
+                                                        <button
+                                                            type="button"
+                                                            className={`w-full py-3 rounded text-sm font-semibold transition ${whatsappHref ? 'bg-[#BD9B5F]/80 text-black hover:bg-[#BD9B5F]' : 'bg-gray-800 text-gray-500 cursor-not-allowed'}`}
+                                                            onClick={handleInquiry}
+                                                        >
+                                                            Send Inquiry
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })()}
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+
+                            {agentsList.length > 1 && (
+                                <>
+                                    <div className="absolute -bottom-4 left-0 right-0 flex justify-center gap-1.5 py-2">
+                                        {agentsList.map((_, idx) => (
+                                            <button
+                                                key={`dot-${idx}`}
+                                                onClick={() => setCurrentAgentIdx(idx)}
+                                                className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${idx === currentAgentIdx ? 'bg-[#BD9B5F] w-4' : 'bg-gray-600'}`}
+                                            />
+                                        ))}
                                     </div>
-                                </div>
-                            </div>
-
-                            <div className="space-y-4">
-                                <div className="flex gap-3">
-                                    <a
-                                        href={whatsappHref || '#'}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className={`px-2 flex items-center justify-center gap-2 flex-1 py-3 border rounded transition ${whatsappHref
-                                            ? 'border-[#BD9B5F] text-[#BD9B5F] hover:bg-[#BD9B5F]/10'
-                                            : 'border-gray-700 text-gray-600 cursor-not-allowed'
-                                            }`}
-                                        title="WhatsApp"
+                                    <button
+                                        onClick={() => setCurrentAgentIdx(prev => (prev === 0 ? agentsList.length - 1 : prev - 1))}
+                                        className="absolute top-1/2 -left-4 -translate-y-1/2 w-8 h-8 rounded-full bg-black/50 border border-gray-700 flex items-center justify-center text-[#BD9B5F] opacity-0 group-hover/agents:opacity-100 transition-opacity"
                                     >
-                                        <FaWhatsapp className="text-xl" /> <span className="hidden sm:inline">WhatsApp</span>
-                                    </a>
-
-                                    <a
-                                        href={agent?.phone ? `sms:${sanitizeDigits(agent.phone)}?body=${encodedMessage}` : '#'}
-                                        className={`flex items-center justify-center gap-2 flex-1 py-3 border rounded transition ${agent?.phone
-                                            ? 'border-[#BD9B5F] text-[#BD9B5F] hover:bg-[#BD9B5F]/10'
-                                            : 'border-gray-700 text-gray-600 cursor-not-allowed'
-                                            }`}
-                                        title="Send SMS"
+                                        <FaChevronRight className="rotate-180" size={12} />
+                                    </button>
+                                    <button
+                                        onClick={() => setCurrentAgentIdx(prev => (prev === agentsList.length - 1 ? 0 : prev + 1))}
+                                        className="absolute top-1/2 -right-4 -translate-y-1/2 w-8 h-8 rounded-full bg-black/50 border border-gray-700 flex items-center justify-center text-[#BD9B5F] opacity-0 group-hover/agents:opacity-100 transition-opacity"
                                     >
-                                        <FaCommentDots className="text-xl" /> <span className="hidden sm:inline">SMS</span>
-                                    </a>
-
-                                    <a
-                                        href={callHref || '#'}
-                                        className={`flex items-center justify-center gap-2 flex-1 py-3 border rounded transition ${callHref
-                                            ? 'border-[#BD9B5F] text-[#BD9B5F] hover:bg-[#BD9B5F]/10'
-                                            : 'border-gray-700 text-gray-600 cursor-not-allowed'
-                                            }`}
-                                        title="Call Now"
-                                    >
-                                        <MdCall className="text-xl" /> <span className="hidden sm:inline">Call</span>
-                                    </a>
-                                </div>
-
-                                <button
-                                    type="button"
-                                    className={`w-full py-3 rounded ${agent?.whatsapp ? 'bg-[#a06917b2] text-gray-100 hover:bg-[#a06917]' : 'bg-gray-800 text-gray-500 cursor-not-allowed'}`}
-                                    onClick={handleInquiry}
-                                >
-                                    Send Inquiry
-                                </button>
-                            </div>
+                                        <FaChevronRight size={12} />
+                                    </button>
+                                </>
+                            )}
                         </div>
 
                         {marketInsights.length > 0 && (
@@ -567,11 +653,20 @@ const PropertieHeader = ({ property }) => {
                                         <p className="text-gray-500 text-xs sm:text-sm uppercase tracking-wider">Total Area</p>
                                     </div>
                                 )}
-                                {propertyType && (
+                                {propertyTypes.length > 0 && (
                                     <div className="flex flex-col items-center justify-center text-center px-2">
-                                        <div className="flex items-center gap-2 mb-1">
-                                            <FaHome className="text-[#BD9B5F] text-xl sm:text-2xl" />
-                                            <span className="text-white text-lg sm:text-xl font-medium truncate max-w-[120px] sm:max-w-none" title={propertyType}>{propertyType}</span>
+                                        <div className="flex flex-wrap items-center justify-center gap-2 mb-2">
+                                            <FaHome className="text-[#BD9B5F] text-xl sm:text-2xl flex-shrink-0" />
+                                            {propertyTypes.slice(0, 2).map((type, idx) => (
+                                                <span key={`type-chip-${idx}`} className="px-3 py-1 bg-[#BD9B5F]/10 border border-[#BD9B5F]/30 text-[#BD9B5F] text-[10px] sm:text-xs rounded-full uppercase tracking-wider font-semibold">
+                                                    {type}
+                                                </span>
+                                            ))}
+                                            {propertyTypes.length > 2 && (
+                                                <span className="text-[#BD9B5F] text-[10px] items-center font-bold">
+                                                    +{propertyTypes.length - 2}
+                                                </span>
+                                            )}
                                         </div>
                                         <p className="text-gray-500 text-xs sm:text-sm uppercase tracking-wider">Property Type</p>
                                     </div>
@@ -588,39 +683,13 @@ const PropertieHeader = ({ property }) => {
                         {amenities.length > 0 && (
                             <div className="py-6 mt-6">
                                 <Heading as="h3" size="h3" color="white">Features & Amenities</Heading>
-                                <div className="overflow-x-auto mt-4 border border-gray-700">
-                                    <table className="min-w-full text-sm text-left text-gray-300">
-                                        <tbody>
-                                            <tr className="border-b border-gray-700">
-                                                <td className="py-3 px-2 font-medium border-r border-gray-700">Bedrooms</td>
-                                                <td className="py-3 px-2">{bedrooms}</td>
-                                            </tr>
-                                            <tr className="border-b border-gray-700">
-                                                <td className="py-3 px-2 font-medium border-r border-gray-700">Bathrooms</td>
-                                                <td className="py-3 px-2">{bathrooms}</td>
-                                            </tr>
-                                            <tr className="border-b border-gray-700">
-                                                <td className="py-3 px-2 font-medium border-r border-gray-700">Size</td>
-                                                <td className="py-3 px-2">{sqftLabel}</td>
-                                            </tr>
-                                            <tr className="border-b border-gray-700">
-                                                <td className="py-3 px-2 font-medium border-r border-gray-700">Type</td>
-                                                <td className="py-3 px-2">{propertyType}</td>
-                                            </tr>
-                                            {amenityRows.map((cols, idx) => (
-                                                <tr key={`amenity-row-${idx}`} className="border-b border-gray-700">
-                                                    {Array.from({ length: 4 }).map((_, colIdx) => (
-                                                        <td
-                                                            key={`${idx}-${colIdx}`}
-                                                            className={`py-3 px-2 ${colIdx < 3 ? 'border-r border-gray-700' : ''}`}
-                                                        >
-                                                            {cols[colIdx] ?? ''}
-                                                        </td>
-                                                    ))}
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
+                                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
+                                    {amenities.map((amenity, idx) => (
+                                        <div key={`amenity-${idx}`} className="flex items-center gap-3 p-4 rounded-lg bg-[#0A0A0A] border border-gray-800/50 group hover:border-[#BD9B5F]/30 transition-all duration-300">
+                                            <div className="w-2 h-2 rounded-full bg-[#BD9B5F]/40 group-hover:bg-[#BD9B5F] transition-colors" />
+                                            <span className="text-gray-400 text-sm group-hover:text-gray-200 transition-colors">{amenity}</span>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                         )}
@@ -726,14 +795,38 @@ const PropertieHeader = ({ property }) => {
                         )}
 
                         {/* Nearby Landmarks Section */}
-                        {((resolvedProperty?.nearby_locations?.length > 0) || (resolvedProperty?.nearbyLandmarks?.length > 0)) && (
+                        {nearbyLocations.length > 0 && (
                             <div className="py-6 mt-6">
                                 <Heading as="h3" size="h3" color="white">Nearby Landmarks</Heading>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-4">
-                                    {(resolvedProperty?.nearby_locations || resolvedProperty?.nearbyLandmarks || []).map((landmark, idx) => (
+                                    {nearbyLocations.map((landmark, idx) => (
                                         <div key={`landmark-${idx}`} className="flex items-center justify-between border border-gray-700 rounded-lg p-3 bg-[#0f0f0f]">
                                             <span className="text-gray-300 text-sm">{landmark.name}</span>
                                             <span className="text-[#BD9B5F] text-sm font-medium">{landmark.distance}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Payment Plan Section */}
+                        {paymentPlan.length > 0 && (
+                            <div className="py-6 mt-6">
+                                <Heading as="h3" size="h3" color="white">Payment Plan</Heading>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+                                    {paymentPlan.map((plan, idx) => (
+                                        <div key={`payment-plan-${idx}`} className="border border-gray-700 rounded-lg p-5 bg-[#0f0f0f] flex flex-col items-center justify-center text-center group hover:border-[#BD9B5F]/50 transition-all">
+                                            <div className="text-2xl font-bold text-[#BD9B5F] mb-1 group-hover:scale-110 transition-transform">
+                                                {plan.percentage}%
+                                            </div>
+                                            <p className="text-white text-sm font-semibold uppercase tracking-wider mb-1">
+                                                {plan.title}
+                                            </p>
+                                            {plan.subtitle && (
+                                                <p className="text-gray-500 text-xs">
+                                                    {plan.subtitle}
+                                                </p>
+                                            )}
                                         </div>
                                     ))}
                                 </div>
@@ -828,110 +921,6 @@ const PropertieHeader = ({ property }) => {
                             </div>
                         )}
 
-                        {/* Unit Types Section */}
-                        {resolvedProperty?.unitTypes?.length > 0 && (
-                            <div className="py-6 mt-6">
-                                <Heading as="h3" size="h3" color="white">Unit Types & Investment Returns</Heading>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
-                                    {resolvedProperty.unitTypes.map((unit, idx) => (
-                                        <div key={`unit-type-${idx}`} className="border border-gray-700 rounded-lg p-4 bg-[#0f0f0f]">
-                                            <h4 className="text-[#BD9B5F] text-lg font-semibold mb-3">{unit.type}</h4>
-                                            <div className="space-y-2 text-sm">
-                                                <div className="flex justify-between">
-                                                    <span className="text-gray-400">Investment:</span>
-                                                    <span className="text-white font-medium">${unit.totalInvestment?.toLocaleString()}</span>
-                                                </div>
-                                                <div className="flex justify-between">
-                                                    <span className="text-gray-400">Annual Income:</span>
-                                                    <span className="text-green-400 font-medium">${unit.annualIncome?.toLocaleString()}</span>
-                                                </div>
-                                                <div className="flex justify-between pt-2 border-t border-gray-700">
-                                                    <span className="text-gray-400">ROI:</span>
-                                                    <span className="text-[#BD9B5F] font-bold text-lg">{unit.roi}%</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-
-                        {/* Rental Projections Section */}
-                        {resolvedProperty?.rentalProjections && (
-                            <div className="py-6 mt-6">
-                                <Heading as="h3" size="h3" color="white">Rental Income Projections</Heading>
-
-                                {/* Annual Growth & Season Info */}
-                                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4">
-                                    <div className="border border-gray-700 rounded-lg p-4 bg-[#0f0f0f] text-center">
-                                        <p className="text-gray-400 text-xs mb-1">Annual Growth</p>
-                                        <p className="text-[#BD9B5F] text-2xl font-bold">{resolvedProperty.rentalProjections.annualPriceGrowth}%</p>
-                                    </div>
-                                    {resolvedProperty.rentalProjections.minimumRentalDays && (
-                                        <>
-                                            <div className="border border-gray-700 rounded-lg p-4 bg-[#0f0f0f] text-center">
-                                                <p className="text-gray-400 text-xs mb-1">Off-Season</p>
-                                                <p className="text-white text-xl font-semibold">{resolvedProperty.rentalProjections.minimumRentalDays.offSeason} days</p>
-                                            </div>
-                                            <div className="border border-gray-700 rounded-lg p-4 bg-[#0f0f0f] text-center">
-                                                <p className="text-gray-400 text-xs mb-1">Mid-Season</p>
-                                                <p className="text-white text-xl font-semibold">{resolvedProperty.rentalProjections.minimumRentalDays.midSeason} days</p>
-                                            </div>
-                                            <div className="border border-gray-700 rounded-lg p-4 bg-[#0f0f0f] text-center">
-                                                <p className="text-gray-400 text-xs mb-1">Peak Season</p>
-                                                <p className="text-white text-xl font-semibold">{resolvedProperty.rentalProjections.minimumRentalDays.peakSeason} days</p>
-                                            </div>
-                                        </>
-                                    )}
-                                </div>
-
-                                {/* Monthly Rates Table */}
-                                {resolvedProperty.rentalProjections.monthlyRates && (
-                                    <div className="mt-6 overflow-x-auto">
-                                        <p className="text-gray-300 text-sm mb-3">Monthly Rental Rates (USD)</p>
-                                        <table className="min-w-full text-xs text-center border border-gray-700 rounded-lg overflow-hidden">
-                                            <thead className="bg-[#1a1a1a]">
-                                                <tr>
-                                                    <th className="py-2 px-2 text-[#BD9B5F] border-b border-gray-700">Unit</th>
-                                                    <th className="py-2 px-2 text-gray-400 border-b border-gray-700">Jan</th>
-                                                    <th className="py-2 px-2 text-gray-400 border-b border-gray-700">Feb</th>
-                                                    <th className="py-2 px-2 text-gray-400 border-b border-gray-700">Mar</th>
-                                                    <th className="py-2 px-2 text-gray-400 border-b border-gray-700">Apr</th>
-                                                    <th className="py-2 px-2 text-gray-400 border-b border-gray-700">May</th>
-                                                    <th className="py-2 px-2 text-yellow-400 border-b border-gray-700">Jun</th>
-                                                    <th className="py-2 px-2 text-green-400 border-b border-gray-700">Jul</th>
-                                                    <th className="py-2 px-2 text-green-400 border-b border-gray-700">Aug</th>
-                                                    <th className="py-2 px-2 text-yellow-400 border-b border-gray-700">Sep</th>
-                                                    <th className="py-2 px-2 text-gray-400 border-b border-gray-700">Oct</th>
-                                                    <th className="py-2 px-2 text-gray-400 border-b border-gray-700">Nov</th>
-                                                    <th className="py-2 px-2 text-gray-400 border-b border-gray-700">Dec</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {Object.entries(resolvedProperty.rentalProjections.monthlyRates).map(([unitType, rates], idx) => (
-                                                    <tr key={`rate-${idx}`} className="border-b border-gray-700 hover:bg-[#1a1a1a]">
-                                                        <td className="py-2 px-2 text-[#BD9B5F] font-medium capitalize">{unitType.replace(/([A-Z])/g, ' $1').trim()}</td>
-                                                        <td className="py-2 px-2 text-gray-300">${rates.jan}</td>
-                                                        <td className="py-2 px-2 text-gray-300">${rates.feb}</td>
-                                                        <td className="py-2 px-2 text-gray-300">${rates.mar}</td>
-                                                        <td className="py-2 px-2 text-gray-300">${rates.apr}</td>
-                                                        <td className="py-2 px-2 text-gray-300">${rates.may}</td>
-                                                        <td className="py-2 px-2 text-yellow-300">${rates.jun}</td>
-                                                        <td className="py-2 px-2 text-green-300 font-medium">${rates.jul}</td>
-                                                        <td className="py-2 px-2 text-green-300 font-medium">${rates.aug}</td>
-                                                        <td className="py-2 px-2 text-yellow-300">${rates.sep}</td>
-                                                        <td className="py-2 px-2 text-gray-300">${rates.oct}</td>
-                                                        <td className="py-2 px-2 text-gray-300">${rates.nov}</td>
-                                                        <td className="py-2 px-2 text-gray-300">${rates.dec}</td>
-                                                    </tr>
-                                                ))}
-                                            </tbody>
-                                        </table>
-                                        <p className="text-gray-500 text-xs mt-2">Peak season (Jul-Aug) highlighted in green • Mid-season (Jun, Sep) in yellow</p>
-                                    </div>
-                                )}
-                            </div>
-                        )}
 
                         {/* Developer Info Section */}
                         {resolvedProperty?.developer && typeof resolvedProperty.developer === 'object' && (
@@ -1098,40 +1087,6 @@ const PropertieHeader = ({ property }) => {
 
             <div className="border border-gray-800"></div>
 
-            <div className="w-full text-white py-8 sm:py-12 lg:py-14 flex justify-center px-4">
-                <div className="max-w-[1400px] w-full flex flex-col lg:flex-row shadow-xl">
-                    <div className="w-full lg:w-1/2 bg-gradient-to-br from-black via-[#111111] to-[#222222] p-6 sm:p-8 lg:p-12 flex flex-col justify-center">
-                        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-light mb-4 sm:mb-6 text-white">
-                            {areaStats.areaName || resolvedProperty.community || 'Dubai'}
-                        </h2>
-
-                        <p className="text-gray-300 text-base sm:text-lg">
-                            Apartments: <span className="text-white">{areaStats.listingCount ?? '—'}</span>
-                        </p>
-                        <p className="text-gray-300 text-base sm:text-lg mb-4 sm:mb-6">
-                            Price from: <span className="text-white">{areaStats.priceFrom ?? '—'}</span>
-                        </p>
-
-                        <p className="text-gray-400 text-sm sm:text-base leading-6 sm:leading-7 max-w-full sm:max-w-[450px] mb-6 sm:mb-10">
-                            {areaStats.summary || 'Discover handpicked residences with waterfront living and resort amenities.'}
-                        </p>
-
-                        <button onClick={() => navigate('/properties')} type="button" className="px-6 sm:px-8 py-2.5 sm:py-3 border border-[#b07b33] text-[#b07b33] hover:bg-[#b07b3315] transition-all duration-300 text-sm sm:text-base">
-                            EXPLORE
-                        </button>
-                    </div>
-
-                    <div className="w-full lg:w-1/2 h-[250px] sm:h-[350px] lg:h-auto">
-                        <img
-                            src={formatImageUrl(heroImage)}
-                            className="w-full h-full object-cover"
-                            alt={areaStats.areaName || resolvedProperty.community || 'Community'}
-                        />
-                    </div>
-                </div>
-            </div>
-
-            {/* Mobile Fixed Bottom Actions */}
             <motion.div
                 initial={{ y: 100 }}
                 animate={{ y: 0 }}
@@ -1139,10 +1094,10 @@ const PropertieHeader = ({ property }) => {
                 className="fixed bottom-0 left-0 right-0 bg-[#111010] border-t border-gray-800 p-3 lg:hidden z-40 flex items-center justify-between gap-3 px-4 pb-safe"
             >
                 <a
-                    href={whatsappHref || '#'}
+                    href={primaryAgentData.whatsappHref || '#'}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg font-medium transition ${whatsappHref
+                    className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg font-medium transition ${primaryAgentData.whatsappHref
                         ? 'bg-[#BD9B5F]/10 border border-[#BD9B5F] text-[#BD9B5F] hover:bg-[#BD9B5F]/20'
                         : 'bg-gray-800 text-gray-500 cursor-not-allowed'
                         }`}
@@ -1152,8 +1107,8 @@ const PropertieHeader = ({ property }) => {
                 </a>
 
                 <a
-                    href={agent?.phone ? `sms:${sanitizeDigits(agent.phone)}?body=${encodedMessage}` : '#'}
-                    className={`flex items-center justify-center justify-self-center p-3 rounded-lg transition aspect-square ${agent?.phone
+                    href={primaryAgentData.smsHref || '#'}
+                    className={`flex items-center justify-center justify-self-center p-3 rounded-lg transition aspect-square ${primaryAgentData.smsHref
                         ? 'bg-[#BD9B5F]/20 text-[#BD9B5F] border border-[#BD9B5F]/50'
                         : 'bg-gray-800 text-gray-500 border border-gray-700 cursor-not-allowed'
                         }`}
@@ -1163,8 +1118,8 @@ const PropertieHeader = ({ property }) => {
                 </a>
 
                 <a
-                    href={callHref || '#'}
-                    className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg font-medium transition ${callHref
+                    href={primaryAgentData.callHref || '#'}
+                    className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg font-medium transition ${primaryAgentData.callHref
                         ? 'bg-[#BD9B5F] text-white hover:bg-[#c49278]'
                         : 'bg-gray-800 text-gray-500 cursor-not-allowed'
                         }`}

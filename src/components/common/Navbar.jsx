@@ -3,9 +3,9 @@ import { NavLink } from 'react-router-dom';
 import { motion, AnimatePresence } from "framer-motion";
 import { navbarData } from '../../data/navbar';
 import { contactData } from '../../data/contactData';
-import { CiBookmark } from "react-icons/ci";
+import { FaInstagram, FaFacebook, FaLinkedin, FaUserCircle  } from "react-icons/fa";
 import { RiMenuFold2Fill } from "react-icons/ri";
-import { MdWhatsapp } from "react-icons/md";
+import { MdWhatsapp, MdCall } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
 
 const Navbar = memo(({ selectedCountry, setSelectedCountry }) => {
@@ -139,18 +139,45 @@ const Navbar = memo(({ selectedCountry, setSelectedCountry }) => {
                             <MdWhatsapp size={22} />
                         </a>
 
-                        <a href={`tel:${currentPhone}`} className="text-white hover:text-[#BD9B5F] text-[10px] uppercase tracking-[0.2em] font-bold transition-colors">
-                            Advisory
+                        <a href={`tel:${currentPhone}`} target="_blank" rel="noopener noreferrer" className="text-[#BD9B5F] hover:text-white transition-colors">
+                            <MdCall size={22} />
+                        </a>
+
+                        <a href={`/login`} target="_blank" rel="noopener noreferrer" className="text-[#BD9B5F] hover:text-white transition-colors">
+                            <FaUserCircle   size={22} />
                         </a>
                     </div>
 
                     <div className="flex items-center gap-4 text-white/50">
-                        <motion.button whileHover={{ scale: 1.1, color: "#fff" }} className="transition-colors">
-                            <CiBookmark size={24} />
-                        </motion.button>
-                        <motion.button whileHover={{ scale: 1.1, color: "#fff" }} className="transition-colors">
-                            <RiMenuFold2Fill size={24} />
-                        </motion.button>
+                        <motion.a
+                            href="https://www.instagram.com/grandgateproperties/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            whileHover={{ scale: 1.1, color: "#FFDC80" }}
+                            className="transition-colors"
+                        >
+                            <FaInstagram size={24} />
+                        </motion.a>
+
+                        <motion.a
+                            href="https://www.facebook.com/profile.php?id=61585773879074"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            whileHover={{ scale: 1.1, color: "#FFDC80" }}
+                            className="transition-colors"
+                        >
+                            <FaFacebook size={24} />
+                        </motion.a>
+
+                        <motion.a
+                            href="https://www.linkedin.com/company/grand-gate-properties-llc/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            whileHover={{ scale: 1.1, color: "#FFDC80" }}
+                            className="transition-colors"
+                        >
+                            <FaLinkedin size={24} />
+                        </motion.a>
                     </div>
                 </div>
 

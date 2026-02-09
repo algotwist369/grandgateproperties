@@ -7,17 +7,7 @@ export const contactData = [
         phoneClean: "+971554422553",
         whatsapp: "971554422553",
         email: "grandgatepropertiesllc@gmail.com",
-        image: "https://images.unsplash.com/photo-1512453979798-5ea904ac6605?auto=format&fit=crop&q=80&w=800"
-    },
-    {
-        country: "India",
-        title: "India Office",
-        address: "Level 4, Trade Centre, Bandra Kurla Complex, Mumbai, India",
-        phone: "+91 22 1234 5678",
-        phoneClean: "+912212345678",
-        whatsapp: "912212345678",
-        email: "grandgatepropertiesllc@gmail.com",
-        image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=800"
+        image: "https://res.cloudinary.com/dcm79v527/image/upload/v1770633827/ianwatts-dubai-1514540_1920_esovwr.jpg"
     }
 ];
 

@@ -13,6 +13,8 @@ const Lifestyle = ({ selectedCountry }) => {
     // Dynamic lifestyle data
     const exclusiveProperties = homeSectionsData[selectedCountry]?.lifestyle || homeSectionsData['Dubai'].lifestyle;
 
+    if (!exclusiveProperties?.length) return null;
+
     return (
         <section className='relative py-24 lg:py-40 bg-[#0B0D10] overflow-hidden'>
             <div className='max-w-[99rem] mx-auto px-6 relative z-20'>

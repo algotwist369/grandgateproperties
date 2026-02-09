@@ -13,56 +13,8 @@ export const homeSectionsData = {
                 { number: "15+", label: "Years Experience" }
             ]
         },
-        partners: [
-            {
-                id: 1,
-                name: "Fatma Zohra Absi ",
-                position: "Senior Real Estate Consultant",
-                experience: "10+ Years",
-                languages: ["English", "Arabic", "French"],
-                image: "/agent/Agent1.jpeg",
-            },
-            {
-                id: 2,
-                name: "Dakshayami R Nair ",
-                position: "Senior Real Estate Consultant",
-                experience: "10+ Years",
-                languages: ["Malayalam", "English", "Tamil"],
-                image: "/agent/agent2.PNG",
-            },
-        ],
-        lifestyle: [
-            {
-                id: 1,
-                title: "Luxury Penthouse in Downtown Dubai",
-                SubTitle: "EXPLORE LUXURY LIFE STYLE",
-                image: "https://www.axcapital.ae/_ipx/_/img/life-style/life-style-waterfront.webp",
-            },
-            {
-                id: 2,
-                title: "Luxury Penthouse in Downtown Dubai",
-                SubTitle: "EXPLORE LUXURY LIFE STYLE",
-                image: "https://www.axcapital.ae/_ipx/_/img/life-style/life-style-luxury-penthouses.webp",
-            },
-            {
-                id: 3,
-                title: "Luxury Penthouse in Downtown Dubai",
-                SubTitle: "EXPLORE LUXURY LIFE STYLE",
-                image: "https://www.axcapital.ae/_ipx/_/img/life-style/life-style-golf.webp",
-            },
-            {
-                id: 4,
-                title: "Luxury Penthouse in Downtown Dubai",
-                SubTitle: "EXPLORE LUXURY LIFE STYLE",
-                image: "https://www.axcapital.ae/_ipx/_/img/life-style/beachfront-property.webp",
-            },
-            {
-                id: 5,
-                title: "Luxury Penthouse in Downtown Dubai",
-                SubTitle: "EXPLORE LUXURY LIFE STYLE",
-                image: "https://www.axcapital.ae/_ipx/_/img/life-style/life-style-marina.webp",
-            }
-        ],
+        partners: [],
+        lifestyle: [],
         offices: [
             {
                 id: 1,

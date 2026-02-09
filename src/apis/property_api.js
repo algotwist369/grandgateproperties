@@ -3,7 +3,11 @@ import apiClient from './apiClient';
 // --- Public Routes ---
 
 export const getAllProperties = async (page = 1, limit = 10, params = {}) => {
-    const queryParams = new URLSearchParams({ page, limit, ...params }).toString();
+    // Filter out undefined, null, and "undefined" strings from params
+    const cleanParams = Object.fromEntries(
+        Object.entries(params).filter(([_, v]) => v !== undefined && v !== null && v !== 'undefined' && v !== '')
+    );
+    const queryParams = new URLSearchParams({ page, limit, ...cleanParams }).toString();
     const { data } = await apiClient.get(`/properties?${queryParams}`);
     return data;
 };

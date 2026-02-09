@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { motion, AnimatePresence } from "framer-motion";
-import { propertyDirectory } from '../../data/dubai_Properties';
+import { getAllProperties } from '../../apis/property_api';
 
 // Helper to format image URLs from backend
 const formatImageUrl = (url) => {
@@ -17,16 +17,22 @@ const BestProperties = ({ selectedCountry }) => {
     const [currentSlide, setCurrentSlide] = useState(0);
     const [isMobile, setIsMobile] = useState(false);
     const [isTablet, setIsTablet] = useState(false);
+    const [propertiesData, setPropertiesData] = useState([]);
 
-    // Filter properties
-    const properties = useMemo(() => {
-        return propertyDirectory.filter(p =>
-            p.featured && (selectedCountry === 'All' || p.country === selectedCountry)
-        ).map(p => ({
-            ...p,
-            image: p.heroImage || p.gallery?.[0] || p.image,
-            location: p.location || `${p.community}, ${p.emirate}`
-        }));
+    useEffect(() => {
+        const fetchBestProperties = async () => {
+            try {
+                const params = { featured: true };
+                if (selectedCountry && selectedCountry !== 'All') {
+                    params.country = selectedCountry;
+                }
+                const data = await getAllProperties(1, 10, params);
+                setPropertiesData(data.properties || []);
+            } catch (error) {
+                console.error('Error fetching best properties:', error);
+            }
+        };
+        fetchBestProperties();
     }, [selectedCountry]);
 
     // Handle responsive breakpoints
@@ -40,6 +46,47 @@ const BestProperties = ({ selectedCountry }) => {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
+
+    // Filter and Normalize properties
+    const properties = useMemo(() => {
+        return propertiesData.map(p => {
+            // Price Display
+            let priceLabel = p.starting_price ? `From AED ${p.starting_price.toLocaleString()}` : (p.price ? `AED ${p.price.toLocaleString()}` : null);
+
+            // Beds
+            let bedsLabel = p.bedrooms;
+            if (!bedsLabel && p.units && p.units.length > 0) {
+                const beds = p.units.map(u => u.bedrooms).filter(b => b != null);
+                if (beds.length > 0) {
+                    const minBeds = Math.min(...beds);
+                    const maxBeds = Math.max(...beds);
+                    bedsLabel = minBeds === maxBeds ? minBeds : `${minBeds}+`;
+                }
+            }
+
+            // Baths
+            let bathsLabel = p.bathrooms;
+            if (!bathsLabel && p.units && p.units.length > 0) {
+                const baths = p.units.map(u => u.bathrooms).filter(b => b != null);
+                if (baths.length > 0) {
+                    const minBaths = Math.min(...baths);
+                    const maxBaths = Math.max(...baths);
+                    bathsLabel = minBaths === maxBaths ? minBaths : `${minBaths}+`;
+                }
+            }
+
+            return {
+                ...p,
+                id: p._id,
+                image: p.hero_image || p.gallery?.[0],
+                location: p.location || `${p.community}, ${p.emirate}`,
+                bedrooms: bedsLabel,
+                bathrooms: bathsLabel,
+                price: priceLabel,
+                source: p
+            };
+        });
+    }, [propertiesData]);
 
     // Rotate items and bring current one to front
     const getDisplayItems = () => {
@@ -83,8 +130,14 @@ const BestProperties = ({ selectedCountry }) => {
     return (
         <div className="relative py-24 sm:py-32 overflow-hidden bg-black">
             {/* Background Accent */}
-            <div className="absolute top-1/2 left-0 -translate-y-1/2 w-96 h-96 bg-[#BD9B5F]/5 blur-[120px] rounded-full"></div>
-
+            <div className="absolute inset-0 z-0">
+                <img
+                    src="https://res.cloudinary.com/dcm79v527/image/upload/v1770633742/monikawl999-dubai-1085058_1920_pzrzav.jpg"
+                    alt="Background"
+                    className="w-full h-full object-cover opacity-50"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-black via-black/50 to-black/60"></div>
+            </div>
             <div className="max-w-[99rem] container mx-auto px-6 lg:px-2 relative z-20">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
                     {/* Left Side - Properties Stack with Motion */}

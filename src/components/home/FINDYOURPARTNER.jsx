@@ -2,16 +2,32 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { motion, AnimatePresence } from "framer-motion";
-import { homeSectionsData } from '../../data/homeSections';
 import { getFullUrl } from '../../apis/user_api';
 
 const FINDYOURPARTNER = ({ selectedCountry }) => {
   const navigate = useNavigate();
+  const [agents, setAgents] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
 
-  const agents = homeSectionsData[selectedCountry]?.partners || homeSectionsData['Dubai'].partners;
+  // Fetch agents from backend
+  useEffect(() => {
+    const fetchAgents = async () => {
+      try {
+        setLoading(true);
+        const { getAllAgents } = await import('../../apis/agent_api');
+        const data = await getAllAgents(1, 10);
+        setAgents(data.agents || []);
+      } catch (error) {
+        console.error('Error fetching agents for finder:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAgents();
+  }, []);
 
   // Handle responsive breakpoints
   useEffect(() => {
@@ -27,6 +43,7 @@ const FINDYOURPARTNER = ({ selectedCountry }) => {
 
   // Rotate all agents and bring current one to front
   const getDisplayAgents = () => {
+    if (!agents.length) return [];
     const rotatedAgents = [
       ...agents.slice(currentSlide % agents.length),
       ...agents.slice(0, currentSlide % agents.length)
@@ -58,16 +75,17 @@ const FINDYOURPARTNER = ({ selectedCountry }) => {
 
   return (
     <div className="relative py-24 sm:py-32 overflow-hidden bg-black">
-      {/* Background Accent */}
-      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-96 h-96 bg-[#BD9B5F]/5 blur-[120px] rounded-full"></div>
-
       <div className="max-w-[99rem] container mx-auto px-6 lg:px-2 relative z-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           {/* Left Side - Agents Stack with Motion */}
           <div className="relative h-[600px] sm:h-[700px] flex items-center justify-center order-2 lg:order-1">
             <div className="relative w-full max-w-md h-full flex items-center justify-center">
               <AnimatePresence mode="popLayout">
-                {displayAgents.map((agent, index) => {
+                {loading ? (
+                  <div className="flex items-center justify-center p-20">
+                    <div className="w-8 h-8 border-2 border-[#BD9B5F] border-t-transparent rounded-full animate-spin"></div>
+                  </div>
+                ) : displayAgents.map((agent, index) => {
                   const isMain = index === 0;
 
                   return (
@@ -79,19 +97,21 @@ const FINDYOURPARTNER = ({ selectedCountry }) => {
                         scale: 1 - (index * 0.05),
                         x: index * 40,
                         y: index * -20,
+                        x: index * 40,
+                        y: index * -20,
                         zIndex: 50 - index
                       }}
                       exit={{ opacity: 0, scale: 0.5, x: -200, rotate: -10 }}
                       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                       className="absolute w-full"
-                      onClick={() => isMain ? navigate(`/en/agents/${agent.id}`) : nextSlide()}
+                      onClick={() => isMain ? navigate(`/en/agents/${agent.slug || agent._id}`) : nextSlide()}
                     >
                       <div className={`relative group rounded-[2.5rem] overflow-hidden border transition-all duration-500 cursor-pointer ${isMain ? 'border-[#BD9B5F] shadow-2xl shadow-[#BD9B5F]/10' : 'border-white/10'
                         }`}>
                         <div className="aspect-[3/4] overflow-hidden">
                           <img
-                            src={getFullUrl(agent.image)}
-                            alt={agent.name}
+                            src={agent.avatar_url ? getFullUrl(agent.avatar_url) : '/agent/Agent1.jpeg'}
+                            alt={agent.agent_name}
                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
@@ -103,10 +123,10 @@ const FINDYOURPARTNER = ({ selectedCountry }) => {
                             animate={{ opacity: 1, y: 0 }}
                             className="space-y-2"
                           >
-                            <p className="text-[10px] uppercase tracking-[0.4em] text-[#BD9B5F] font-medium">{agent.position}</p>
-                            <h3 className="text-2xl font-light text-white uppercase tracking-tight">{agent.name}</h3>
+                            <p className="text-[10px] uppercase tracking-[0.4em] text-[#BD9B5F] font-medium">{agent.agent_role}</p>
+                            <h3 className="text-2xl font-light text-white uppercase tracking-tight">{agent.agent_name}</h3>
                             <div className="pt-4 flex flex-wrap gap-2">
-                              {agent.languages.slice(0, 2).map((lang, idx) => (
+                              {Array.isArray(agent.languages) && agent.languages.slice(0, 2).map((lang, idx) => (
                                 <span key={idx} className="px-3 py-1 rounded-full border border-white/10 text-[9px] uppercase tracking-widest text-gray-400">
                                   {lang}
                                 </span>

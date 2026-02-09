@@ -121,8 +121,14 @@ const WhyChooseUs = ({ selectedCountry }) => {
 
     return (
         <div className="relative py-24 sm:py-32 overflow-hidden bg-black">
-            {/* Background Decorative Element */}
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#BD9B5F]/5 blur-[120px] rounded-full translate-x-1/2 -translate-y-1/2"></div>
+            <div className="absolute inset-0 z-0">
+                <img
+                    src="https://res.cloudinary.com/dcm79v527/image/upload/v1770633076/hero2_ockduh.webp"
+                    alt="Background"
+                    className="w-full h-full object-cover opacity-50"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-black via-black/50 to-black/50"></div>
+            </div>
 
             <div className="container mx-auto px-6 lg:px-8 relative z-20">
                 {/* Header Section */}

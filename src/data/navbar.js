@@ -1,7 +1,6 @@
 export const navbarData = [
-  { label: "buy", path: "/en/buy" },
-  { label: "rent", path: "/en/rent" },
-  { label: "off-plan", path: "/en/off-plan" },
-  { label: "catalogs", path: "/en/catalogs" },
+  { label: "EXPLORE PROPERTIES", path: "/en/buy" },
+  { label: "Contact Us", path: "/en/contact" },
+  { label: "About Us", path: "/en/about" },
   { label: "agents", path: "/en/agents" },
 ]

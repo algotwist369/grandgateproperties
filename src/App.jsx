@@ -23,6 +23,7 @@ const PropertyPage = lazy(() => import('./pages/properties/PropertyPage'))
 const AgentsPage = lazy(() => import('./pages/agents/AgentsPage'))
 const AgentDetailsPage = lazy(() => import('./pages/agents/AgentDetailsPage'))
 const ContactPage = lazy(() => import('./pages/contact/ContactPage'))
+const AboutPage = lazy(() => import('./pages/about/AboutPage'))
 const PrivacyPage = lazy(() => import('./pages/legal/PrivacyPage'))
 const TermsPage = lazy(() => import('./pages/legal/TermsPage'))
 const CookiePage = lazy(() => import('./pages/legal/CookiePage'))
@@ -103,6 +104,7 @@ const ContentWrapper = ({ countryValue, handleCountryChange }) => {
 
           {/* Legal & Contact */}
           <Route path="/en/contact" element={<ContactPage />} />
+          <Route path="/en/about" element={<AboutPage />} />
           <Route path="/en/privacy" element={<PrivacyPage />} />
           <Route path="/en/terms" element={<TermsPage />} />
           <Route path="/en/cookies" element={<CookiePage />} />
@@ -143,7 +145,7 @@ const ContentWrapper = ({ countryValue, handleCountryChange }) => {
 
 // ---------------- App ----------------
 const App = () => {
-  const [selectedCountry, setSelectedCountry] = useState('Dubai')
+  const [selectedCountry, setSelectedCountry] = useState('All')
 
   const handleCountryChange = useCallback((country) => {
     setSelectedCountry(country)

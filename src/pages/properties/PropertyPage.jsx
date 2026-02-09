@@ -1,30 +1,18 @@
 import React, { useState, useMemo, useEffect, useCallback, useRef } from 'react';
-import { propertyDirectory } from '../../data/dubai_Properties';
+import { getAllProperties } from '../../apis/property_api';
 import PropertyCard from '../../components/common/PropertyCard';
 import { IoSearchOutline, IoFilterOutline } from 'react-icons/io5';
 import { IoMdClose } from 'react-icons/io';
 import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Debounce hook for search input
-const useDebounce = (value, delay) => {
-    const [debouncedValue, setDebouncedValue] = useState(value);
-
-    useEffect(() => {
-        const handler = setTimeout(() => {
-            setDebouncedValue(value);
-        }, delay);
-
-        return () => {
-            clearTimeout(handler);
-        };
-    }, [value, delay]);
-
-    return debouncedValue;
-};
 
 const PropertyPage = () => {
     const location = useLocation();
+    const [properties, setProperties] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [pagination, setPagination] = useState({ page: 1, limit: 9, total: 0, hasMore: true });
+    const [isInitialLoading, setIsInitialLoading] = useState(true);
 
     // Filter States
     const [filters, setFilters] = useState({
@@ -35,8 +23,42 @@ const PropertyPage = () => {
         search: ''
     });
 
-    // Debounce search input to reduce filtering operations
-    const debouncedSearch = useDebounce(filters.search, 300);
+    const fetchProperties = useCallback(async (page = 1, currentFilters = filters, append = false) => {
+        try {
+            setLoading(true);
+            const params = {
+                country: currentFilters.country !== 'All' ? currentFilters.country : undefined,
+                property_types: currentFilters.type !== 'All' ? currentFilters.type : undefined,
+                bedrooms: currentFilters.bedrooms !== 'All' ? currentFilters.bedrooms.replace('+', '') : undefined,
+                search: currentFilters.search || undefined,
+                minPrice: currentFilters.priceRange !== 'All' ? priceRanges.find(r => r.label === currentFilters.priceRange)?.min : undefined,
+                maxPrice: currentFilters.priceRange !== 'All' ? priceRanges.find(r => r.label === currentFilters.priceRange)?.max : undefined,
+            };
+
+            const data = await getAllProperties(page, 9, params);
+
+            setProperties(prev => append ? [...prev, ...(data.properties || [])] : (data.properties || []));
+            setPagination({
+                page: data.pagination?.currentPage || page,
+                limit: data.pagination?.limit || 9,
+                total: data.pagination?.totalProperties || 0,
+                hasMore: data.pagination?.hasNextPage || false
+            });
+        } catch (error) {
+            console.error('Error fetching properties:', error);
+        } finally {
+            setLoading(false);
+            setIsInitialLoading(false);
+        }
+    }, [filters.country, filters.type, filters.bedrooms, filters.search, filters.priceRange]);
+
+    // Fetch initial data or filter change
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            fetchProperties(1, filters, false);
+        }, filters.search ? 500 : 0);
+        return () => clearTimeout(timer);
+    }, [filters, fetchProperties]);
 
     // Initialize from Location State (Hero Search)
     useEffect(() => {
@@ -68,23 +90,8 @@ const PropertyPage = () => {
 
     // Derived Values
     const countries = ['All', 'Dubai', 'India'];
-    const propertyTypes = useMemo(() => {
-        const types = new Set();
-        propertyDirectory.forEach(p => {
-            if (Array.isArray(p.propertyTypes)) {
-                p.propertyTypes.forEach(t => types.add(t));
-            } else if (p.propertyType) {
-                types.add(p.propertyType);
-            } else if (p.propertyCategory) {
-                types.add(p.propertyCategory);
-            }
-        });
-        return ['All', ...Array.from(types)];
-    }, []);
-
+    const propertyTypes = ['All', 'Apartment', 'Villa', 'Townhouse', 'Penthouse', 'Plot'];
     const bedroomOptions = ['All', '1', '2', '3', '4', '5+'];
-
-    // Dynamic Price Ranges based on Country
     const priceRanges = useMemo(() => {
         if (filters.country === 'India') {
             return [
@@ -95,7 +102,6 @@ const PropertyPage = () => {
                 { label: 'Above ₹20 Cr', min: 200000000, max: Infinity },
             ];
         } else {
-            // Default (AED - Dubai / All)
             return [
                 { label: 'All', min: 0, max: Infinity },
                 { label: 'Under 1M AED', min: 0, max: 1000000 },
@@ -118,79 +124,12 @@ const PropertyPage = () => {
 
     const numberFormatter = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
 
-    // Filtering Logic - use debounced search
-    const filteredProperties = useMemo(() => {
-        return propertyDirectory.map(property => ({
-            ...property,
-            // Normalize data for display card
-            location: property.location || `${property.community}, ${property.emirate}`,
-            priceDisplay: property.startingPrice
-                ? `From ${formatCurrency(property.startingPrice, property.currency)}`
-                : formatCurrency(property.price, property.currency),
-            area: property.sqft ? `${numberFormatter.format(property.sqft)} sqft` : '',
-            image: property.heroImage || property.gallery?.[0] || property.image,
-            type: property.propertyType || property.propertyCategory,
-            source: property,
-        })).filter(property => {
-            // 1. Search Text (Title or Location) - use debounced value
-            const searchLower = debouncedSearch.toLowerCase();
-            const searchMatch = !debouncedSearch ||
-                property.title.toLowerCase().includes(searchLower) ||
-                property.location.toLowerCase().includes(searchLower);
-
-            // 2. Country
-            const countryMatch = filters.country === 'All' || property.country === filters.country;
-
-            // 3. Property Type
-            let typeMatch = filters.type === 'All';
-            if (!typeMatch) {
-                if (Array.isArray(property.propertyTypes)) {
-                    typeMatch = property.propertyTypes.includes(filters.type);
-                } else {
-                    typeMatch = property.propertyType === filters.type || property.propertyCategory === filters.type;
-                }
-            }
-
-            // 4. Bedrooms
-            let bedroomMatch = filters.bedrooms === 'All';
-            if (!bedroomMatch) {
-                const targetBeds = filters.bedrooms === '5+' ? 5 : parseInt(filters.bedrooms);
-
-                if (property.units && property.units.length > 0) {
-                    const unitBeds = property.units.map(u => u.bedrooms).filter(b => b != null);
-                    if (filters.bedrooms === '5+') {
-                        bedroomMatch = unitBeds.some(b => b >= 5);
-                    } else {
-                        bedroomMatch = unitBeds.includes(targetBeds);
-                    }
-                } else {
-                    if (filters.bedrooms === '5+') {
-                        bedroomMatch = property.bedrooms >= 5;
-                    } else {
-                        bedroomMatch = property.bedrooms === targetBeds;
-                    }
-                }
-            }
-
-            // 5. Price Range
-            const selectedRange = priceRanges.find(r => r.label === filters.priceRange);
-            let priceMatch = true;
-
-            if (selectedRange && selectedRange.label !== 'All') {
-                const priceValue = property.startingPrice || property.price;
-                priceMatch = priceValue >= selectedRange.min && priceValue <= selectedRange.max;
-            }
-
-            return searchMatch && countryMatch && typeMatch && bedroomMatch && priceMatch;
-        });
-    }, [debouncedSearch, filters.country, filters.type, filters.bedrooms, filters.priceRange, priceRanges, numberFormatter]);
-
     const handleFilterChange = useCallback((key, value) => {
-        if (key === 'country') {
-            setFilters(prev => ({ ...prev, [key]: value, priceRange: 'All' }));
-        } else {
-            setFilters(prev => ({ ...prev, [key]: value }));
-        }
+        setFilters(prev => {
+            const newFilters = { ...prev, [key]: value };
+            if (key === 'country') newFilters.priceRange = 'All';
+            return newFilters;
+        });
     }, []);
 
     const handleResetFilters = useCallback(() => {
@@ -201,30 +140,34 @@ const PropertyPage = () => {
     useEffect(() => {
         const observer = new IntersectionObserver(
             entries => {
-                if (entries[0].isIntersecting && visibleCount < filteredProperties.length) {
-                    setVisibleCount(prev => prev + 6);
+                if (entries[0].isIntersecting && pagination.hasMore && !loading) {
+                    fetchProperties(pagination.page + 1, filters, true);
                 }
             },
-            {
-                threshold: 0.1,
-                rootMargin: '100px'
-            }
+            { threshold: 0.1, rootMargin: '100px' }
         );
 
         const currentTarget = observerTarget.current;
-        if (currentTarget) {
-            observer.observe(currentTarget);
-        }
+        if (currentTarget) observer.observe(currentTarget);
+        return () => currentTarget && observer.unobserve(currentTarget);
+    }, [pagination.hasMore, pagination.page, loading, filters, fetchProperties]);
 
-        return () => {
-            if (currentTarget) {
-                observer.unobserve(currentTarget);
-            }
-        };
-    }, [visibleCount, filteredProperties.length]);
-
-
-    const visibleProperties = filteredProperties.slice(0, visibleCount);
+    const processedProperties = useMemo(() => {
+        return properties.map(property => ({
+            ...property,
+            id: property._id,
+            location: property.location || `${property.community}, ${property.emirate}`,
+            priceDisplay: property.starting_price
+                ? `From ${formatCurrency(property.starting_price, property.currency)}`
+                : formatCurrency(property.price, property.currency),
+            area: property.sqft ? `${numberFormatter.format(property.sqft)} sqft` : '',
+            image: property.hero_image || property.gallery?.[0],
+            propertyTypes: property.property_types,
+            type: property.property_types?.[0] || property.property_category,
+            startingPrice: property.starting_price,
+            source: property,
+        }));
+    }, [properties, numberFormatter]);
 
     return (
         <div className="min-h-screen pt-32 pb-24 bg-black text-gray-100 selection:bg-[#BD9B5F] selection:text-black">
@@ -430,16 +373,22 @@ const PropertyPage = () => {
             {/* Results Grid */}
             <div className="max-w-7xl mx-auto px-6 lg:px-8">
                 <div className="flex justify-between items-center mb-12">
-                    <span className="text-[10px] uppercase tracking-[0.4em] text-gray-500 font-medium font-bold">Showing {filteredProperties.length} elite residences</span>
+                    <span className="text-[10px] uppercase tracking-[0.4em] text-gray-500 font-bold">Showing {pagination.total} elite residences</span>
                 </div>
 
-                {filteredProperties.length > 0 ? (
+                {isInitialLoading ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                        {[1, 2, 3, 4, 5, 6].map((i) => (
+                            <div key={i} className="h-[450px] bg-white/5 rounded-[2rem] animate-pulse" />
+                        ))}
+                    </div>
+                ) : processedProperties.length > 0 ? (
                     <motion.div
                         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12"
                         layout
                     >
                         <AnimatePresence mode="popLayout">
-                            {visibleProperties.map((property) => (
+                            {processedProperties.map((property) => (
                                 <motion.div
                                     key={property.id}
                                     layout
@@ -454,24 +403,26 @@ const PropertyPage = () => {
                         </AnimatePresence>
                     </motion.div>
                 ) : (
-                    <motion.div
-                        className="py-32 text-center rounded-[3rem] border border-white/5 bg-white/5"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                    >
-                        <h3 className="text-3xl font-light text-white uppercase tracking-widest mb-4">No Matches Found</h3>
-                        <p className="text-gray-500 font-light mb-12">Expand your horizons to discover more possibilities.</p>
-                        <button
-                            onClick={handleResetFilters}
-                            className="px-12 py-5 bg-white text-black text-xs uppercase tracking-[0.3em] font-bold rounded-2xl hover:bg-[#BD9B5F] hover:text-white transition-all shadow-xl shadow-white/5"
+                    !loading && (
+                        <motion.div
+                            className="py-32 text-center rounded-[3rem] border border-white/5 bg-white/5"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
                         >
-                            Clear All Filters
-                        </button>
-                    </motion.div>
+                            <h3 className="text-3xl font-light text-white uppercase tracking-widest mb-4">No Matches Found</h3>
+                            <p className="text-gray-500 font-light mb-12">Expand your horizons to discover more possibilities.</p>
+                            <button
+                                onClick={handleResetFilters}
+                                className="px-12 py-5 bg-white text-black text-xs uppercase tracking-[0.3em] font-bold rounded-2xl hover:bg-[#BD9B5F] hover:text-white transition-all shadow-xl shadow-white/5"
+                            >
+                                Clear All Filters
+                            </button>
+                        </motion.div>
+                    )
                 )}
 
                 {/* Infinite Scroll Loader */}
-                {visibleCount < filteredProperties.length && (
+                {pagination.hasMore && (
                     <div ref={observerTarget} className="mt-24 text-center">
                         <div className="inline-flex items-center gap-4 px-10 py-6 bg-white/5 rounded-full border border-white/10">
                             <motion.div

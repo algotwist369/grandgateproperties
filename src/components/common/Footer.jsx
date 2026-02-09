@@ -43,7 +43,7 @@ const Footer = memo(() => {
     const socialLinks = useMemo(() => [
         { icon: <FaInstagram />, link: 'https://www.instagram.com/grandgateproperties/', name: 'Instagram' },
         { icon: <FaFacebook />, link: 'https://www.facebook.com/profile.php?id=61585773879074', name: 'Facebook' },
-        // { icon: <FaLinkedin />, link: 'https://www.linkedin.com/company/aries-estates/', name: 'LinkedIn' },
+        { icon: <FaLinkedin />, link: 'https://www.linkedin.com/company/grand-gate-properties-llc/', name: 'LinkedIn' },
     ], []);
 
     return (

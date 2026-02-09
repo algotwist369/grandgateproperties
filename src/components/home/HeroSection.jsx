@@ -10,6 +10,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Button from '../common/Button';
 import { getFullUrl } from '../../apis/user_api';
 
+ 
 /* =======================
    CONFIG / CONSTANTS
 ======================= */
@@ -19,15 +20,15 @@ const LOCATIONS = {
     India: 'INDIA',
 };
 
-const SLIDES = ['/hero/hero2.webp'];
+const DEFAULT_SLIDES = ['https://res.cloudinary.com/dcm79v527/image/upload/v1770633076/hero2_ockduh.webp'];
 
 const PROPERTY_TYPES = [
     { value: '', label: 'Select Property Type' },
-    { value: 'apartment', label: 'Apartment' },
-    { value: 'villa', label: 'Villa' },
-    { value: 'townhouse', label: 'Townhouse' },
-    { value: 'penthouse', label: 'Penthouse' },
-    { value: 'studio', label: 'Studio' },
+    { value: 'Apartment', label: 'Apartment' },
+    { value: 'Villa', label: 'Villa' },
+    { value: 'Townhouse', label: 'Townhouse' },
+    { value: 'Penthouse', label: 'Penthouse' },
+    { value: 'Studio', label: 'Studio' },
 ];
 
 const BEDROOM_OPTIONS = [
@@ -100,23 +101,28 @@ const HeroSection = memo(({ selectedCountry, setSelectedCountry }) => {
         autoSearch: true,
     });
 
+    const slides = DEFAULT_SLIDES;
+
     const priceRanges = useMemo(
-        () =>
-            PRICE_RANGES[selectedCountry].map(r => ({
+        () => {
+            const country = selectedCountry && PRICE_RANGES[selectedCountry] ? selectedCountry : 'Dubai';
+            return PRICE_RANGES[country].map(r => ({
                 label: r,
                 value: r,
-            })),
+            }));
+        },
         [selectedCountry]
     );
 
     /* Auto slider */
     useEffect(() => {
+        if (slides.length <= 1) return;
         const timer = setInterval(
-            () => setCurrentSlide(s => (s + 1) % SLIDES.length),
+            () => setCurrentSlide(s => (s + 1) % slides.length),
             5000
         );
         return () => clearInterval(timer);
-    }, []);
+    }, [slides.length]);
 
     /* Handlers */
     const updateFilter = useCallback(
@@ -140,12 +146,12 @@ const HeroSection = memo(({ selectedCountry, setSelectedCountry }) => {
             {/* ================= SLIDER ================= */}
             <div className="absolute inset-0">
                 <AnimatePresence mode="wait">
-                    {SLIDES.map(
+                    {slides.map(
                         (slide, i) =>
                             i === currentSlide && (
                                 <motion.img
-                                    key={i}
-                                    src={getFullUrl(slide)}
+                                    key={slide}
+                                    src={slide.startsWith('http') ? slide : getFullUrl(slide)}
                                     alt="Hero Slide"
                                     className="absolute inset-0 w-full h-full object-cover"
                                     initial={{ opacity: 0, scale: 1.1 }}
