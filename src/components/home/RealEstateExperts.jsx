@@ -135,7 +135,7 @@ const RealEstateExperts = ({ selectedCountry }) => {
                         <img
                           src={agent.avatar_url ? getFullUrl(agent.avatar_url) : 'https://res.cloudinary.com/dcm79v527/image/upload/v1770633742/monikawl999-dubai-1085058_1920_pzrzav.jpg'}
                           alt={agent.agent_name || agent.fullName}
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
 
