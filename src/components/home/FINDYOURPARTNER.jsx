@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { motion, AnimatePresence } from "framer-motion";
 import { homeSectionsData } from '../../data/homeSections';
+import { getFullUrl } from '../../apis/user_api';
 
 const FINDYOURPARTNER = ({ selectedCountry }) => {
   const navigate = useNavigate();
@@ -89,7 +90,7 @@ const FINDYOURPARTNER = ({ selectedCountry }) => {
                         }`}>
                         <div className="aspect-[3/4] overflow-hidden">
                           <img
-                            src={agent.image}
+                            src={getFullUrl(agent.image)}
                             alt={agent.name}
                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                           />

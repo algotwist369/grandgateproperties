@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { homeSectionsData } from '../../data/homeSections'
 import { motion, AnimatePresence } from 'framer-motion'
+import { getFullUrl } from '../../apis/user_api';
 
 const Visitouroffice = ({ selectedCountry }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -62,7 +63,7 @@ const Visitouroffice = ({ selectedCountry }) => {
 
                     {/* Image */}
                     <img
-                      src={office.image}
+                      src={getFullUrl(office.image)}
                       alt={office.title}
                       className='w-full h-full object-cover'
                     />

@@ -6,6 +6,14 @@ import Button from './Button';
 import { FaLocationArrow } from "react-icons/fa6";
 import { contactData } from '../../data/contactData';
 
+// Helper to format image URLs from backend
+const formatImageUrl = (url) => {
+    if (!url) return '';
+    if (url.startsWith('http') || url.startsWith('blob:')) return url;
+    const baseUrl = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace('/api', '') : 'http://localhost:5000';
+    return `${baseUrl}/${url.startsWith('/') ? url.slice(1) : url}`;
+};
+
 const PropertyCard = memo(({ property }) => {
     // Helper to get display values (handles both simple and multi-unit properties)
     const getDisplayValues = () => {
@@ -118,7 +126,7 @@ const PropertyCard = memo(({ property }) => {
                 </AnimatePresence>
 
                 <motion.img
-                    src={property?.image}
+                    src={formatImageUrl(property?.image)}
                     alt={property?.title}
                     onLoad={handleImageLoad}
                     whileHover={{ scale: 1.1 }}

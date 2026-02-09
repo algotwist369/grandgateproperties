@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import Button from '../common/Button'
 import { homeSectionsData } from '../../data/homeSections'
 import { motion } from 'framer-motion'
+import { getFullUrl } from '../../apis/user_api';
 
 const RealEstateExperts = ({ selectedCountry }) => {
   const navigate = useNavigate();
@@ -87,7 +88,7 @@ const RealEstateExperts = ({ selectedCountry }) => {
           >
             <div className='relative overflow-hidden rounded-3xl shadow-2xl border border-white/5'>
               <img
-                src={data.image}
+                src={getFullUrl(data.image)}
                 alt='Real Estate Expert'
                 className='w-full h-[400px] lg:h-[650px] object-cover hover:scale-105 transition-transform duration-700'
               />

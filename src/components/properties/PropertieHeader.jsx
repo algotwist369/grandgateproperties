@@ -13,6 +13,14 @@ import { FaFilePdf, FaFileAlt, FaChevronRight } from 'react-icons/fa'
 const MAP_FALLBACK =
     "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3608.620623477324!2d55.3093553!3d25.2496999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x432a6cc1f8e846f9%3A0x9f7e59459212aae9!2sGrand%20Gate%20Properties%20LLC!5e0!3m2!1sen!2sin!4v1768478892602!5m2!1sen!2sin"
 
+// Helper to format image URLs from backend
+const formatImageUrl = (url) => {
+    if (!url) return '';
+    if (url.startsWith('http') || url.startsWith('blob:')) return url;
+    const baseUrl = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace('/api', '') : 'http://localhost:5000';
+    return `${baseUrl}/${url.startsWith('/') ? url.slice(1) : url}`;
+};
+
 const formatCurrency = (value, currency = 'AED', maximumFractionDigits = 0) => {
     if (typeof value !== 'number') return value || '—'
     return new Intl.NumberFormat('en-US', {
@@ -298,7 +306,7 @@ const PropertieHeader = ({ property }) => {
                                     {gallery.length ? (
                                         <motion.img
                                             key={currentImageIdx}
-                                            src={gallery[currentImageIdx]}
+                                            src={formatImageUrl(gallery[currentImageIdx])}
                                             custom={direction}
                                             variants={slideVariants}
                                             initial="enter"
@@ -374,7 +382,7 @@ const PropertieHeader = ({ property }) => {
                                                 }`}
                                             aria-label={`Go to image ${idx + 1}`}
                                         >
-                                            <img src={img} alt="" className="w-full h-full object-cover" loading="lazy" />
+                                            <img src={formatImageUrl(img)} alt="" className="w-full h-full object-cover" loading="lazy" />
                                             {idx === 4 && gallery.length > 5 && (
                                                 <div className="absolute inset-0 bg-black/70 flex items-center justify-center text-white font-semibold text-sm">
                                                     +{gallery.length - 5}
@@ -394,7 +402,7 @@ const PropertieHeader = ({ property }) => {
                         <div className="p-6 border border-gray-700 text-gray-400 rounded-lg bg-[#0f0f0f]">
                             <div className="flex gap-5 mb-6">
                                 <img
-                                    src={agent.avatar || 'https://via.placeholder.com/96'}
+                                    src={formatImageUrl(agent.avatar) || 'https://via.placeholder.com/96'}
                                     alt={agent.name || 'Agent'}
                                     className="w-24 h-24 object-cover border-2 border-[#BD9B5F] rounded-full"
                                 />
@@ -718,11 +726,11 @@ const PropertieHeader = ({ property }) => {
                         )}
 
                         {/* Nearby Landmarks Section */}
-                        {resolvedProperty?.nearbyLandmarks?.length > 0 && (
+                        {((resolvedProperty?.nearby_locations?.length > 0) || (resolvedProperty?.nearbyLandmarks?.length > 0)) && (
                             <div className="py-6 mt-6">
                                 <Heading as="h3" size="h3" color="white">Nearby Landmarks</Heading>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-4">
-                                    {resolvedProperty.nearbyLandmarks.map((landmark, idx) => (
+                                    {(resolvedProperty?.nearby_locations || resolvedProperty?.nearbyLandmarks || []).map((landmark, idx) => (
                                         <div key={`landmark-${idx}`} className="flex items-center justify-between border border-gray-700 rounded-lg p-3 bg-[#0f0f0f]">
                                             <span className="text-gray-300 text-sm">{landmark.name}</span>
                                             <span className="text-[#BD9B5F] text-sm font-medium">{landmark.distance}</span>
@@ -1024,7 +1032,7 @@ const PropertieHeader = ({ property }) => {
                             </div>
                         )}
                         {/* Exclusive Project Assets Section */}
-                        {resolvedProperty?.properties_doc?.length > 0 && (
+                        {resolvedProperty?.brochure_pdfs?.length > 0 && (
                             <div className="py-12 mt-6 border-t border-gray-800/50">
                                 <div className="flex items-center justify-between mb-8">
                                     <div className="flex flex-col">
@@ -1035,11 +1043,11 @@ const PropertieHeader = ({ property }) => {
                                 </div>
 
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                                    {resolvedProperty.properties_doc.map((doc, idx) => (
+                                    {resolvedProperty.brochure_pdfs.map((doc, idx) => (
                                         <button
                                             key={`doc-${idx}`}
                                             onClick={() => {
-                                                setActivePdfUrl(doc.url)
+                                                setActivePdfUrl(doc.file_url)
                                                 setActivePdfTitle(doc.title)
                                             }}
                                             className="group flex flex-col text-left p-0.5 rounded-xl bg-gradient-to-b from-gray-800/50 to-transparent hover:from-[#BD9B5F]/30 transition-all duration-500 overflow-hidden"
@@ -1048,13 +1056,13 @@ const PropertieHeader = ({ property }) => {
                                                 <div className="relative flex-shrink-0">
                                                     <div className="absolute inset-0 bg-red-500/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
                                                     <div className="relative p-3.5 bg-gray-900/50 text-gray-400 rounded-lg border border-gray-800 group-hover:border-[#BD9B5F]/50 group-hover:text-red-500 transition-all">
-                                                        {doc.url.toLowerCase().endsWith('.pdf') ? <FaFilePdf size={22} /> : <FaFileAlt size={22} />}
+                                                        {doc.file_url.toLowerCase().endsWith('.pdf') ? <FaFilePdf size={22} /> : <FaFileAlt size={22} />}
                                                     </div>
                                                 </div>
 
                                                 <div className="flex-1 min-w-0">
                                                     <p className="text-gray-400 text-[10px] uppercase tracking-wider mb-1 font-medium group-hover:text-[#BD9B5F] transition-colors">
-                                                        {doc.url.split('.').pop()} Asset
+                                                        {doc.file_url.split('.').pop().split('?')[0]} Asset
                                                     </p>
                                                     <p className="text-white text-sm font-semibold truncate leading-snug" title={doc.title}>
                                                         {doc.title}
@@ -1115,7 +1123,7 @@ const PropertieHeader = ({ property }) => {
 
                     <div className="w-full lg:w-1/2 h-[250px] sm:h-[350px] lg:h-auto">
                         <img
-                            src={heroImage}
+                            src={formatImageUrl(heroImage)}
                             className="w-full h-full object-cover"
                             alt={areaStats.areaName || resolvedProperty.community || 'Community'}
                         />
@@ -1191,7 +1199,7 @@ const PropertieHeader = ({ property }) => {
                         <AnimatePresence initial={false} custom={direction} mode='popLayout'>
                             <motion.img
                                 key={currentImageIdx}
-                                src={gallery[currentImageIdx]}
+                                src={formatImageUrl(gallery[currentImageIdx])}
                                 custom={direction}
                                 variants={slideVariants}
                                 initial="enter"
@@ -1264,7 +1272,7 @@ const PropertieHeader = ({ property }) => {
                                         }`}
                                     aria-label={`Go to image ${idx + 1}`}
                                 >
-                                    <img src={img} alt="" className="w-full h-full object-cover" loading="lazy" />
+                                    <img src={formatImageUrl(img)} alt="" className="w-full h-full object-cover" loading="lazy" />
                                 </button>
                             ))}
                         </div>

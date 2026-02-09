@@ -3,6 +3,7 @@ import { IoLocationOutline, IoCallOutline } from 'react-icons/io5';
 import { FaWhatsapp } from 'react-icons/fa';
 import { motion } from "framer-motion";
 import { contactData } from '../../data/contactData';
+import { getFullUrl } from '../../apis/user_api';
 
 const ContactPage = () => {
     useEffect(() => {
@@ -66,7 +67,7 @@ const ContactPage = () => {
                             {/* Image Section */}
                             <div className="h-64 overflow-hidden relative">
                                 <img
-                                    src={office.image}
+                                    src={getFullUrl(office.image)}
                                     alt={office.title}
                                     className="w-full h-full object-cover grayscale transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-110"
                                 />

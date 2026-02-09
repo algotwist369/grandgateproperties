@@ -4,6 +4,14 @@ import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { motion, AnimatePresence } from "framer-motion";
 import { propertyDirectory } from '../../data/dubai_Properties';
 
+// Helper to format image URLs from backend
+const formatImageUrl = (url) => {
+    if (!url) return '';
+    if (url.startsWith('http') || url.startsWith('blob:')) return url;
+    const baseUrl = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace('/api', '') : 'http://localhost:5000';
+    return `${baseUrl}/${url.startsWith('/') ? url.slice(1) : url}`;
+};
+
 const BestProperties = ({ selectedCountry }) => {
     const navigate = useNavigate();
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -106,7 +114,7 @@ const BestProperties = ({ selectedCountry }) => {
                                                 }`}>
                                                 <div className="aspect-[3/4] overflow-hidden">
                                                     <img
-                                                        src={property.image}
+                                                        src={formatImageUrl(property.image)}
                                                         alt={property.title}
                                                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                                     />

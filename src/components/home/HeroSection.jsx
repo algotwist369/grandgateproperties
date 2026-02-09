@@ -8,6 +8,7 @@ import React, {
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Button from '../common/Button';
+import { getFullUrl } from '../../apis/user_api';
 
 /* =======================
    CONFIG / CONSTANTS
@@ -144,7 +145,7 @@ const HeroSection = memo(({ selectedCountry, setSelectedCountry }) => {
                             i === currentSlide && (
                                 <motion.img
                                     key={i}
-                                    src={slide}
+                                    src={getFullUrl(slide)}
                                     alt="Hero Slide"
                                     className="absolute inset-0 w-full h-full object-cover"
                                     initial={{ opacity: 0, scale: 1.1 }}

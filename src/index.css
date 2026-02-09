@@ -84,38 +84,16 @@
   scrollbar-color: #BD9B5F rgba(10, 31, 46, 0.5);
 }
 
-/* Custom Mouse Cursor Styling */
-body {
-  cursor: url("data:image/svg+xml,%3Csvg width='24' height='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 2 L2 18 L8 14 L12 20 L14 18 L10 12 L18 12 Z' fill='%23D3A188' stroke='%23114566' stroke-width='1.5'/%3E%3C/svg%3E") 12 12, auto;
-}
-
-/* Pointer cursor for clickable elements */
-a, button, [role="button"], [onclick], .cursor-pointer {
-  cursor: url("data:image/svg+xml,%3Csvg width='24' height='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 2 L2 18 L8 14 L12 20 L14 18 L10 12 L18 12 Z' fill='%23D3A188' stroke='%23114566' stroke-width='1.5'/%3E%3Ccircle cx='12' cy='12' r='2' fill='%23D3A188'/%3E%3C/svg%3E") 12 12, pointer !important;
-}
-
-/* Text cursor for text inputs */
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="number"],
-input[type="tel"],
-input[type="search"],
-textarea,
-[contenteditable="true"],
-.cursor-text {
-  cursor: text !important;
-}
 
 /* Grab cursor for draggable elements */
 [draggable="true"],
 .cursor-grab {
-  cursor: url("data:image/svg+xml,%3Csvg width='24' height='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 2 L2 18 L8 14 L12 20 L14 18 L10 12 L18 12 Z' fill='%23D3A188' stroke='%23114566' stroke-width='1.5'/%3E%3Cpath d='M8 8 L10 10 M12 8 L14 10 M8 12 L10 14 M12 12 L14 14' stroke='%23D3A188' stroke-width='1.5'/%3E%3C/svg%3E") 12 12, grab !important;
+  cursor: grab !important;
 }
 
 .cursor-grab:active,
 .cursor-grabbing {
-  cursor: url("data:image/svg+xml,%3Csvg width='24' height='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 2 L2 18 L8 14 L12 20 L14 18 L10 12 L18 12 Z' fill='%23b8876a' stroke='%230a1f2e' stroke-width='1.5'/%3E%3Cpath d='M8 8 L10 10 M12 8 L14 10 M8 12 L10 14 M12 12 L14 14' stroke='%23b8876a' stroke-width='1.5'/%3E%3C/svg%3E") 12 12, grabbing !important;
+  cursor: grabbing !important;
 }
 
 /* Not allowed cursor for disabled elements */
@@ -141,5 +119,6 @@ textarea:disabled,
 .cursor-crosshair {
   cursor: crosshair !important;
 }
+
 
  

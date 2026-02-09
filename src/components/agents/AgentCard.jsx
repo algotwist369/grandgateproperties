@@ -1,38 +1,19 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { getFullUrl } from "../../apis/user_api";
 
-const AgentCard = () => {
+const AgentCard = ({ agents = [], loading = false }) => {
     const navigate = useNavigate();
-    const agents = [
-        {
-            id: "fatma-zohra-absi",
-            name: "Fatma Zohra Absi ",
-            role: "Senior Real Estate Consultant",
-            experience: "10 years",
-            languages: ["English", "Arabic", "French"],
-            image: "/agent/Agent1.jpeg",
-            communities: "Dubai Marina, Palm Jumeirah",
-            specialties: ["Luxury Sales", "Penthouses"],
-        },
-        {
-            id: "dakshayami-r-nair",
-            name: "Dakshayami R Nair",
-            role: "Senior Real Estate Consultant",
-            experience: "10 years",
-            languages: ["Malayalam", "English", "Tamil"],
-            image: "/agent/agent2.PNG",
-            communities: "Dubai Marina, Palm Jumeirah",
-            specialties: ["Luxury Sales", "Penthouses"],
-        },
-    ];
 
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
 
     const handleNavigate = (agent) => {
-        navigate(`/en/agents/${agent.id}`, {
+        // Use slug for navigation if available, else _id
+        const identifier = agent.slug || agent._id;
+        navigate(`/en/agents/${identifier}`, {
             state: { agent },
         });
     };
@@ -52,50 +33,25 @@ const AgentCard = () => {
         show: { opacity: 1, y: 0, transition: { duration: 0.6 } }
     };
 
+    if (loading) {
+        return (
+            <div className="w-full py-20 text-center bg-black">
+                <div className="inline-block w-8 h-8 border-4 border-[#BD9B5F] border-t-transparent rounded-full animate-spin"></div>
+                <p className="text-gray-500 mt-4 uppercase tracking-widest text-xs">Summoning Experts...</p>
+            </div>
+        );
+    }
+
+    if (!agents || agents.length === 0) {
+        return (
+            <div className="w-full py-20 text-center bg-black">
+                <p className="text-gray-500 uppercase tracking-widest text-xs">No experts found in this sector.</p>
+            </div>
+        );
+    }
+
     return (
-        <div className="w-full md:py-8 sm:py-32 px-6 lg:px-24 bg-black overflow-hidden">
-            <motion.div
-                className="w-full flex flex-col gap-6 mb-16"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-            >
-                <div className="flex items-center gap-4">
-                    <div className="w-12 h-px bg-[#BD9B5F]"></div>
-                    <p className="text-xs uppercase tracking-[0.4em] text-[#BD9B5F]">
-                        Elite Partners
-                    </p>
-                </div>
-
-                <div className="w-full flex flex-col md:flex-row md:items-end md:justify-between gap-8">
-                    <div className="flex flex-col gap-4 max-w-2xl">
-                        <h1 className="text-4xl sm:text-6xl font-light text-white uppercase tracking-tight">
-                            Find your <span className="text-[#A17158] font-medium italic">Partner</span>
-                        </h1>
-                        <p className="text-gray-400 text-lg font-light leading-relaxed">
-                            Connect with seasoned advisors fluent in your language and specialized in the world's most in-demand luxury communities.
-                        </p>
-                    </div>
-
-                    <div className="flex flex-wrap items-center gap-4 bg-white/5 p-4 rounded-3xl border border-white/10 backdrop-blur-xl">
-                        <select className="bg-transparent text-gray-300 border-none focus:ring-0 outline-none text-sm cursor-pointer px-4">
-                            <option value="">Specialization</option>
-                        </select>
-                        <div className="w-px h-8 bg-white/10"></div>
-                        <select className="bg-transparent text-gray-300 border-none focus:ring-0 outline-none text-sm cursor-pointer px-4">
-                            <option value="">Language</option>
-                        </select>
-                        <div className="w-px h-8 bg-white/10"></div>
-                        <input
-                            type="search"
-                            placeholder="Search by Agent name..."
-                            className="bg-transparent p-2 text-gray-300 outline-none placeholder:text-gray-600 text-sm min-w-[200px]"
-                        />
-                    </div>
-                </div>
-            </motion.div>
-
+        <div className="w-full md:py-8 px-6 lg:px-24 bg-black overflow-hidden pb-20">
             <motion.div
                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
                 variants={containerVariants}
@@ -105,32 +61,32 @@ const AgentCard = () => {
             >
                 {agents.map((agent, index) => (
                     <motion.div
-                        key={index}
+                        key={agent._id || index}
                         variants={itemVariants}
-                        className="group relative h-[450px] sm:h-[500px] lg:h-[550px] rounded-[2rem] overflow-hidden cursor-pointer"
+                        className="group relative h-[450px] sm:h-[500px] lg:h-[550px] rounded-[2rem] overflow-hidden cursor-pointer bg-white/5 border border-white/5"
                         whileHover={{ y: -15 }}
                         transition={{ duration: 0.4, ease: "easeOut" }}
                         onClick={() => handleNavigate(agent)}
                     >
                         <img
-                            src={agent.image}
-                            alt={agent.name}
+                            src={agent.avatar_url ? getFullUrl(agent.avatar_url) : '/agent/Agent1.jpeg'}
+                            alt={agent.agent_name}
                             className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
                         />
 
                         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-                        <div className="absolute bottom-0 left-0 right-0 p-10 transform translate-y-12 group-hover:translate-y-0 transition-transform duration-500">
+                        <div className="absolute bottom-0 left-0 right-0 p-10 transform translate-y-12 group-hover:translate-y-0 transition-transform duration-500 text-left">
                             <div className="space-y-6">
                                 <div>
                                     <div className="flex items-center gap-2 mb-2">
                                         <div className="w-1 h-6 bg-[#BD9B5F]"></div>
                                         <p className="text-xs uppercase tracking-widest text-gray-400">
-                                            {agent.role}
+                                            {agent.agent_role || 'Real Estate Consultant'}
                                         </p>
                                     </div>
                                     <h2 className="text-3xl font-light text-white tracking-wide uppercase">
-                                        {agent.name}
+                                        {agent.agent_name}
                                     </h2>
                                 </div>
 
@@ -138,11 +94,13 @@ const AgentCard = () => {
                                     <div className="w-full h-px bg-white/10"></div>
                                     <div className="flex justify-between text-xs tracking-widest text-gray-400 uppercase">
                                         <span>Exp</span>
-                                        <span className="text-white">{agent.experience}</span>
+                                        <span className="text-white">{agent.experience || 'Highly Experienced'}</span>
                                     </div>
                                     <div className="flex justify-between text-xs tracking-widest text-gray-400 uppercase">
-                                        <span>Langs</span>
-                                        <span className="text-white">{agent.languages.join(", ")}</span>
+                                        <span>Focus</span>
+                                        <span className="text-white truncate max-w-[150px] text-right">
+                                            {agent.agent_location || 'UAE'}
+                                        </span>
                                     </div>
                                 </div>
 

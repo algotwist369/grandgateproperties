@@ -3,6 +3,7 @@ import { homeSectionsData } from '../../data/homeSections'
 import { motion } from 'framer-motion'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay } from 'swiper/modules';
+import { getFullUrl } from '../../apis/user_api';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -76,7 +77,7 @@ const Lifestyle = ({ selectedCountry }) => {
                                     transition={{ duration: 0.4 }}
                                 >
                                     <img
-                                        src={property.image}
+                                        src={getFullUrl(property.image)}
                                         alt={property.title}
                                         className='w-full h-full object-cover transition-transform duration-700 group-hover:scale-110'
                                     />
