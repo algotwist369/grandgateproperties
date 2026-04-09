@@ -132,7 +132,7 @@ const PrivacyPage = () => {
                         <div className='bg-[#111] p-6 rounded-lg border border-[#BD9B5F]/20 mt-4'>
                             <p className='mb-2'><span className='font-semibold text-white'>Email:</span> grandgatepropertiesllc@gmail.com</p>
                             <p className='mb-2'><span className='font-semibold text-white'>Phone:</span> +971 5 544 22553 (Dubai)</p>
-                            <p><span className='font-semibold text-white'>Address:</span> 9B Zaa'beel St - Al Karama - Dubai - United Arab Emirates, Dubai, United Arab Emirates</p>
+                            <p><span className='font-semibold text-white'>Address:</span> Office Number 1 - 9B Zaa'beel St - Al Karama - Dubai - United Arab Emirates</p>
                         </div>
                     </section>
                 </div>
