@@ -76,7 +76,7 @@ const AgentCard = ({ agents = [], loading = false }) => {
 
                         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-                        <div className="absolute bottom-0 left-0 right-0 p-10 transform translate-y-12 group-hover:translate-y-0 transition-transform duration-500 text-left">
+                        <div className="absolute bottom-0 left-0 right-0 p-10 transform translate-y-10 group-hover:translate-y-0 transition-transform duration-500 text-left">
                             <div className="space-y-6">
                                 <div>
                                     <div className="flex items-center gap-2 mb-2">

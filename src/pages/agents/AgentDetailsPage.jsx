@@ -1,10 +1,12 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { FaPhone, FaWhatsapp, FaEnvelope } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { getAgentBySlug } from "../../apis/agent_api";
 import { getFullUrl } from "../../apis/user_api";
+
+const MotionButton = motion.button;
 
 const AgentDetailsPage = () => {
     const { id: slug } = useParams();
@@ -31,10 +33,12 @@ const AgentDetailsPage = () => {
             }
         };
         fetchAgent();
-    }, [slug]);
+    }, [slug, agent]);
 
-    const specialties = agent?.specialties || [];
+    const specialties = Array.isArray(agent?.specialties) ? agent.specialties : (typeof agent?.specialties === 'string' ? agent.specialties.split(", ") : []);
     const languages = Array.isArray(agent?.languages) ? agent.languages : (typeof agent?.languages === 'string' ? agent.languages.split(", ") : []);
+    const communities = Array.isArray(agent?.communities) ? agent.communities : (typeof agent?.communities === 'string' ? agent.communities.split(", ") : []);
+    const portfolioItems = Array.isArray(agent?.agent_portfolio) ? agent.agent_portfolio : [];
 
     const contactButtons = agent ? [
         { label: "Call", Icon: FaPhone, action: () => (window.location.href = `tel:${agent.agent_phone}`) },
@@ -46,7 +50,7 @@ const AgentDetailsPage = () => {
         {
             label: "Direct line",
             value: agent?.agent_phone?.replace(/(\+\d{3})(\d{2})(\d{3})(\d{4})/, '$1 $2 $3 $4') || agent.agent_phone,
-            description: "24/7 Priority Support",
+            description: agent?.agent_email || "24/7 Priority Support",
             href: `tel:${agent.agent_phone}`,
         },
         {
@@ -147,17 +151,20 @@ const AgentDetailsPage = () => {
                             initial="hidden"
                             animate="show"
                         >
-                            {contactButtons.map(({ label, Icon, action }) => (
-                                <motion.button
-                                    key={label}
-                                    variants={itemVariants}
-                                    onClick={action}
-                                    className="flex flex-col items-center gap-3 p-6 rounded-3xl border border-white/10 bg-white/5 hover:bg-[#BD9B5F] hover:border-[#BD9B5F] group transition-all duration-500 text-left"
-                                >
-                                    <Icon className="w-5 h-5 text-[#BD9B5F] group-hover:text-white transition-colors" />
-                                    <span className="text-[10px] uppercase tracking-[0.3em] font-medium group-hover:text-white">{label}</span>
-                                </motion.button>
-                            ))}
+                            {contactButtons.map(({ label, Icon, action }) => {
+                                const ContactIcon = Icon;
+                                return (
+                                    <MotionButton
+                                        key={label}
+                                        variants={itemVariants}
+                                        onClick={action}
+                                        className="flex flex-col items-center gap-3 p-6 rounded-3xl border border-white/10 bg-white/5 hover:bg-[#BD9B5F] hover:border-[#BD9B5F] group transition-all duration-500 text-left"
+                                    >
+                                        <ContactIcon className="w-5 h-5 text-[#BD9B5F] group-hover:text-white transition-colors" />
+                                        <span className="text-[10px] uppercase tracking-[0.3em] font-medium group-hover:text-white">{label}</span>
+                                    </MotionButton>
+                                );
+                            })}
                         </motion.div>
                     </motion.div>
 
@@ -241,6 +248,42 @@ const AgentDetailsPage = () => {
                                             <span key={idx} className="px-6 py-3 rounded-full border border-[#BD9B5F]/30 bg-[#BD9B5F]/5 text-xs uppercase tracking-[0.4em] text-[#BD9B5F]">
                                                 {lang}
                                             </span>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {communities.length > 0 && (
+                                <div>
+                                    <h2 className="text-2xl font-light text-white uppercase tracking-[0.2em] flex items-center gap-4 mb-6">
+                                        <span className="w-2 h-2 rounded-full bg-[#BD9B5F]"></span>
+                                        Communities
+                                    </h2>
+                                    <div className="flex flex-wrap gap-4">
+                                        {communities.map((community, idx) => (
+                                            <span key={idx} className="px-6 py-3 rounded-full border border-white/10 bg-white/5 text-xs uppercase tracking-[0.2em] text-gray-300">
+                                                {community}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {portfolioItems.length > 0 && (
+                                <div>
+                                    <h2 className="text-2xl font-light text-white uppercase tracking-[0.2em] flex items-center gap-4 mb-6">
+                                        <span className="w-2 h-2 rounded-full bg-[#BD9B5F]"></span>
+                                        Portfolio
+                                    </h2>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        {portfolioItems.map((item, idx) => (
+                                            <div key={idx} className="rounded-3xl overflow-hidden border border-white/10 bg-white/5 shadow-xl">
+                                                <img
+                                                    src={getFullUrl(item.url)}
+                                                    alt={item.type || 'Portfolio item'}
+                                                    className="w-full h-60 object-cover"
+                                                />
+                                            </div>
                                         ))}
                                     </div>
                                 </div>
